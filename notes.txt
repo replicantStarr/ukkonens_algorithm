@@ -1,0 +1,12 @@
+20th
+This is my notes folder.  I don't want to have too many comments inside of my actual code.  I'm writing this to explain all my thinking into this project.
+It's worth mentioning none of this is generated or created with AI.  There are more than enough online resources for me to learn how to both build this implementation and use C++
+correctly as a whole.
+
+My goal is to make sure I clearly  show my thinking here.  Comments will contain an explanation on what's going on.
+
+I've chosen to do a suffix tree.  My initial plan was a suffix array with LCP array, however I really wanted to challenge myself here.
+
+The plan is to use Ukkonen's algorithm for the suffix tree construction.  We will see how this all goes.
+
+Additionally, I've initialised a simple CMakeList for when tests need to be run.  There is no actual entry to the code outside of the tests.
