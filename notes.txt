@@ -10,3 +10,41 @@ I've chosen to do a suffix tree.  My initial plan was a suffix array with LCP ar
 The plan is to use Ukkonen's algorithm for the suffix tree construction.  We will see how this all goes.
 
 Additionally, I've initialised a simple CMakeList for when tests need to be run.  There is no actual entry to the code outside of the tests.
+
+20th
+I think the best way to describe this is I'm going for a very test-driven approach:
+	1. I will build the actual framework of the suffix tree first.  Any classes, methods, etc -- all without implementation themselves.
+	2. Then I will write test cases for every possible aspect of the implementation from construction, searching, etc
+	3. Once the test cases are written, they should all fail.
+	4. Write the implementation to slowly pass each test case
+	5. Everything should be working from there
+
+With a complete implementation, I will go on to do the correctness commentary.
+
+20th
+I've read up on the initial Ukkonen papers On-line construction of suffix trees.
+I'm quite confident in building this implementation.  I've only read the logic and some pseudocode -- I'm not looking for code to directly reference or copy as that would make this
+whole exercise almost pointless.
+
+The goal here is challenge myself and see if I can build the implementation only understanding the theory and logic behind it.
+
+So how can I kick things off?  I have my simply project setup, and I'll store everything in the src folder.
+
+The way I want to design the suffix tree is:
+	- We have some suffix tree class
+	- The constructor takes any string including empty string
+	- Then it build the suffix tree and returns
+
+I don't suspect a generalised suffix tree will be important here, although I might implement it anyway for some fun.
+
+Another possible design thought I've got is that what if instead of a suffix tree class, it's a suffix node such that each node instead contains the typical parent and child
+pointer
+
+
+24th
+
+THere is some complication in that if I implement the algorithm, whether or not I should contain both edges and vertices as objects.
+
+My initial thoughts are no, and that vertices are linked as fields using a pointer, and they contain the value inside.
+
+Then we just have some boolean which says IsTerminal
