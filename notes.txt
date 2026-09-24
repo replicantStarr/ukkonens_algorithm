@@ -58,3 +58,7 @@ The thing I got  wrong about our point struct is that it's supposed to exist in 
 I'm very certain and confident that there is absolutely no reason to have an edge object. A node can only have on in-going edge -- suffix-links are a different consideration.
 
 For now I will keep the suffix data in the node as a string.
+
+When it comes to the active point, edge is just a char.  If we have a string [a,b] of length k, it Ukkonen's implicitly means there are k - 1 edges which actually exist.
+And so it's fair to say that a singular char is actually an edge.  If we wish to keep track of where we are on implicit edges, the length exists.
+It is technically fair to say that we could just use a single variable to index and track length, however a char field is only 1 byte.
