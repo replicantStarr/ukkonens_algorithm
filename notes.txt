@@ -48,3 +48,13 @@ THere is some complication in that if I implement the algorithm, whether or not 
 My initial thoughts are no, and that vertices are linked as fields using a pointer, and they contain the value inside.
 
 Then we just have some boolean which says IsTerminal
+
+24th
+I've just created a simple header file
+My thought process is first just contain a function which returns the root node of a tree. This is because there is no need for a tree object itself, at least not yet.
+
+The thing I got  wrong about our point struct is that it's supposed to exist in the scope of a function not a node.  It's shared.
+
+I'm very certain and confident that there is absolutely no reason to have an edge object. A node can only have on in-going edge -- suffix-links are a different consideration.
+
+For now I will keep the suffix data in the node as a string.
