@@ -65,3 +65,9 @@ It is technically fair to say that we could just use a single variable to index 
 
 24th
 Simple Create function exists in the main implementation file.  No real processing is done yet, now tests can be created.
+
+Honestly, give it's most likely one publicly exposed function, I don't even need to use a testing library.  I can simply do it all myself.
+
+I believe this is simply the easiest way to do it.  GTest is heavy and whilst Cactch2 is a good alternative, I don't need any mocking tools
+
+To do this, I'll just have a file called TestRunner which contains running of tests, and then a simple file containing all test cases.
