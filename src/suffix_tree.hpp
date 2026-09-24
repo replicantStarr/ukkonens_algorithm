@@ -34,5 +34,5 @@ namespace Suffix_Tree {
 	}
 
 	// Returns a pointer to the root node of a suffix tree.  Using the root node traversal is possible.
-	Suffix_Node* Create(std::string) { }
+	Suffix_Node* Create(std::string word) { }
 }
