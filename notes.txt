@@ -88,3 +88,8 @@ The runner will also check for terminal vectors at the end as well.
 
 How the tests are run will simply be one file which contains my test, and another file which contains a function to run the test and output results.
 
+24th
+I need to fix the cmakelist to make the actual build runnable.  I'm just reading some quick documentation to understand how linking libraries works before I actually do it.
+
+25th
+creating a test framework is taking away from the main focus I'll just use doctest it's way easier.
