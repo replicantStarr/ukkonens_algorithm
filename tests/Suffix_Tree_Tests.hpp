@@ -2,4 +2,5 @@
 #DEFINE SUFFIX_TREE_TESTS_H
 
 namespace Suffix_Tree_Tests {
+
 }

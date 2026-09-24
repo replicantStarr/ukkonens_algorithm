@@ -71,3 +71,20 @@ Honestly, give it's most likely one publicly exposed function, I don't even need
 I believe this is simply the easiest way to do it.  GTest is heavy and whilst Cactch2 is a good alternative, I don't need any mocking tools
 
 To do this, I'll just have a file called TestRunner which contains running of tests, and then a simple file containing all test cases.
+
+The biggest issue regarding test cases is the fact that the tree must exist for a direct comparison.  For these tests to be valid
+they must absolutely test all aspects of the newly generated tree.
+
+This can be primarily done with node values themselves, and child node count.  I won't enforce things like suffix trees because these aren't necessarily testable, at least not yet.
+I believe the following is the best for each test
+	- Provide a name --> Simple string
+	- Provides input value -> Any single word
+	- Provides expected values -> A 2d vector where vec[i] contains an array of expected children at index i from a BFS. 
+					| vec[i][j] will eventually be processed in order
+					| vec[i][j] itself will be a Suffix_Node which contains the expected suffix at that point as well.
+	
+In terms of running the test, if any error is thrown or it returns False, then the test fails. 
+The runner will also check for terminal vectors at the end as well.
+
+How the tests are run will simply be one file which contains my test, and another file which contains a function to run the test and output results.
+
