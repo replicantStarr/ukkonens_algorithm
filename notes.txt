@@ -150,3 +150,6 @@ in tests and have some concrete reference from project root.
 
 The even better part is doctest should be completely compatible with some form of dynamic test cases.  All though I have a very big hunch here that a custom test case library
 would be even easier, I think that's the route that I'll go.
+
+-----
+It's worth mentioning c++ isn't like many other algorithms with out of the box json support, however nlohmann/json is a header-only library which works fine.
