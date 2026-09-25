@@ -121,3 +121,32 @@ Firstly I want to rename things to make it a bit easier, Suffix_Tree::Suffix_Nod
 The other things is that the root node is basically a default value, and it's expected every test case, so I'll just create a simple helper function to create one.
 These would look like
 Node { {0,0}, {}} -> Empty indices and no children./
+
+----
+Given that a lot of these test cases are incredibly  repeitive but partiall complex, what is the feasibility of possible doing an externel configuration file?
+Could be json for instance
+
+Test_Cases : {
+	"Empty string": {
+		input : "x",
+		expected: {
+			"0" --> Node ID instead of address : { 
+				Ind : {
+					a, b
+				},
+				Children: {
+					a, b, c, etc.
+				}
+			}
+		}
+	}
+}
+
+See now the advantage here is I can just have simple methods for creating this within the code it becomes easy.  The whole repetitive setup done and I have dynamic
+test case creation.
+
+I'm not entirely sure how cmake deals with test cases, however I'm thinking that the build wont be ruin without the source code in this example.  So I'll keep the json file
+in tests and have some concrete reference from project root.
+
+The even better part is doctest should be completely compatible with some form of dynamic test cases.  All though I have a very big hunch here that a custom test case library
+would be even easier, I think that's the route that I'll go.
