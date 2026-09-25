@@ -1,4 +1,4 @@
-#include "Suffix_Tree.hpp"
+#include "suffix_tree.hpp"
 #include <string>
 
 namespace Suffix_Tree {

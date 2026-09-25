@@ -2,6 +2,7 @@
 #define SUFFIX_TREE_HPP
 
 #include <string>
+#include <vector>
 
 namespace Suffix_Tree {
 	
@@ -9,7 +10,7 @@ namespace Suffix_Tree {
 	struct Suffix_Ind {
 		int a;
 		int b;
-	}
+	};
 
 	// A struct to contain all data of the nodes in a suffix tree.  A tree doesn't exist only its nodes.
 	struct Suffix_Node {
@@ -18,8 +19,8 @@ namespace Suffix_Tree {
 		
 		// Each node must be able to go to any child node, this can simply be stored as an array and looped over.
 		// I have thoughts on a possible optimisation here, first I want to get an implementation though.
-		std::array<Suffix_Node*> Child_Nodes;
-	}
+		std::vector<Suffix_Node*> Child_Nodes;
+	};
 
 	// Contains necessary positional data on where in the tree is currently being processed
 	struct Active_Point { 
@@ -31,8 +32,10 @@ namespace Suffix_Tree {
 
 		// The length of the current compressed edge
 		int Length;
-	}
+	};
 
 	// Returns a pointer to the root node of a suffix tree.  Using the root node traversal is possible.
-	Suffix_Node* Create(std::string word) { }
+	Suffix_Node* Create(std::string word); 
 }
+
+#endif

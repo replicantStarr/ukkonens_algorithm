@@ -93,3 +93,16 @@ I need to fix the cmakelist to make the actual build runnable.  I'm just reading
 
 25th
 creating a test framework is taking away from the main focus I'll just use doctest it's way easier.
+
+After doing some research into cmake documentation, there were many issues with how I was building and linking simple libraries.  Instead I'm just going to manually use target
+sources because it's quicker.
+
+According to documentation I dont need to link libraries if they are at the same target.  Then I just include subdirectories so the build has a path to the files.
+
+Now the only issue is that I have actual build errors which I can easily fix.  From here, it's then do test cases and implement the algorithm until all pass.
+One major problem I have notices is that I'm building as though it's a simple main entry point.  It's not, we are only running tests so there should either be a main to do that
+or cmake should call the tests directly.
+
+I keep getting a very strange linking error where main isn't found -- that's the exact purpose of the macro though.
+
+Anyway, I will be instead doing something else, I'll just define the main myself and run against the doctest context -- it's provided in the configuration markdown in the repo
