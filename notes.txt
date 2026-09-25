@@ -112,3 +112,6 @@ Anyway, I will be instead doing something else, I'll just define the main myself
 Now that I can finally write my test cases I'll do them as above stated way above
 
 There should only need to be around 10 test cases. Testing a range of empty string, to simple strings to repeated characters in different patterns is the goal
+
+Writing in doctest is relatively simple and easy.  I've been making a few mistakes getting used to it but im looking for an Nunit strucutre.  Asserting result isnt nullptr is key
+every time.

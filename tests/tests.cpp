@@ -1,22 +1,35 @@
 #define DOCTEST_CONFIG_IMPLEMENT
 #include "doctest.h"
+#include "suffix_tree.hpp"
+using namespace Suffix_Tree;
 
 int main(int argc, char** argv) {
 	return doctest::Context(argc, argv).run();
 }
 
-TEST("Empty string returns single root node") { }
+bool assert_ind(Suffix_Tree::Suffix_Ind& ind, int a, int b) {
+	return ind.a == a && ind.b == b;
+}
 
-TEST("Single character string returns single node") { }
+TEST_CASE("Empty string returns single root node") { 
+	Suffix_Tree::Suffix_Ind ind{0, 0};
+	Suffix_Tree::Suffix_Node* result = Suffix_Tree::Create("");
 
-TEST("Simple two word string returns two separate nodes") { }
+	REQUIRE(result != nullptr); 
+	REQUIRE(assert_ind(result->Suffix, 0, 0)); 
+	REQUIRE(result->Child_Nodes.empty());
+}
 
-TEST("basic string 1") { }
+TEST_CASE("Single character string returns single node") { }
 
-TEST("Basic string 2") { }
+TEST_CASE("Simple two word string returns two separate nodes") { }
 
-TEST("String with 2 repeated characters") { }
+TEST_CASE("basic string 1") { }
 
-TEST("Long string returns long tree") { }
+TEST_CASE("Basic string 2") { }
 
-TEST("Triple repeition string") { }
+TEST_CASE("String with 2 repeated characters") { }
+
+TEST_CASE("Long string returns long tree") { }
+
+TEST_CASE("Triple repeition string") { }
