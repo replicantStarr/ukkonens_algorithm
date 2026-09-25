@@ -17,3 +17,5 @@ target_sources(Ukkonen
 
 target_include_directories(Ukkonen PUBLIC src/headers)
 target_include_directories(Ukkonen PRIVATE tests/headers)
+
+target_compile_definitions(Ukkonen PRIVATE TESTS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/tests/tests.json")

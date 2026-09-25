@@ -153,3 +153,16 @@ would be even easier, I think that's the route that I'll go.
 
 -----
 It's worth mentioning c++ isn't like many other algorithms with out of the box json support, however nlohmann/json is a header-only library which works fine.
+
+Now that everything all builds correctly, just time to implement some simple json running logic.  
+
+Here's how it'll go, we sore an array of all test cases from the json then:
+	1. Loop over each one
+	2. Print the name
+	3. Run the create function
+	4. Create a tree compare function with the expected value from json
+	5. The from the root node perform a BFS --> The expected values are ordered in BFS
+	6. Compare their indices and children per node.
+	7. ID only exists at the json level, the way we know are equal is we enforce the child suffix as equal to the current one, then enforce their children so on.
+
+I've decided to just add the path to cmake at least to make a macro for the file path

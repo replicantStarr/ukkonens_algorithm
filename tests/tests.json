@@ -1,10 +1,12 @@
-"Test_Cases" : {
-	"Empty_String" : { 
-		"word" : "",
-		"exp" : {
-			"0": {
-				"Ind" : { 0, 0 },
-				"Children" : { }
+{
+	"Test_Cases" : {
+		"Empty_String" : { 
+			"word" : "",
+			"exp" : {
+				"0": {
+					"Ind" : [0, 0 ],
+					"Children" : { }
+				}
 			}
 		}
 	}
