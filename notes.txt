@@ -106,3 +106,9 @@ or cmake should call the tests directly.
 I keep getting a very strange linking error where main isn't found -- that's the exact purpose of the macro though.
 
 Anyway, I will be instead doing something else, I'll just define the main myself and run against the doctest context -- it's provided in the configuration markdown in the repo
+
+25th
+
+Now that I can finally write my test cases I'll do them as above stated way above
+
+There should only need to be around 10 test cases. Testing a range of empty string, to simple strings to repeated characters in different patterns is the goal
