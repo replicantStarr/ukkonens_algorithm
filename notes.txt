@@ -115,3 +115,9 @@ There should only need to be around 10 test cases. Testing a range of empty stri
 
 Writing in doctest is relatively simple and easy.  I've been making a few mistakes getting used to it but im looking for an Nunit strucutre.  Asserting result isnt nullptr is key
 every time.
+
+Firstly I want to rename things to make it a bit easier, Suffix_Tree::Suffix_Node is bad naming, should drop the suffix.
+
+The other things is that the root node is basically a default value, and it's expected every test case, so I'll just create a simple helper function to create one.
+These would look like
+Node { {0,0}, {}} -> Empty indices and no children./
