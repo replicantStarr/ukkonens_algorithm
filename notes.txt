@@ -229,3 +229,38 @@ I've completed the BFS assertion, however I'm almost 100% sure there are a few e
 3. There should be consistent naming acrros our items, that will be fixed later.
 
 I would like a nicer UI but that isn't important.  I was wondering what the main error was, turns out it had no null pointer checks.
+
+-------
+
+NOW THAT ALL OF THAT IS OUT OF THE WAY WE CAN BEGIN IMPLEMENTATION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!	
+We need to implement the 3 rule of Ukkonen. I'll start simple and just make it so that we add all nodes to the root node.
+
+This will help see if my assertions are correct.
+
+Now i have run into an issue.  We can't simply create a pointer to a node, it will be null.
+After reading some internal documentation, it seems that a unique pointer is best here.  
+It operates almost like rust ownership as long as:
+	- Node is created on the heap
+	- Unique pointer points to the node on the heap
+	- Returns a unique pointer instead.
+
+I'm not sure exactly if the operations are the same?? such as ->.
+
+Some design changes will be required.
+
+I'm also thinking, what if it's just a non pointer returned?  Inside are pointers to other nodes though, and we definitely don't want those to copy.
+What if there just aren't pointers in general?
+What if we just store the nodes as part of the array?
+
+Thinking about it, a pointers are pointless here, because a single node can only be a child once.
+
+Now I believe this changes with suffix links, which Is the exact reason why I want to keep pointers.
+
+Now I just realised what I've been mixing up, will my suffix tree have the ability to search?  Will it be an option?  Or is this exclusively a suffix tree construction?
+
+If thats the case I don't even need suffix links.
+
+--=-======
+OK I believe I'm exagerating heavy here.  I do not want to focus on searching and suffix tree usage.  I am solely focusing on suffix tree construction with Ukkonen's.
+Maybe after I will do it but not now.
+

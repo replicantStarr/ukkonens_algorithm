@@ -5,6 +5,7 @@
 #include <string>
 #include <stdexcept>
 #include <queue>
+#include <memory>
 
 using json = nlohmann::json;
 
@@ -15,8 +16,8 @@ namespace Test_Runner {
 	};
 
 	void assert_node(Suffix_Tree::Node* node, json exp_node) {
-		if (node->Edge.a != exp_node["Edge"][0] 
-				|| node->Edge.b != exp_node["Edge"][1]
+		if (node->Edge->a != exp_node["Edge"][0] 
+				|| node->Edge->b != exp_node["Edge"][1]
 				|| node->Child_Nodes.size() != exp_node["Edge"]["Children"].size()) {
 			throw std::runtime_error("Nodes are not equal");
 		}
@@ -39,7 +40,7 @@ namespace Test_Runner {
 			assert_node(top, exp_top);
 
 			for (int i = 0; i < top->Child_Nodes.size(); ++i) {
-				res_queue.push(top->Child_Nodes[i]);
+				res_queue.push(top->Child_Nodes[i].get());
 				json_queue.push(exp_top["Children"][i]);
 			}
 		}
@@ -47,14 +48,14 @@ namespace Test_Runner {
 
 	Result run_test(json test) {
 		std::cout << test["word"] << std::endl;
-		Suffix_Tree::Node* result = Suffix_Tree::create(test["word"].get<std::string>());
+		std::unique_ptr<Suffix_Tree::Node> result = Suffix_Tree::create(test["word"].get<std::string>());
 
 		Result test_result;
 		try {
 			if (result == nullptr) {
 				throw std::runtime_error("Null pointer returned");
 			}
-			assert_result(result, test["exp"]);
+			assert_result(result.get(), test["exp"]);
 		}
 		catch (const std::exception& ex) {
 			test_result.Passed = false;

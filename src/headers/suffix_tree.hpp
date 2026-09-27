@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace Suffix_Tree {
 	
@@ -15,11 +16,11 @@ namespace Suffix_Tree {
 	// A struct to contain all data of the nodes in a suffix tree.  A tree doesn't exist only its nodes.
 	struct Node {
 		// Each node contains a unique suffix -- this is equivalent to the suffix of it's incoming edge.
-		Ind Edge;
+		Ind* Edge;
 		
 		// Each node must be able to go to any child node, this can simply be stored as an array and looped over.
 		// I have thoughts on a possible optimisation here, first I want to get an implementation though.
-		std::vector<Node*> Child_Nodes;
+		std::vector<std::unique_ptr<Node>> Child_Nodes;
 	};
 
 	// Contains necessary positional data on where in the tree is currently being processed
@@ -35,7 +36,7 @@ namespace Suffix_Tree {
 	};
 
 	// Returns a pointer to the root node of a suffix tree.  Using the root node traversal is possible.
-	Node* create(std::string word); 
+	std::unique_ptr<Node> create(std::string word); 
 }
 
 #endif
