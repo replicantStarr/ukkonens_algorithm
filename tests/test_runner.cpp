@@ -14,6 +14,14 @@ namespace Test_Runner {
 		std::string Message;
 	};
 
+	void assert_node(Suffix_Tree::Node* node, json exp_node) {
+		if (node->Ind->a != exp_node["Edge"][0] 
+				|| node->Ind->b != exp_node["Edge"][1]
+				|| node->Child_Nodes.size() != exp_node["Edge"]["Children"].size()) {
+			throw std::runtime_error("Nodes are not equal");
+		}
+	}
+
 	void assert_result(Suffix_Tree::Node* res_node, json exp) {
 		std::queue<Suffix_Tree::Node*> res_queue;
 		res_queue.push_back(res_node);
@@ -21,6 +29,8 @@ namespace Test_Runner {
 		while(!res_queue.empty()) {
 			Suffix_Tree::Node* top = res_queue.top();
 			res_queue.pop();
+
+
 		}
 
 		throw std::runtime_error("Assertion Failed");
