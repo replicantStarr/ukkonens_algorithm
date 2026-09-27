@@ -15,8 +15,8 @@ namespace Test_Runner {
 	};
 
 	void assert_node(Suffix_Tree::Node* node, json exp_node) {
-		if (node->Edge->a != exp_node["Edge"][0] 
-				|| node->Edge->b != exp_node["Edge"][1]
+		if (node->Edge.a != exp_node["Edge"][0] 
+				|| node->Edge.b != exp_node["Edge"][1]
 				|| node->Child_Nodes.size() != exp_node["Edge"]["Children"].size()) {
 			throw std::runtime_error("Nodes are not equal");
 		}
@@ -26,12 +26,12 @@ namespace Test_Runner {
 		std::queue<Suffix_Tree::Node*> res_queue;
 		std::queue<json> json_queue;
 
-		res_queue.push_back(res_node);
-		json_queue.push_back(exp["0"]);
+		res_queue.push(res_node);
+		json_queue.push(exp["0"]);
 		
 		while(!res_queue.empty()) {
-			Suffix_Tree::Node* top = res_queue.top();
-			json exp_top = json_queue.top();
+			Suffix_Tree::Node* top = res_queue.front();
+			json exp_top = json_queue.front();
 
 			res_queue.pop();
 			json_queue.pop();
@@ -39,8 +39,8 @@ namespace Test_Runner {
 			assert_node(top, exp_top);
 
 			for (int i = 0; i < top->Child_Nodes.size(); ++i) {
-				res_queue.push_back(top->Child_Nodes[i]);
-				json_queue.push_back(top->Children[i]);
+				res_queue.push(top->Child_Nodes[i]);
+				json_queue.push(exp_top.exp_top["Children"][i]);
 			}
 		}
 	}
