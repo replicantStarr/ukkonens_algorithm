@@ -4,6 +4,15 @@
 #include <iostream>
 
 namespace Suffix_Tree {
+	/*
+	 * Some notes on Ukkonen's before implementation
+	 * 1. For each suffix, s[i, j], the suffixes s[i + n, j] are also processed until i + n = j.  E.g. abc = abc, bc, c
+	 * 2. There are a few different rules for processing:
+	 * 	i. If string s[i, j] end at a leaf edge, then s[j + 1] is just added
+	 * 	ii. If string s[i, j] ends at a non-leaf edge:
+	 * 		a. If s[j + 1] does not equal current character c, then create a node from [1, j], then [j, j + 1]
+	 * 		b. Otherwise, simply do nothing
+	 */
 	// Returns the root node of a constructed suffix tree based on any given word
 	// Construction is done using Ukkonen's algorithm
 	std::unique_ptr<Node> create(std::string word) {
