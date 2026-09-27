@@ -227,3 +227,5 @@ I've completed the BFS assertion, however I'm almost 100% sure there are a few e
 1. JSON deserialisation does not guarantee we can just call .size()
 2. The BFS could be wrong???
 3. There should be consistent naming acrros our items, that will be fixed later.
+
+I would like a nicer UI but that isn't important.  I was wondering what the main error was, turns out it had no null pointer checks.

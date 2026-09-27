@@ -51,13 +51,16 @@ namespace Test_Runner {
 
 		Result test_result;
 		try {
+			if (result == nullptr) {
+				throw std::runtime_error("Null pointer returned");
+			}
 			assert_result(result, test["exp"]);
 		}
 		catch (const std::exception& ex) {
 			test_result.Passed = false;
 			test_result.Message = ex.what();
 		}
-
+		
 		return test_result;
 	}
 
