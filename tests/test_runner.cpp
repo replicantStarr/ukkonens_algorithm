@@ -4,6 +4,7 @@
 #include "suffix_tree.hpp"
 #include <string>
 #include <stdexcept>
+#include <queue>
 
 using json = nlohmann::json;
 
@@ -14,6 +15,9 @@ namespace Test_Runner {
 	};
 
 	void assert_result(Suffix_Tree::Node* res_node, json exp) {
+		std::queue<Suffix_Tree::Node*> res_queue;
+		res_queue.push_back(res_node);
+
 		throw std::runtime_error("Assertion Failed");
 	}
 

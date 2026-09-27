@@ -218,3 +218,7 @@ I've kicked off the test cases with 4 basic ones.  Now I will be generating the 
 3. Your goal is to simple generate more test cases according to this structure.
 
 After AI generates this I will then fact check them individually to make sure they are right/.
+
+=====
+
+Now that test cases are implemented then I can simply write the rest of my testing library.  What this will do  is run a BFS on the nodes to validate.
