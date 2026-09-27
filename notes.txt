@@ -222,3 +222,8 @@ After AI generates this I will then fact check them individually to make sure th
 =====
 
 Now that test cases are implemented then I can simply write the rest of my testing library.  What this will do  is run a BFS on the nodes to validate.
+
+I've completed the BFS assertion, however I'm almost 100% sure there are a few errors.
+1. JSON deserialisation does not guarantee we can just call .size()
+2. The BFS could be wrong???
+3. There should be consistent naming acrros our items, that will be fixed later.

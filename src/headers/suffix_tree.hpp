@@ -15,7 +15,7 @@ namespace Suffix_Tree {
 	// A struct to contain all data of the nodes in a suffix tree.  A tree doesn't exist only its nodes.
 	struct Node {
 		// Each node contains a unique suffix -- this is equivalent to the suffix of it's incoming edge.
-		Ind Suffix;
+		Ind Edge;
 		
 		// Each node must be able to go to any child node, this can simply be stored as an array and looped over.
 		// I have thoughts on a possible optimisation here, first I want to get an implementation though.

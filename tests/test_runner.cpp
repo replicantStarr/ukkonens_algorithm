@@ -15,8 +15,8 @@ namespace Test_Runner {
 	};
 
 	void assert_node(Suffix_Tree::Node* node, json exp_node) {
-		if (node->Ind->a != exp_node["Edge"][0] 
-				|| node->Ind->b != exp_node["Edge"][1]
+		if (node->Edge->a != exp_node["Edge"][0] 
+				|| node->Edge->b != exp_node["Edge"][1]
 				|| node->Child_Nodes.size() != exp_node["Edge"]["Children"].size()) {
 			throw std::runtime_error("Nodes are not equal");
 		}
