@@ -21,6 +21,23 @@
 					"Children": []
 				}
 			}
+		},
+		"Double Same Char": {
+		  "word": "aa",
+			"exp": {
+			  "0": {
+					"Edge": null,
+					"Children": []
+				},
+				"1": {
+				  "Edge": [0, 1],
+					"Children": [2]
+				},
+				"2": {
+				  "Edge": [1, 2],
+					"Children": []
+				}
+			}
 		}
 	}
 }
