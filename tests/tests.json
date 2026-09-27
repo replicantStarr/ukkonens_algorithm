@@ -38,6 +38,23 @@
 					"Children": []
 				}
 			}
+		},
+		"Double Different Char": {
+		  "word": "ab",
+			"exp": {
+			  "0": {
+					"Edge": null,
+					"Children": [1, 2]
+				},
+				"1": {
+				  "Edge": [0,1],
+					"Children": []
+				},
+				"2": {
+				  "Edge": [1, 2],
+					"Children": []
+				}
+			}
 		}
 	}
 }
