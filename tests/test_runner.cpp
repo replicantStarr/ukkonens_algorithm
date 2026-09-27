@@ -17,6 +17,11 @@ namespace Test_Runner {
 	void assert_result(Suffix_Tree::Node* res_node, json exp) {
 		std::queue<Suffix_Tree::Node*> res_queue;
 		res_queue.push_back(res_node);
+		
+		while(!res_queue.empty()) {
+			Suffix_Tree::Node* top = res_queue.top();
+			res_queue.pop();
+		}
 
 		throw std::runtime_error("Assertion Failed");
 	}
