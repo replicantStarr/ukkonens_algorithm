@@ -40,7 +40,7 @@ namespace Test_Runner {
 
 			for (int i = 0; i < top->Child_Nodes.size(); ++i) {
 				res_queue.push(top->Child_Nodes[i]);
-				json_queue.push(exp_top.exp_top["Children"][i]);
+				json_queue.push(exp_top["Children"][i]);
 			}
 		}
 	}
