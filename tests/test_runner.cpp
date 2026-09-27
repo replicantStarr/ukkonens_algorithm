@@ -46,25 +46,31 @@ namespace Test_Runner {
 
 		res_queue.push(res_node);
 		json_queue.push(exp["0"]);
+		std::cout << exp << std::endl;
 
-		while(!res_queue.empty()) {
+		while(!res_queue.empty() && !json_queue.empty()) {
+			std::cout << "loop" << std::endl;
 			Suffix_Tree::Node* top = res_queue.front();
 			json exp_top = json_queue.front();
 
 			res_queue.pop();
 			json_queue.pop();
 
-			std::cout << "t3" << std::endl;
-
 			assert_node(top, exp_top);
 
-			std::cout << "t4" << std::endl;
-			for (int i = 0; i < top->Child_Nodes.size(); ++i) {
-				res_queue.push(top->Child_Nodes[i].get());
-				std::cout << "t5" << std::endl;
-				json_queue.push(exp_top["Children"][i]);
+			for (const auto& n: top->Child_Nodes) {
+				res_queue.push(n.get());
+			}
+			
+			for (const auto& exp_n: exp_top["Children"]) {
+				json_queue.push(exp[std::to_string(exp_n.get<std::uint64_t>())]);
 			}
 		}
+
+		if (res_queue.size() != json_queue.size()) {
+			throw std::runtime_error("Result is not equal to expected");
+		}
+
 	}
 
 	Result run_test(json test) {

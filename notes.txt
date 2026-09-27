@@ -264,3 +264,13 @@ If thats the case I don't even need suffix links.
 OK I believe I'm exagerating heavy here.  I do not want to focus on searching and suffix tree usage.  I am solely focusing on suffix tree construction with Ukkonen's.
 Maybe after I will do it but not now.
 
+
+back to I want the 3 rules to be implemented.  
+
+Just a few issue regarding test cases.  When claude generated many it based it off when I was using empty string as part.
+
+Now I though, we dont need empty string, and also, no terminal node is needed because empty child field just means exactly that.
+
+This entire time I WAS DOING BFS BASED ON RESULT SIZE.  So the expected werent adding.  I've now separated, 
+
+There is also an issue to do with useing the key as an int instead of string so i can just convert to fix.
