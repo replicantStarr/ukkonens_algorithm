@@ -16,10 +16,13 @@ namespace Test_Runner {
 	};
 
 	void assert_node(Suffix_Tree::Node* node, json exp_node) {
-		if ((node->Edge == nullptr && exp_node["Edge"].is_null()) || (node->Edge != nullptr && exp_node["Edge"].is_null())) {
+		if ((node->Edge == nullptr && !exp_node["Edge"].is_null()) || (node->Edge != nullptr && exp_node["Edge"].is_null())) {
 			throw std::runtime_error("Null");
 		}
-		if (node->Edge->a != exp_node["Edge"][0] 
+		else if (node->Edge == nullptr){
+			return;
+		}
+		else if (node->Edge->a != exp_node["Edge"][0] 
 				|| node->Edge->b != exp_node["Edge"][1]
 				|| node->Child_Nodes.size() != exp_node["Edge"]["Children"].size()) {
 			throw std::runtime_error("Nodes are not equal");

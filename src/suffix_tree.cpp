@@ -11,15 +11,14 @@ namespace Suffix_Tree {
 		// Keeps track of current edge root node, edge character and edge length -- all 3 crucial to Ukkonen's
 		Active_Point active_point;
 		
-		std::cout << "test" << std::endl;
-
 		std::unique_ptr<Node> root_node = std::make_unique<Node>(nullptr);
-
-		std::cout << "test" << std::endl;
-
 		// No rules implemented yet, let's just add all nodes to root first.
 		for (auto i = 0; i < word.size(); ++i) {
-			// Simple node with 1 char empty children.
+			// Simply adding child node to root node
+			std::unique_ptr<Ind> k = std::make_unique<Ind>(i, i + 1);
+			std::unique_ptr<Node> n = std::make_unique<Node>();
+			n->Edge = std::move(k);
+			root_node->Child_Nodes.push_back(std::move(n));
 		}
 
 		return root_node;
