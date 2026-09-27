@@ -8,6 +8,19 @@
 							"Children": []
 						}
 				}
+			},
+		"Single Char": {
+		  "word": "a",
+			"exp": {
+			  "0": {
+					  "Edge": null,
+						"Children": [1]
+					},
+				"1": {
+				  "Edge": [0, 1],
+					"Children": []
+				}
 			}
+		}
 	}
 }
