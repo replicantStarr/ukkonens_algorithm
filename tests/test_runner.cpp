@@ -32,6 +32,7 @@ namespace Test_Runner {
 		}
 
 		if (node->Edge->a != exp_node["Edge"][0] || node->Edge->b != exp_node["Edge"][1]) {
+			std::string em = std::format("Result Edge {} {} does not equal expected edge {}", node->Edge->a, node->Edge->b, exp_node["Edge"]);
 			throw std::runtime_error("Node edge doesn't equal expected edge");
 		}
 
@@ -46,10 +47,8 @@ namespace Test_Runner {
 
 		res_queue.push(res_node);
 		json_queue.push(exp["0"]);
-		std::cout << exp << std::endl;
 
 		while(!res_queue.empty() && !json_queue.empty()) {
-			std::cout << "loop" << std::endl;
 			Suffix_Tree::Node* top = res_queue.front();
 			json exp_top = json_queue.front();
 
@@ -67,8 +66,9 @@ namespace Test_Runner {
 			}
 		}
 
-		if (res_queue.size() != json_queue.size()) {
-			throw std::runtime_error("Result is not equal to expected");
+		if (res_queue.empty() != json_queue.empty()) {
+			std::string em = std::format("Result queue has {} when expected queue has {}", res_queue.size(), json_queue.size());
+			throw std::runtime_error(em);
 		}
 
 	}
@@ -100,11 +100,12 @@ namespace Test_Runner {
 		int failed = 0;
 
 		for (const auto& [t_name, t_case]: data["Cases"].items()) {
-			std::cout << t_name << '\n' << std::endl;
+			std::cout << "=============================================" << std::endl;
+			std::cout << t_name << std::endl;
 			Result res = run_test(t_case);
 			if (!res.Passed) {
-				std::cout << "TEST FAILED" << std::endl;
-				std::cout << res.Message << '\n' << std::endl;
+				std::cout << "RESULT: TEST FAILED" << std::endl;
+				std::cout << "REASON: " << res.Message << '\n' << std::endl;
 				failed++;
 				continue;
 			}
