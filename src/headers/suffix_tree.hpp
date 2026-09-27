@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <iostream>
 
 namespace Suffix_Tree {
 	
@@ -22,6 +23,7 @@ namespace Suffix_Tree {
 		// I have thoughts on a possible optimisation here, first I want to get an implementation though.
 		std::vector<std::unique_ptr<Node>> Child_Nodes;
 	};
+
 
 	// Contains necessary positional data on where in the tree is currently being processed
 	struct Active_Point { 

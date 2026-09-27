@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <queue>
 #include <memory>
+#include <format>
 
 using json = nlohmann::json;
 
@@ -16,16 +17,26 @@ namespace Test_Runner {
 	};
 
 	void assert_node(Suffix_Tree::Node* node, json exp_node) {
-		if ((node->Edge == nullptr && !exp_node["Edge"].is_null()) || (node->Edge != nullptr && exp_node["Edge"].is_null())) {
-			throw std::runtime_error("Null");
+		if (!node) {
+			throw std::runtime_error("Node is null when expected node is not");
 		}
-		else if (node->Edge == nullptr){
+
+		if (!node->Edge && !exp_node["Edge"].is_null()){
+			throw std::runtime_error("Node edge should not be null");
+		}
+		else if (node->Edge && exp_node["Edge"].is_null()){
+			throw std::runtime_error("Node edge should be null");
+		}
+		else {
 			return;
 		}
-		else if (node->Edge->a != exp_node["Edge"][0] 
-				|| node->Edge->b != exp_node["Edge"][1]
-				|| node->Child_Nodes.size() != exp_node["Edge"]["Children"].size()) {
-			throw std::runtime_error("Nodes are not equal");
+
+		if (node->Edge->a != exp_node["Edge"][0] || node->Edge->b != exp_node["Edge"][1]) {
+			throw std::runtime_error("Node edge doesn't equal expected edge");
+		}
+
+		if (node->Child_Nodes.size() != exp_node["Children"].size()) {
+			throw std::runtime_error("Node has incorrect number of children");
 		}
 	}
 
