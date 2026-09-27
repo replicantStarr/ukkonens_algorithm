@@ -69,7 +69,18 @@ namespace Test_Runner {
 		int failed = 0;
 
 		for (const auto& [t_name, t_case]: data["Cases"].items()) {
-			std::cout << t_name << std::endl;
+			std::cout << t_name << '\n' << std::endl;
+			Result res = run_test(t_case);
+			if (!res.Passed) {
+				std::cout << "TEST FAILED" << std::endl;
+				std::cout << res.Message << '\n' << std::endl;
+				failed++;
+				continue;
+			}
+
+			std::cout << "TEST PASSED" << std::endl;
+			std::cout << '\n' << std::endl;
+			passed++;
 		}
 
 		std::cout << "Passed " << passed << " tests" << std::endl;
