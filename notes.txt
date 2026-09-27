@@ -166,3 +166,47 @@ Here's how it'll go, we sore an array of all test cases from the json then:
 	7. ID only exists at the json level, the way we know are equal is we enforce the child suffix as equal to the current one, then enforce their children so on.
 
 I've decided to just add the path to cmake at least to make a macro for the file path
+
+=========================
+Given there isn't any memory allocation, I don't really need any custom close down logic, so the first failure should throw an exception on a test case and then continue with
+the next.
+
+Now that the test runner is working -- I'll make it look nice later -- I can now do the BFS logic to make sure the tree is as expected.
+
+I was writing some additional test cases but I've found a slight issue with terminals:
+	- Instead have some boolean called IsTerminal, we don't need the suffix but can be [len, len]
+
+---
+I'm just going to write all the test cases out, I don't think I need to comment too mcuh, it's quite self explanatory the cases
+i.e.
+- Empty string
+- Single Char
+- Single char repeated
+- Double Char
+- Double char repeated
+- Example string a
+- Example string b
+
+I don't want to be too stubborn.  What I'll do is once I finish writing test cases I will have claude briefly review them --> This is to make sure I'm not infinitely guessing
+on incorrect test cases
+
+27th
+
+Noticed a small mistaked ,[a, a] cannot be a terminal node or else the root node is terminal.
+This means assume you provide empty string, then you must have the suffixes equal [0, 1] or [a, a +1] which is still valid
+
+Now I've run into an issue, each leaf node must store the index it begins.  So then, how do we even go about this?
+that information should've been retrieval by ind, but it might not be given.
+
+The other thought I have is that within each node, we also store a value for index.
+We have 2 fields then
+Inds -> [a, b] of the incoming edge
+then
+Ind -> If it's a non-leaf node, then it's null or empty, otherwise it's assigned the beggining index of the suffix.
+The issue?  How do you retrieve that?
+Well this should be provided once the suffix is added to the root.
+For nodes which don't connect to the root there could be slight concern?
+
+I'm going to rename inds to edge for better naming.
+
+The other thing I've though of is just contain ind in every node?  It's impossible for a non-leaf node to have it's ind change, because that's how it works.

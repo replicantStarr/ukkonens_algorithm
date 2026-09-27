@@ -1,13 +1,13 @@
 {
-	"Test_Cases" : {
-		"Empty_String" : { 
-			"word" : "",
-			"exp" : {
-				"0": {
-					"Ind" : [0, 0 ],
-					"Children" : { }
+	"Cases" : {
+	  "Empty": {
+			  "word": "",
+				"exp": {
+				  "0": {
+						  "Edge": null,
+							"Children": []
+						}
 				}
 			}
-		}
 	}
 }
