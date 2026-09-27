@@ -1,6 +1,7 @@
 #include "suffix_tree.hpp"
 #include <string>
 #include <memory>
+#include <iostream>
 
 namespace Suffix_Tree {
 	// Returns the root node of a constructed suffix tree based on any given word
@@ -9,12 +10,18 @@ namespace Suffix_Tree {
 
 		// Keeps track of current edge root node, edge character and edge length -- all 3 crucial to Ukkonen's
 		Active_Point active_point;
+		
+		std::cout << "test" << std::endl;
+
+		std::unique_ptr<Node> root_node = std::make_unique<Node>(nullptr);
+
+		std::cout << "test" << std::endl;
 
 		// No rules implemented yet, let's just add all nodes to root first.
-		for (int i = 0; i < word.size(); ++i) {
+		for (auto i = 0; i < word.size(); ++i) {
 			// Simple node with 1 char empty children.
 		}
 
-		return nullptr;
+		return root_node;
 	}
 }

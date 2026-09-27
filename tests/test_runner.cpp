@@ -16,6 +16,9 @@ namespace Test_Runner {
 	};
 
 	void assert_node(Suffix_Tree::Node* node, json exp_node) {
+		if ((node->Edge == nullptr && exp_node["Edge"].is_null()) || (node->Edge != nullptr && exp_node["Edge"].is_null())) {
+			throw std::runtime_error("Null");
+		}
 		if (node->Edge->a != exp_node["Edge"][0] 
 				|| node->Edge->b != exp_node["Edge"][1]
 				|| node->Child_Nodes.size() != exp_node["Edge"]["Children"].size()) {
@@ -29,7 +32,7 @@ namespace Test_Runner {
 
 		res_queue.push(res_node);
 		json_queue.push(exp["0"]);
-		
+
 		while(!res_queue.empty()) {
 			Suffix_Tree::Node* top = res_queue.front();
 			json exp_top = json_queue.front();
@@ -37,10 +40,14 @@ namespace Test_Runner {
 			res_queue.pop();
 			json_queue.pop();
 
+			std::cout << "t3" << std::endl;
+
 			assert_node(top, exp_top);
 
+			std::cout << "t4" << std::endl;
 			for (int i = 0; i < top->Child_Nodes.size(); ++i) {
 				res_queue.push(top->Child_Nodes[i].get());
+				std::cout << "t5" << std::endl;
 				json_queue.push(exp_top["Children"][i]);
 			}
 		}
@@ -52,7 +59,7 @@ namespace Test_Runner {
 
 		Result test_result;
 		try {
-			if (result == nullptr) {
+			if (result.get() == nullptr) {
 				throw std::runtime_error("Null pointer returned");
 			}
 			assert_result(result.get(), test["exp"]);
