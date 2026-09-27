@@ -274,3 +274,11 @@ Now I though, we dont need empty string, and also, no terminal node is needed be
 This entire time I WAS DOING BFS BASED ON RESULT SIZE.  So the expected werent adding.  I've now separated, 
 
 There is also an issue to do with useing the key as an int instead of string so i can just convert to fix.
+
+====
+I keep saying this but the test casing is truly complete.  Very happy with the formatting speed is bad but now I can add and remove test cases with great flexibilityy
+
+TO BEGIN THE ALGORITHM IMPLEMENTATION
+I will start with the first rule.
+
+That is that if our character appears on a leaf edge, then we simply extend.
