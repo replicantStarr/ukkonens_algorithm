@@ -210,3 +210,11 @@ For nodes which don't connect to the root there could be slight concern?
 I'm going to rename inds to edge for better naming.
 
 The other thing I've though of is just contain ind in every node?  It's impossible for a non-leaf node to have it's ind change, because that's how it works.
+
+----
+I've kicked off the test cases with 4 basic ones.  Now I will be generating the rest with claude. I've been very explicit in my own prompts
+1. Do not provide implementation or design advice
+2. Do not change anything
+3. Your goal is to simple generate more test cases according to this structure.
+
+After AI generates this I will then fact check them individually to make sure they are right/.

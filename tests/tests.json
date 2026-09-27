@@ -1,59 +1,171 @@
 {
-	"Cases" : {
-	  "Empty": {
-			  "word": "",
-				"exp": {
-				  "0": {
-						  "Edge": null,
-							"Children": []
-						}
-				}
-			},
-		"Single Char": {
-		  "word": "a",
+	"Cases": {
+		"Empty": {
+			"word": "",
 			"exp": {
-			  "0": {
-					  "Edge": null,
-						"Children": [1]
-					},
-				"1": {
-				  "Edge": [0, 1],
-					"Children": []
-				}
+				"0": { "Edge": null, "Children": [1] },
+				"1": { "Edge": [0, 1], "Children": [] }
+			}
+		},
+		"Single Char": {
+			"word": "a",
+			"exp": {
+				"0": { "Edge": null, "Children": [1, 2] },
+				"1": { "Edge": [1, 2], "Children": [] },
+				"2": { "Edge": [0, 2], "Children": [] }
 			}
 		},
 		"Double Same Char": {
-		  "word": "aa",
+			"word": "aa",
 			"exp": {
-			  "0": {
-					"Edge": null,
-					"Children": []
-				},
-				"1": {
-				  "Edge": [0, 1],
-					"Children": [2]
-				},
-				"2": {
-				  "Edge": [1, 2],
-					"Children": []
-				}
+				"0": { "Edge": null, "Children": [1, 2] },
+				"1": { "Edge": [2, 3], "Children": [] },
+				"2": { "Edge": [0, 1], "Children": [3, 4] },
+				"3": { "Edge": [2, 3], "Children": [] },
+				"4": { "Edge": [1, 3], "Children": [] }
 			}
 		},
 		"Double Different Char": {
-		  "word": "ab",
+			"word": "ab",
 			"exp": {
-			  "0": {
-					"Edge": null,
-					"Children": [1, 2]
-				},
-				"1": {
-				  "Edge": [0,1],
-					"Children": []
-				},
-				"2": {
-				  "Edge": [1, 2],
-					"Children": []
-				}
+				"0": { "Edge": null, "Children": [1, 2, 3] },
+				"1": { "Edge": [2, 3], "Children": [] },
+				"2": { "Edge": [0, 3], "Children": [] },
+				"3": { "Edge": [1, 3], "Children": [] }
+			}
+		},
+		"Triple Same Char": {
+			"word": "aaa",
+			"exp": {
+				"0": { "Edge": null, "Children": [1, 2] },
+				"1": { "Edge": [3, 4], "Children": [] },
+				"2": { "Edge": [0, 1], "Children": [3, 4] },
+				"3": { "Edge": [3, 4], "Children": [] },
+				"4": { "Edge": [1, 2], "Children": [5, 6] },
+				"5": { "Edge": [3, 4], "Children": [] },
+				"6": { "Edge": [2, 4], "Children": [] }
+			}
+		},
+		"Triple Different Char": {
+			"word": "abc",
+			"exp": {
+				"0": { "Edge": null, "Children": [1, 2, 3, 4] },
+				"1": { "Edge": [3, 4], "Children": [] },
+				"2": { "Edge": [0, 4], "Children": [] },
+				"3": { "Edge": [1, 4], "Children": [] },
+				"4": { "Edge": [2, 4], "Children": [] }
+			}
+		},
+		"Repeated First Char": {
+			"word": "aab",
+			"exp": {
+				"0": { "Edge": null, "Children": [1, 2, 3] },
+				"1": { "Edge": [3, 4], "Children": [] },
+				"2": { "Edge": [0, 1], "Children": [4, 5] },
+				"3": { "Edge": [2, 4], "Children": [] },
+				"4": { "Edge": [1, 4], "Children": [] },
+				"5": { "Edge": [2, 4], "Children": [] }
+			}
+		},
+		"Short Palindrome": {
+			"word": "aba",
+			"exp": {
+				"0": { "Edge": null, "Children": [1, 2, 3] },
+				"1": { "Edge": [3, 4], "Children": [] },
+				"2": { "Edge": [0, 1], "Children": [4, 5] },
+				"3": { "Edge": [1, 4], "Children": [] },
+				"4": { "Edge": [3, 4], "Children": [] },
+				"5": { "Edge": [1, 4], "Children": [] }
+			}
+		},
+		"Repeated Pair": {
+			"word": "abab",
+			"exp": {
+				"0": { "Edge": null, "Children": [1, 2, 3] },
+				"1": { "Edge": [4, 5], "Children": [] },
+				"2": { "Edge": [0, 2], "Children": [4, 5] },
+				"3": { "Edge": [1, 2], "Children": [6, 7] },
+				"4": { "Edge": [4, 5], "Children": [] },
+				"5": { "Edge": [2, 5], "Children": [] },
+				"6": { "Edge": [4, 5], "Children": [] },
+				"7": { "Edge": [2, 5], "Children": [] }
+			}
+		},
+		"Banana": {
+			"word": "banana",
+			"exp": {
+				"0": { "Edge": null, "Children": [1, 2, 3, 4] },
+				"1": { "Edge": [6, 7], "Children": [] },
+				"2": { "Edge": [1, 2], "Children": [5, 6] },
+				"3": { "Edge": [0, 7], "Children": [] },
+				"4": { "Edge": [2, 4], "Children": [7, 8] },
+				"5": { "Edge": [6, 7], "Children": [] },
+				"6": { "Edge": [2, 4], "Children": [9, 10] },
+				"7": { "Edge": [6, 7], "Children": [] },
+				"8": { "Edge": [4, 7], "Children": [] },
+				"9": { "Edge": [6, 7], "Children": [] },
+				"10": { "Edge": [4, 7], "Children": [] }
+			}
+		},
+		"Gusfield xabxac": {
+			"word": "xabxac",
+			"exp": {
+				"0": { "Edge": null, "Children": [1, 2, 3, 4, 5] },
+				"1": { "Edge": [6, 7], "Children": [] },
+				"2": { "Edge": [1, 2], "Children": [6, 7] },
+				"3": { "Edge": [2, 7], "Children": [] },
+				"4": { "Edge": [5, 7], "Children": [] },
+				"5": { "Edge": [0, 2], "Children": [8, 9] },
+				"6": { "Edge": [2, 7], "Children": [] },
+				"7": { "Edge": [5, 7], "Children": [] },
+				"8": { "Edge": [2, 7], "Children": [] },
+				"9": { "Edge": [5, 7], "Children": [] }
+			}
+		},
+		"Ukkonen abcabxabcd": {
+			"word": "abcabxabcd",
+			"exp": {
+				"0": { "Edge": null, "Children": [1, 2, 3, 4, 5, 6] },
+				"1": { "Edge": [10, 11], "Children": [] },
+				"2": { "Edge": [0, 2], "Children": [7, 8] },
+				"3": { "Edge": [1, 2], "Children": [9, 10] },
+				"4": { "Edge": [2, 3], "Children": [11, 12] },
+				"5": { "Edge": [9, 11], "Children": [] },
+				"6": { "Edge": [5, 11], "Children": [] },
+				"7": { "Edge": [2, 3], "Children": [13, 14] },
+				"8": { "Edge": [5, 11], "Children": [] },
+				"9": { "Edge": [2, 3], "Children": [15, 16] },
+				"10": { "Edge": [5, 11], "Children": [] },
+				"11": { "Edge": [3, 11], "Children": [] },
+				"12": { "Edge": [9, 11], "Children": [] },
+				"13": { "Edge": [3, 11], "Children": [] },
+				"14": { "Edge": [9, 11], "Children": [] },
+				"15": { "Edge": [3, 11], "Children": [] },
+				"16": { "Edge": [9, 11], "Children": [] }
+			}
+		},
+		"Mississippi": {
+			"word": "mississippi",
+			"exp": {
+				"0": { "Edge": null, "Children": [1, 2, 3, 4, 5] },
+				"1": { "Edge": [11, 12], "Children": [] },
+				"2": { "Edge": [1, 2], "Children": [6, 7, 8] },
+				"3": { "Edge": [0, 12], "Children": [] },
+				"4": { "Edge": [8, 9], "Children": [9, 10] },
+				"5": { "Edge": [2, 3], "Children": [11, 12] },
+				"6": { "Edge": [11, 12], "Children": [] },
+				"7": { "Edge": [8, 12], "Children": [] },
+				"8": { "Edge": [2, 5], "Children": [13, 14] },
+				"9": { "Edge": [10, 12], "Children": [] },
+				"10": { "Edge": [9, 12], "Children": [] },
+				"11": { "Edge": [4, 5], "Children": [15, 16] },
+				"12": { "Edge": [3, 5], "Children": [17, 18] },
+				"13": { "Edge": [8, 12], "Children": [] },
+				"14": { "Edge": [5, 12], "Children": [] },
+				"15": { "Edge": [8, 12], "Children": [] },
+				"16": { "Edge": [5, 12], "Children": [] },
+				"17": { "Edge": [8, 12], "Children": [] },
+				"18": { "Edge": [5, 12], "Children": [] }
 			}
 		}
 	}
