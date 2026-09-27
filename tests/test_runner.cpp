@@ -27,17 +27,18 @@ namespace Test_Runner {
 		else if (node->Edge && exp_node["Edge"].is_null()){
 			throw std::runtime_error("Node edge should be null");
 		}
-		else {
+		else if (!node->Edge && exp_node["Edge"].is_null()) {
 			return;
 		}
 
 		if (node->Edge->a != exp_node["Edge"][0] || node->Edge->b != exp_node["Edge"][1]) {
 			std::string em = std::format("Result Edge {} {} does not equal expected edge {}", node->Edge->a, node->Edge->b, exp_node["Edge"]);
-			throw std::runtime_error("Node edge doesn't equal expected edge");
+			throw std::runtime_error(em);
 		}
 
 		if (node->Child_Nodes.size() != exp_node["Children"].size()) {
-			throw std::runtime_error("Node has incorrect number of children");
+			std::string em = std::format("Result children {} doesnt equal expected chilren {}", node->Child_Nodes.size(), exp_node["Children"].size());
+			throw std::runtime_error(em);
 		}
 	}
 
@@ -70,7 +71,6 @@ namespace Test_Runner {
 			std::string em = std::format("Result queue has {} when expected queue has {}", res_queue.size(), json_queue.size());
 			throw std::runtime_error(em);
 		}
-
 	}
 
 	Result run_test(json test) {
@@ -78,6 +78,7 @@ namespace Test_Runner {
 		std::unique_ptr<Suffix_Tree::Node> result = Suffix_Tree::create(test["word"].get<std::string>());
 
 		Result test_result;
+		test_result.Passed = true;
 		try {
 			if (result.get() == nullptr) {
 				throw std::runtime_error("Null pointer returned");
@@ -104,14 +105,13 @@ namespace Test_Runner {
 			std::cout << t_name << std::endl;
 			Result res = run_test(t_case);
 			if (!res.Passed) {
-				std::cout << "RESULT: TEST FAILED" << std::endl;
+				std::cout << "RESULT: FAILED" << std::endl;
 				std::cout << "REASON: " << res.Message << '\n' << std::endl;
 				failed++;
 				continue;
 			}
 
-			std::cout << "TEST PASSED" << std::endl;
-			std::cout << '\n' << std::endl;
+			std::cout << "RESULT: PASSED \n" << std::endl;
 			passed++;
 		}
 
