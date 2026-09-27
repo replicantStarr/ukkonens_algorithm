@@ -35,9 +35,14 @@ namespace Test_Runner {
 
 			res_queue.pop();
 			json_queue.pop();
-		}
 
-		throw std::runtime_error("Assertion Failed");
+			assert_node(top, exp_top);
+
+			for (int i = 0; i < top->Child_Nodes.size(); ++i) {
+				res_queue.push_back(top->Child_Nodes[i]);
+				json_queue.push_back(top->Children[i]);
+			}
+		}
 	}
 
 	Result run_test(json test) {
