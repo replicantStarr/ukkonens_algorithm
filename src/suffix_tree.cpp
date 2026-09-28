@@ -31,6 +31,10 @@ namespace Suffix_Tree {
 		while (remainder) {
 			// If the string is not currently in the node then add it.
 			if (active_point->Root->Suffixes.find(word[i]) == active_point->Root->Suffixes.end()) {
+				// If the active node is the main root, no edge exists so just start from 0
+				// Otherwise actually use the end of the last node to continue the string
+				int start = active_point->Root->Edge ? 0 : active_point->Root->Edge->b;
+				std::unique_ptr<Ind> ind = std::make_unique<Ind>(start);
 			}
 		}
 		return root_node;
