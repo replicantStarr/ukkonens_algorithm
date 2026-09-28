@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include <iostream>
+#include <utility>
 
 namespace Suffix_Tree {
 	/*
@@ -17,9 +18,14 @@ namespace Suffix_Tree {
 	// Construction is done using Ukkonen's algorithm
 	
 	std::unique_ptr<Node> create(std::string word) {
-
 		// Keeps track of current edge root node, edge character and edge length -- all 3 crucial to Ukkonen's
 		Active_Point active_point;
+
+		// Root node has no character and no incoming edge
+		std::unique_ptr<Node> root_node = std::make_unique<Node>(nullptr);
+
+		// Assign the root to being the current active node
+		active_point.Root = root_node.get();
 
 		// The number of suffixes currently required to be inserted
 		int remainder = 1;
@@ -29,16 +35,19 @@ namespace Suffix_Tree {
 
 		// We only need to loop while there are suffixes to add.
 		while (remainder && i < word.size()) {
+			remainder--;
 			// If the string is not currently in the node then add it.
 			if (active_point.Root->Suffixes.find(word[i]) == active_point.Root->Suffixes.end()) {
 				// If the active node is the main root, no edge exists so just start from 0
 				// Otherwise actually use the end of the last node to continue the string
-				int start = active_point.Root->Edge ? 0 : active_point.Root->Edge->a;
+				std::cout << active_point.Root->Edge << std::endl;	
+				int start = active_point.Root->Edge ? active_point.Root->Edge->a : 0;
+
 				// -1 means the current index of i, that way we dont need manually update each operation
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(start, -1);
 
 				// Push the new node into the root to create an edge
-				active_point.Root->Child_Nodes.emplace_back(std::make_unique<Node>(std::Move(ind)));
+				active_point.Root->Child_Nodes.emplace_back(std::make_unique<Node>(std::move(ind)));
 
 				// Now loop to the next suffix
 				++i;
@@ -50,14 +59,21 @@ namespace Suffix_Tree {
 
 			// This is where our extensions are very important
 			// The edge is broke here as the new character isn't equal to the currently index charater in our edge. -- or split in the middle of an edge.
-			if (active_point.Root->Child_Nodes[active_point.Length] != word[i]) {
+			if (word[active_point.Length] != word[i]) {
 				// This is the new suffix added
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(i, -1);
 				
 				// This is the existing suffix being split and linked
-				std::unique_ptr<Ind> ind2 = std::make_unique<Ind(active_point.Length, -1);
+				std::unique_ptr<Ind> ind2 = std::make_unique<Ind>(active_point.Length, -1);
+
+				// Create a node with new suffix
+				std::unique_ptr<Node> new_node = std::make_unique<Node>(std::move(ind));
+				
+				// Create a node with split existing suffix
+				std::unique_ptr<Node> e_node = std::make_unique<Node>(std::move(ind2));
 			}
 		}
+
 		return root_node;
 	}
 }

@@ -75,11 +75,11 @@ namespace Test_Runner {
 
 	Result run_test(json test) {
 		std::cout << test["word"] << std::endl;
-		std::unique_ptr<Suffix_Tree::Node> result = Suffix_Tree::create(test["word"].get<std::string>());
 
 		Result test_result;
 		test_result.Passed = true;
 		try {
+			std::unique_ptr<Suffix_Tree::Node> result = Suffix_Tree::create(test["word"].get<std::string>());
 			if (result.get() == nullptr) {
 				throw std::runtime_error("Null pointer returned");
 			}

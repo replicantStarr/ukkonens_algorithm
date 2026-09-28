@@ -305,3 +305,14 @@ No the reason I did it was because it's to do with the root node having no incom
 
 If c++ could have some nullable instead that would be way better.
 Simply copying the value is so much easier than doing a pointer. Because if it's a pointer it has to be a unique pointer, which means we have to do extra.
+
+-=-=
+Now I run into some segmentation fault whenever I run my tests.  It is, however, implementation related.
+
+I made a small mistake where I only handle assertion errors no run errors. This is now fixed
+
+^^^ This comment isnt true, because segmentation fault isn't an exception.
+
+Found the segmentation fault --> active root isn't being assigned.
+
+Yep so the other issue was that I mixed the order for ternary operator on a nullptr check.
