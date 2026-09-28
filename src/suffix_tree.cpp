@@ -35,6 +35,9 @@ namespace Suffix_Tree {
 				// Otherwise actually use the end of the last node to continue the string
 				int start = active_point->Root->Edge ? 0 : active_point->Root->Edge->b;
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(start);
+
+				// Push the new node into the root to create an edge
+				active_point->Root->Child_Nodes.emplace_back(std::make_unique<Node>(std::Move(ind)));
 			}
 		}
 		return root_node;
