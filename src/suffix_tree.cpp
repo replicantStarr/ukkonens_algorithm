@@ -26,7 +26,7 @@ namespace Suffix_Tree {
 
 		// We only need to loop while there are suffixes to add.
 		while (remainder) {
-			
+			// Check if active node contains the currently addedd suffix first char
 		}
 		
 		return root_node;
