@@ -37,7 +37,7 @@ namespace Suffix_Tree {
 		while (remainder && i < word.size()) {
 
 			// EXTENSION RULE 1 -> If current word[a, b] is on a leaf edge, and i = b + 1 || b = -1, then add s[i] to the end of the edge.
-			if (active_point.Root->Suffixes.find(word[i]) == active_point.Root->Suffixes.end()) {
+			if (active_point.Root->Children[word[i]] == nullptr) {
 
 				// If the active node is the main root, no edge exists so just start from 0
 				// Otherwise actually use the end of the last node to continue the string
@@ -48,7 +48,7 @@ namespace Suffix_Tree {
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(start, -1);
 
 				// Push the new node into the root to create an edge
-				active_point.Root->Child_Nodes.emplace_back(std::make_unique<Node>(std::move(ind)));
+				active_point.Root->Children[word[i]] = (std::make_unique<Node>(std::move(ind)));
 
 				// Now loop to the next suffix
 				++i;
@@ -75,7 +75,8 @@ namespace Suffix_Tree {
 				// Create a node with split existing suffix
 				std::unique_ptr<Node> e_node = std::make_unique<Node>(std::move(ind2));
 
-				// Update parent node so that the string ends at L
+				// Add new nodes as child nodes to split edge
+
 
 			}
 

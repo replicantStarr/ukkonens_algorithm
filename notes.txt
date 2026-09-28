@@ -316,3 +316,8 @@ I made a small mistake where I only handle assertion errors no run errors. This 
 Found the segmentation fault --> active root isn't being assigned.
 
 Yep so the other issue was that I mixed the order for ternary operator on a nullptr check.
+
+====
+Now Im thinking regarding the node itself, why not just store the children in a hashmap?  It makes the most sense.
+If I want to check a suffix exists I do it in O(1) with the unordered set.  But what if I actually want the node in O(1) as well.
+Hashmap to a pointer then.

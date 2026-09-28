@@ -36,8 +36,8 @@ namespace Test_Runner {
 			throw std::runtime_error(em);
 		}
 
-		if (node->Child_Nodes.size() != exp_node["Children"].size()) {
-			std::string em = std::format("Result children {} doesnt equal expected chilren {}", node->Child_Nodes.size(), exp_node["Children"].size());
+		if (node->Children.size() != exp_node["Children"].size()) {
+			std::string em = std::format("Result children {} doesnt equal expected chilren {}", node->Children.size(), exp_node["Children"].size());
 			throw std::runtime_error(em);
 		}
 	}
@@ -58,7 +58,7 @@ namespace Test_Runner {
 
 			assert_node(top, exp_top);
 
-			for (const auto& n: top->Child_Nodes) {
+			for (const auto& [k, n]: top->Children) {
 				res_queue.push(n.get());
 			}
 			

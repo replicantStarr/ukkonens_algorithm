@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 #include <iostream>
-#include <unordered_set>
+#include <unordered_map>
 
 namespace Suffix_Tree {
 	
@@ -20,11 +20,8 @@ namespace Suffix_Tree {
 		// Each node contains a unique suffix -- this is equivalent to the suffix of it's incoming edge.
 		std::unique_ptr<Ind> Edge;
 
-		std::unordered_set<int> Suffixes;
-
-		// Each node must be able to go to any child node, this can simply be stored as an array and looped over.
-		// I have thoughts on a possible optimisation here, first I want to get an implementation though.
-		std::vector<std::unique_ptr<Node>> Child_Nodes;
+		// Can check if a suffix is already created and return it's node in constant time.
+		std::unordered_map<char, std::unique_ptr<Node>> Children;
 	};
 
 
