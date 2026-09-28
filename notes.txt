@@ -321,3 +321,11 @@ Yep so the other issue was that I mixed the order for ternary operator on a null
 Now Im thinking regarding the node itself, why not just store the children in a hashmap?  It makes the most sense.
 If I want to check a suffix exists I do it in O(1) with the unordered set.  But what if I actually want the node in O(1) as well.
 Hashmap to a pointer then.
+
+For now Im adding a helper function which will return a $ of any given string if i == word.size();
+
+=== 
+There was a problem with conditional checking for the while loop, fixed it and now it's partially running.
+None of my output statements are appearing on the error, it's in one of the if statements.
+
+Found it, the active length isnt being initialised.

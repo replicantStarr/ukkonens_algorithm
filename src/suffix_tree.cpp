@@ -2,7 +2,7 @@
 #include <string>
 #include <memory>
 #include <iostream>
-#include <utility>
+#include <stdexcept>
 
 namespace Suffix_Tree {
 	/*
@@ -16,6 +16,15 @@ namespace Suffix_Tree {
 	 */
 	// Returns the root node of a constructed suffix tree based on any given word
 	// Construction is done using Ukkonen's algorithm
+	//
+
+	// Simple function to take whatever the current word is and at the terminal $
+	// This is very important for processing
+	char getchar(std::string word, int index) {
+		if (index < word.size()) return word[index];
+		if (index == word.size()) return '$';
+		throw new std::runtime_error("Index has no character");
+	}
 	
 	std::unique_ptr<Node> create(std::string word) {
 		// Keeps track of current edge root node, edge character and edge length -- all 3 crucial to Ukkonen's
@@ -26,6 +35,7 @@ namespace Suffix_Tree {
 
 		// Assign the root to being the current active node
 		active_point.Root = root_node.get();
+		active_point.Length = 0;
 
 		// The number of suffixes currently required to be inserted
 		int remainder = 1;
@@ -34,11 +44,11 @@ namespace Suffix_Tree {
 		int i = 0;
 
 		// We only need to loop while there are suffixes to add.
-		while (remainder && i < word.size()) {
-
+		while (remainder || i <= word.size()) {
+			std::cout << "i " << i << std::endl;
 			// EXTENSION RULE 1 -> If current word[a, b] is on a leaf edge, and i = b + 1 || b = -1, then add s[i] to the end of the edge.
 			if (active_point.Root->Children[word[i]] == nullptr) {
-
+				std::cout << "t1" << std::endl;
 				// If the active node is the main root, no edge exists so just start from 0
 				// Otherwise actually use the end of the last node to continue the string
 				std::cout << active_point.Root->Edge << std::endl;	
@@ -55,15 +65,17 @@ namespace Suffix_Tree {
 				
 				// Suffix is added so no remainder
 				remainder--;
-
+				std::cout << "testing" << std::endl;
 				continue;
 			}
 
 			// word[i] now ends on a non-leaf edge.
+			// Instead of creating a new node we use the existing one
+			active_point.Edge = active_point.Root->Children[word[i]].get();
 
 			// EXTENSION RULE 2 -> word[a, b] exists such that word[b + 1] != word[i], and therefore the edge must now be split into
 			// word[a, L], where L is the current active length, and 2 children of [i, -1] and b[L, -1].
-			if (word[active_point.Length] != word[i]) {
+			if (word[active_point.Length] != word[i]) {	
 				// This is the new suffix added
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(i, -1);
 				
@@ -71,16 +83,20 @@ namespace Suffix_Tree {
 				std::unique_ptr<Ind> ind2 = std::make_unique<Ind>(active_point.Length, -1);
 
 				// Add new nodes as child nodes to split edge
-				active_point.Root->Children[word[i]] = std::make_unique<Node>(std::move(ind));
-				active_point.Root->Children[word[active_point.Length]] = std::make_unique<Node>(std::move(ind2));
+				active_point.Edge->Children[word[i]] = std::make_unique<Node>(std::move(ind));
+				active_point.Edge->Children[word[active_point.Length]] = std::make_unique<Node>(std::move(ind2));
 
 				// Update the active node edge to only go from [a, L]
-				active_point.Root->Edge->b = active_point.Length;
+				active_point.Edge->Edge->b = active_point.Length;
 
 				++i;
 				remainder--;
 				continue;
 			}
+			std::cout << "t3" << std::endl;
+			// EXTENSION RULE 3 -> word[a, b] exists such that word[b + 1] = word[i].  This means the next char should be processed so length is bumped.
+			active_point.Length++;
+			++i;
 		}
 
 		return root_node;
