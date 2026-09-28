@@ -34,11 +34,18 @@ namespace Suffix_Tree {
 				// If the active node is the main root, no edge exists so just start from 0
 				// Otherwise actually use the end of the last node to continue the string
 				int start = active_point->Root->Edge ? 0 : active_point->Root->Edge->b;
-				std::unique_ptr<Ind> ind = std::make_unique<Ind>(start);
+				// -1 means the current index of i, that way we dont need manually update each operation
+				std::unique_ptr<Ind> ind = std::make_unique<Ind>(start, -1);
 
 				// Push the new node into the root to create an edge
 				active_point->Root->Child_Nodes.emplace_back(std::make_unique<Node>(std::Move(ind)));
+
+				// Now loop to the next suffix
+				++i;
+				continue;
 			}
+
+			//
 		}
 		return root_node;
 	}
