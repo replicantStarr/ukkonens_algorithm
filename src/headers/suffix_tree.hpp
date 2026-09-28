@@ -30,8 +30,8 @@ namespace Suffix_Tree {
 		// The root of the current edge which is being operated on
 		Node* Root_Node;
 
-		// The exact char in a compressed edge which is being operated.
-		char Edge;
+		// The incoming edge to a node, which is also a child edge of the root node
+		Node* Edge;
 
 		// The length of the current compressed edge
 		int Length;

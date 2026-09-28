@@ -282,3 +282,15 @@ TO BEGIN THE ALGORITHM IMPLEMENTATION
 I will start with the first rule.
 
 That is that if our character appears on a leaf edge, then we simply extend.
+
+====
+IMPLEMENTATION
+I've written out the 3 rules as notes, and then Im going to start implementation.
+
+The next thing I shall do is build it out slowly.  
+
+One piece of the design that is crucial is that for all leaf edges, they must point to the current index being processed, so abc automatically becomes abcd for instance.
+
+What my initial though is that -1 means to the end.
+
+so for instance, if edge is [2, -1], this means it's s[2..i] where is i <= size
