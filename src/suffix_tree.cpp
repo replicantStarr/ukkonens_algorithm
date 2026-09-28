@@ -24,11 +24,15 @@ namespace Suffix_Tree {
 		// The number of suffixes currently required to be inserted
 		int remainder = 1;
 
+		// Our index of the current character being processed in word
+		int i = 0;
+
 		// We only need to loop while there are suffixes to add.
 		while (remainder) {
-			// Check if active node contains the currently addedd suffix first char
+			// If the string is not currently in the node then add it.
+			if (active_point->Root->Suffixes.find(word[i]) == active_point->Root->Suffixes.end()) {
+			}
 		}
-		
 		return root_node;
 	}
 }

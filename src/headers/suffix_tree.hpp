@@ -31,7 +31,7 @@ namespace Suffix_Tree {
 	// Contains necessary positional data on where in the tree is currently being processed
 	struct Active_Point { 
 		// The root of the current edge which is being operated on
-		Node* Root_Node;
+		Node* Root;
 
 		// The incoming edge to a node, which is also a child edge of the root node
 		Node* Edge;

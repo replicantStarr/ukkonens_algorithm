@@ -299,4 +299,9 @@ so for instance, if edge is [2, -1], this means it's s[2..i] where is i <= size
 spent quite some times going over examples again just to make sure it all works out.  Figured a few things out but primarily that the final terminal character $ is essential in the event
 of adding a final suffix of size one when it matches.
 
+I'm replacing Node->Edge to a concrete value not pointer, there is literally no reason for it to be that way.
 The difference is obviously in our code that a simply blank or terminal node is just represented as having no children.
+No the reason I did it was because it's to do with the root node having no incoming edge.
+
+If c++ could have some nullable instead that would be way better.
+Simply copying the value is so much easier than doing a pointer. Because if it's a pointer it has to be a unique pointer, which means we have to do extra.
