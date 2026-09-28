@@ -294,3 +294,9 @@ One piece of the design that is crucial is that for all leaf edges, they must po
 What my initial though is that -1 means to the end.
 
 so for instance, if edge is [2, -1], this means it's s[2..i] where is i <= size
+
+--=--
+spent quite some times going over examples again just to make sure it all works out.  Figured a few things out but primarily that the final terminal character $ is essential in the event
+of adding a final suffix of size one when it matches.
+
+The difference is obviously in our code that a simply blank or terminal node is just represented as having no children.
