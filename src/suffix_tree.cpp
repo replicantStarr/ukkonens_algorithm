@@ -28,7 +28,7 @@ namespace Suffix_Tree {
 		int i = 0;
 
 		// We only need to loop while there are suffixes to add.
-		while (remainder) {
+		while (remainder && i < word.size()) {
 			// If the string is not currently in the node then add it.
 			if (active_point->Root->Suffixes.find(word[i]) == active_point->Root->Suffixes.end()) {
 				// If the active node is the main root, no edge exists so just start from 0
@@ -42,10 +42,17 @@ namespace Suffix_Tree {
 
 				// Now loop to the next suffix
 				++i;
+				
+				// Suffix is added so no remainder
+				remainder = 0;
 				continue;
 			}
 
-			//
+			// This is where our extensions are very important
+			// The edge is broke here as the new character isn't equal to the currently index charater in our edge. -- or split in the middle of an edge.
+			if (active_point->Root->Child_Nodes[active_point->Length] != word[i]) {
+
+			}
 		}
 		return root_node;
 	}
