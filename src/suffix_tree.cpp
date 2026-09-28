@@ -54,7 +54,8 @@ namespace Suffix_Tree {
 				++i;
 				
 				// Suffix is added so no remainder
-				remainder = 0;
+				remainder--;
+
 				continue;
 			}
 
@@ -72,8 +73,14 @@ namespace Suffix_Tree {
 				// Add new nodes as child nodes to split edge
 				active_point.Root->Children[word[i]] = std::make_unique<Node>(std::move(ind));
 				active_point.Root->Children[word[active_point.Length]] = std::make_unique<Node>(std::move(ind2));
-			}
 
+				// Update the active node edge to only go from [a, L]
+				active_point.Root->Edge->b = active_point.Length;
+
+				++i;
+				remainder--;
+				continue;
+			}
 		}
 
 		return root_node;
