@@ -69,15 +69,9 @@ namespace Suffix_Tree {
 				// This is the existing suffix being split and linked
 				std::unique_ptr<Ind> ind2 = std::make_unique<Ind>(active_point.Length, -1);
 
-				// Create a node with new suffix
-				std::unique_ptr<Node> new_node = std::make_unique<Node>(std::move(ind));
-				
-				// Create a node with split existing suffix
-				std::unique_ptr<Node> e_node = std::make_unique<Node>(std::move(ind2));
-
 				// Add new nodes as child nodes to split edge
-
-
+				active_point.Root->Children[word[i]] = std::make_unique<Node>(std::move(ind));
+				active_point.Root->Children[word[active_point.Length]] = std::make_unique<Node>(std::move(ind2));
 			}
 
 		}
