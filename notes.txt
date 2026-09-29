@@ -359,3 +359,8 @@ Incredibly memory inefficient though.
 If we are going to use a double pointer than I might as well replace i with it too, give it's technical the index we are operating on.
 
 Actually all this can be is some shared pointer to an int.  This means that it's owned by the combined structs, and at most you have one shared pointer per integer.
+
+==== New big problem found.
+The order of the nodes isn't preserved because of map.  Whilst this isnt an implementation issue it is a test case issue.
+
+The plan is simply to change the processing so that at each node you compare child size, then loop over expected nodes and insert into hashmap for comparison.

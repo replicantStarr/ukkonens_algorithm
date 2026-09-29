@@ -42,29 +42,32 @@ namespace Test_Runner {
 		}
 	}
 
-	void assert_result(Suffix_Tree::Node* res_node, json exp) {
+	void assert_result(Suffix_Tree::Node* res_node, json exp, std::string word) {
 		std::queue<Suffix_Tree::Node*> res_queue;
 		std::queue<json> json_queue;
 
-		res_queue.push(res_node);
 		json_queue.push(exp["0"]);
+		res_queue.push(res_node);
 
 		while(!res_queue.empty() && !json_queue.empty()) {
-			Suffix_Tree::Node* top = res_queue.front();
-			json exp_top = json_queue.front();
-
+			Suffix_Tree::Node* res_top = res_queue.front();
 			res_queue.pop();
+
+			json exp_top = json_queue.front();
 			json_queue.pop();
 
-			assert_node(top, exp_top);
+			std::cout << "exp " << exp_top << std::endl;
 
-			for (const auto& [k, n]: top->Children) {
-				std::cout << "Node " << k << std::endl;
-				res_queue.push(n.get());
-			}
+			assert_node(res_top, exp_top);
 			
-			for (const auto& exp_n: exp_top["Children"]) {
-				json_queue.push(exp[std::to_string(exp_n.get<std::uint64_t>())]);
+			for (const auto& [id, node]: res_top->Children) {
+				std::cout << "Node " << id << std::endl;
+				res_queue.push(node.get());
+			}
+
+			for (const auto& exp_node: exp_top["Children"]) {
+				std::cout << "Expected Node " << exp_node << std::endl;
+				json_queue.push(exp[std::to_string(exp_node.get<std::uint64_t>())]);
 			}
 		}
 
@@ -84,7 +87,7 @@ namespace Test_Runner {
 			if (result.get() == nullptr) {
 				throw std::runtime_error("Null pointer returned");
 			}
-			assert_result(result.get(), test["exp"]);
+			assert_result(result.get(), test["exp"], test["word"].get<std::string>());
 		}
 		catch (const std::exception& ex) {
 			test_result.Passed = false;
