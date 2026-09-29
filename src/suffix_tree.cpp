@@ -80,6 +80,16 @@ namespace Suffix_Tree {
 			// The found edge is now traversed down because of equal prefixes
 			active_point.Edge = find_edge->second.get();
 
+			// If the current length is > edge length there will be no character to index
+			// Instead step down to view the next edges when next prefix is processed
+			if (active_point.Length >= *active_point.Edge->Edge->b - active_point.Edge->Edge->a) {
+				active_point.Root = active_point.Edge;
+				active_point.Edge = nullptr;
+				active_point.Length -= *active_point.Edge->Edge->b - active_point.Edge->Edge->a;
+
+				continue;
+			}
+
 			// There is an edge which exists, we must traverse it and split at the unequal index
 			if (get_char(word, active_point.Edge->Edge->a + active_point.Length) != get_char(word, *i)) {
 
@@ -87,7 +97,7 @@ namespace Suffix_Tree {
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
 
 				// This is the existing suffix being split and linked, must end at previous b in case a leaf edge is a child
-				std::unique_ptr<Ind> ind2 = std::make_unique<Ind>(active_point.Edge->Edge->a + active_point.Length, *active_point.Edge->Edge->b);
+				std::unique_ptr<Ind> ind2 = std::make_unique<Ind>(active_point.Edge->Edge->a + active_point.Length, active_point.Edge->Edge->b);
 
 				// Update the active node edge to only go from [a, L]
 				active_point.Edge->Edge->b = std::make_shared<int>(active_point.Edge->Edge->a + active_point.Length);
