@@ -86,7 +86,7 @@ namespace Suffix_Tree {
 				active_point.Edge->Edge->b = std::make_shared<int>(active_point.Edge->Edge->a + active_point.Length);
 
 				// Create split edge from original edge
-				std::make_unique<Node> bottom_edge = std::make_unique<Node>(std::move(ind2));
+				std::unique_ptr<Node> bottom_edge = std::make_unique<Node>(std::move(ind2));
 
 				// Simply move the existing hashmap of children
 				bottom_edge->Children = std::move(active_point.Edge->Children);
@@ -94,7 +94,7 @@ namespace Suffix_Tree {
 
 				// Add new nodes as child nodes to split edge
 				active_point.Edge->Children[get_char(word, *i)] = std::make_unique<Node>(std::move(ind));
-				active_point.Edge->Children[get_char(word, active_point.Length)] = std::move(bottom_edge);
+				active_point.Edge->Children[get_char(word, active_point.Edge->Edge->a + active_point.Length)] = std::move(bottom_edge);
 
 				// Reset to active root for remainder suffixes to be inserted (just a rerun with 1 less char)
 				active_point.Root = root_node.get();
