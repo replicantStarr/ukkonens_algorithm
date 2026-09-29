@@ -61,15 +61,12 @@ namespace Test_Runner {
 
 			assert_node(res_top, exp_top);
 
-			for (const auto& exp_node: exp_top["Children"]) {
-				res_queue.push(res_top->Children[exp_node.get<std::string>()[0]].get());
-				json_queue.push(exp[exp_node.get<std::string>()]);
+			for (const auto& id: exp_top["Children"]) {
+				json exp_node = exp[std::stoi(id)];
+				int index = exp_node["Edge"][0].get<std::uint64_t>();
+				res_queue.push(res_top->Children[Suffix_Tree::get_char(word, index)].get());
+				json_queue.push(exp_node);
 			}
-		}
-
-		if (res_queue.empty() != json_queue.empty()) {
-			std::string em = std::format("Result queue has {} when expected queue has {}", res_queue.size(), json_queue.size());
-			throw std::runtime_error(em);
 		}
 	}
 

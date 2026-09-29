@@ -8,7 +8,9 @@
 #include <unordered_map>
 
 namespace Suffix_Tree {
-	
+	// Safely returns the terminal symbol when indexing
+	char get_char(std::string w, int i);
+
 	// Simply contains the indices of a substring [a,b] of word.  This is far more efficient than an array.
 	struct Ind {
 		int a;

@@ -21,9 +21,9 @@ namespace Suffix_Tree {
 
 	// Simple function to take whatever the current word is and at the terminal $
 	// This is very important for processing
-	char getchar(std::string word, int index) {
-		if (index < word.size()) return word[index];
-		if (index == word.size()) return '$';
+	char get_char(std::string w, int i) {
+		if (i < w.size()) return w[i];
+		if (i == w.size()) return '$';
 		throw new std::runtime_error("Index has no character");
 	}
 	
@@ -46,15 +46,13 @@ namespace Suffix_Tree {
 
 		// We only need to loop while there are suffixes to add.
 		while (*i <= word.size()) {
-			// Assign the active edge to the edge outgoing from the root which is equal to first char of the suffix.
-			if (!active_point.Edge) {
-				std::cout << "tres" << std::endl;
-				active_point.Edge = active_point.Root->Children[getchar(word, *i)].get();
+			// EXTENSION RULE 2 -> word[a, b] exists such that word[b + 1] != word[i], and therefore the edge must now be split into
+			if (!active_point.Edge->Children[word[*i]]) {
+				// Create Node
 			}
 
-			// EXTENSION RULE 2 -> word[a, b] exists such that word[b + 1] != word[i], and therefore the edge must now be split into
 			// word[a, L], where L is the current active length, and 2 children of [i, -1] and b[L, -1].
-			if (getchar(word, active_point.Length) != getchar(word, *i)) {
+			if (get_char(word, active_point.Length) != get_char(word, *i)) {
 				std::cout << "i " << *i << std::endl;
 				std::cout << "t" << std::endl;
 
@@ -66,8 +64,8 @@ namespace Suffix_Tree {
 
 				std::cout << "a1" << std::endl;	
 				// Add new nodes as child nodes to split edge
-				active_point.Edge->Children[getchar(word, *i)] = std::make_unique<Node>(std::move(ind));
-				active_point.Edge->Children[getchar(word, active_point.Length)] = std::make_unique<Node>(std::move(ind2));
+				active_point.Edge->Children[get_char(word, *i)] = std::make_unique<Node>(std::move(ind));
+				active_point.Edge->Children[get_char(word, active_point.Length)] = std::make_unique<Node>(std::move(ind2));
 
 				// Update the active node edge to only go from [a, L]
 				active_point.Edge->Edge->b = std::make_shared<int>(active_point.Edge->Edge->a + active_point.Length);
