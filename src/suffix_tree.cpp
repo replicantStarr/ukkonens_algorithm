@@ -85,7 +85,7 @@ namespace Suffix_Tree {
 			if (get_char(word, active_point.Edge->Edge->a + active_point.Length) != get_char(word, *i)) {
 
 				// This is the new suffix added
-				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
+				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*active_point.Edge->Edge->b, i);
 
 				// This is the existing suffix being split and linked
 				std::unique_ptr<Ind> ind2 = std::make_unique<Ind>(active_point.Edge->Edge->a + active_point.Length, i);

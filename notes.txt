@@ -410,3 +410,5 @@ Found a few errors to do with syuntax, such as pointer for active point.
 
 ==== Half test cases passing
 This is a very good sign, am very pleased with this progression
+
+Updated the original ind to use the ending pointer value instead to sync with active_point.Length taking effect.
