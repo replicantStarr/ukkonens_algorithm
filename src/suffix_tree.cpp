@@ -84,8 +84,8 @@ namespace Suffix_Tree {
 			// Instead step down to view the next edges when next prefix is processed
 			if (active_point.Length >= *active_point.Edge->Edge->b - active_point.Edge->Edge->a) {
 				active_point.Root = active_point.Edge;
-				active_point.Edge = nullptr;
 				active_point.Length -= *active_point.Edge->Edge->b - active_point.Edge->Edge->a;
+				active_point.Edge = nullptr;
 
 				continue;
 			}

@@ -412,3 +412,9 @@ Found a few errors to do with syuntax, such as pointer for active point.
 This is a very good sign, am very pleased with this progression
 
 Updated the original ind to use the ending pointer value instead to sync with active_point.Length taking effect.
+
+The initial length is never set.  When it comes to length, this simply starts from 0 and increases.
+
+In the end there were many elements missing or easily skipped over but majority was good, now all test cases pass.
+
+Considering adding suffix links and a search functionality.
