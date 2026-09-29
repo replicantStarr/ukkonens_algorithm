@@ -400,3 +400,8 @@ I know that if the character is new to the node I need to add it
 and I know that if it's not new then it splits the edge.
 
 If I remember correctly, each operation should reset back to node, or else it won't be able to detect the correct edge
+
+====
+Another issue caught, when I split I dont move the children which will garuntee to cause an error
+
+I get the feeling it would be way better to just have a pointer to the vectors, that way you could easily pass them between.

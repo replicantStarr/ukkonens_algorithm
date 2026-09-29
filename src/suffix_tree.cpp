@@ -53,46 +53,56 @@ namespace Suffix_Tree {
 			// word[a, L], where L is the current active length, with 2 children of [*i, i] and b[L, *i].
 			
 			// When no edge exists, it's simply comparing word[i] to an empty string, which essentially is a garunteed split
-			if (active_point.Root->Children.find(get_char(word, *i - active_point.Length)) != active_point.Root->Children.end()) {
+			if (active_point.Root->Children.find(get_char(word, *i - active_point.Length)) == active_point.Root->Children.end()) {
+				
+				// Indices are from current character to index
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
+
+				// Creating the new child node
 				active_point.Root->Children[get_char(word, *i - active_point.Length)] = std::make_unique<Node>(std::move(ind));
+
+				// remainder can never be less than 0, if it is we have nothing else to loop so go to next index
 				if (remainder > 0) --remainder;
 				else ++*i;
-				active_point.Root = root_node;
+
+				// Starts from the top every time or else would be creating non-existant suffixes
+				active_point.Root = root_node.get();
 				active_point.Edge = nullptr;
+				--active_point.Length;
 				continue;
 			}
 			
 
 			// There is an edge which exists, we must traverse it and split at the unequal index
-			if (get_char(word, active_point.Length) != get_char(word, *i)) {
+			if (get_char(word, active_point.Edge->a + active_point.Length) != get_char(word, *i)) {
 
 				// This is the new suffix added
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
-				std::cout << active_point.Edge << std::endl;
+
 				// This is the existing suffix being split and linked
 				std::unique_ptr<Ind> ind2 = std::make_unique<Ind>(active_point.Edge->Edge->a + active_point.Length, i);
 
-				std::cout << "a1" << std::endl;	
-				// Add new nodes as child nodes to split edge
-				active_point.Edge->Children[get_char(word, *i)] = std::make_unique<Node>(std::move(ind));
-				active_point.Edge->Children[get_char(word, active_point.Length)] = std::make_unique<Node>(std::move(ind2));
-
 				// Update the active node edge to only go from [a, L]
 				active_point.Edge->Edge->b = std::make_shared<int>(active_point.Edge->Edge->a + active_point.Length);
+
+				// Create split edge from original edge
+				std::make_unique<node> bottom_edge = std::make_unique<Node>(std::move(ind2));
+
+				// Simply move the existing hashmap of children
+				bottom_edge->Children = std::move(active_point->Edge->Children);
+				active_point->Edge->Children.clear();
+
+				// Add new nodes as child nodes to split edge
+				active_point.Edge->Children[get_char(word, *i)] = std::make_unique<Node>(std::move(ind));
+				active_point.Edge->Children[get_char(word, active_point.Length)] = std::move(bottom_edge);
 
 				// Reset to active root for remainder suffixes to be inserted (just a rerun with 1 less char)
 				active_point.Root = root_node.get();
 				active_point.Edge = nullptr;
 				if (active_point.Length) --active_point.Length;
 
-				// Move the next char if there are no remainders
-				if (!remainder) {
-					++*i;
-				}
-				else {
-					--remainder;
-				}
+				if (remainder > 0) --remainder;
+				else ++*i;
 				continue;
 			}
 			
@@ -100,7 +110,7 @@ namespace Suffix_Tree {
 			else {
 				++remainder;
 				// We know for next suffix all letters will equal, bump it so that they only check the newest one
-				active_point.Length++;
+				++active_point.Length;
 			}
 
 			++*i;
