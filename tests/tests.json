@@ -273,6 +273,485 @@
 					}
 				}
 			}
+		},
+		"Quad Same Char": {
+			"word": "aaaa",
+			"exp": {
+				"Edge": null,
+				"Children": {
+					"a": {
+						"Edge": [0, 1],
+						"Children": {
+							"$": { "Edge": [4, 5], "Children": {} },
+							"a": {
+								"Edge": [1, 2],
+								"Children": {
+									"$": { "Edge": [4, 5], "Children": {} },
+									"a": {
+										"Edge": [2, 3],
+										"Children": {
+											"$": { "Edge": [4, 5], "Children": {} },
+											"a": { "Edge": [3, 4], "Children": {} }
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"Run Then Break": {
+			"word": "aaab",
+			"exp": {
+				"Edge": null,
+				"Children": {
+					"a": {
+						"Edge": [0, 1],
+						"Children": {
+							"a": {
+								"Edge": [1, 2],
+								"Children": {
+									"a": { "Edge": [2, 4], "Children": {} },
+									"b": { "Edge": [3, 4], "Children": {} }
+								}
+							},
+							"b": { "Edge": [3, 4], "Children": {} }
+						}
+					},
+					"b": { "Edge": [3, 4], "Children": {} }
+				}
+			}
+		},
+		"Break Then Run": {
+			"word": "baaa",
+			"exp": {
+				"Edge": null,
+				"Children": {
+					"a": {
+						"Edge": [1, 2],
+						"Children": {
+							"$": { "Edge": [4, 5], "Children": {} },
+							"a": {
+								"Edge": [2, 3],
+								"Children": {
+									"$": { "Edge": [4, 5], "Children": {} },
+									"a": { "Edge": [3, 4], "Children": {} }
+								}
+							}
+						}
+					},
+					"b": { "Edge": [0, 4], "Children": {} }
+				}
+			}
+		},
+		"Full Repeat": {
+			"word": "abcabc",
+			"exp": {
+				"Edge": null,
+				"Children": {
+					"a": {
+						"Edge": [0, 3],
+						"Children": {
+							"$": { "Edge": [6, 7], "Children": {} },
+							"a": { "Edge": [3, 6], "Children": {} }
+						}
+					},
+					"b": {
+						"Edge": [1, 3],
+						"Children": {
+							"$": { "Edge": [6, 7], "Children": {} },
+							"a": { "Edge": [3, 6], "Children": {} }
+						}
+					},
+					"c": {
+						"Edge": [2, 3],
+						"Children": {
+							"$": { "Edge": [6, 7], "Children": {} },
+							"a": { "Edge": [3, 6], "Children": {} }
+						}
+					}
+				}
+			}
+		},
+		"Triple Repeat": {
+			"word": "abcabcabc",
+			"exp": {
+				"Edge": null,
+				"Children": {
+					"a": {
+						"Edge": [0, 3],
+						"Children": {
+							"$": { "Edge": [9, 10], "Children": {} },
+							"a": {
+								"Edge": [3, 6],
+								"Children": {
+									"$": { "Edge": [9, 10], "Children": {} },
+									"a": { "Edge": [6, 9], "Children": {} }
+								}
+							}
+						}
+					},
+					"b": {
+						"Edge": [1, 3],
+						"Children": {
+							"$": { "Edge": [9, 10], "Children": {} },
+							"a": {
+								"Edge": [3, 6],
+								"Children": {
+									"$": { "Edge": [9, 10], "Children": {} },
+									"a": { "Edge": [6, 9], "Children": {} }
+								}
+							}
+						}
+					},
+					"c": {
+						"Edge": [2, 3],
+						"Children": {
+							"$": { "Edge": [9, 10], "Children": {} },
+							"a": {
+								"Edge": [3, 6],
+								"Children": {
+									"$": { "Edge": [9, 10], "Children": {} },
+									"a": { "Edge": [6, 9], "Children": {} }
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"Nested Palindrome": {
+			"word": "abacaba",
+			"exp": {
+				"Edge": null,
+				"Children": {
+					"a": {
+						"Edge": [0, 1],
+						"Children": {
+							"$": { "Edge": [7, 8], "Children": {} },
+							"b": {
+								"Edge": [1, 3],
+								"Children": {
+									"$": { "Edge": [7, 8], "Children": {} },
+									"c": { "Edge": [3, 7], "Children": {} }
+								}
+							},
+							"c": { "Edge": [3, 7], "Children": {} }
+						}
+					},
+					"b": {
+						"Edge": [1, 3],
+						"Children": {
+							"$": { "Edge": [7, 8], "Children": {} },
+							"c": { "Edge": [3, 7], "Children": {} }
+						}
+					},
+					"c": { "Edge": [3, 7], "Children": {} }
+				}
+			}
+		},
+		"Fibonacci": {
+			"word": "abaababaabaab",
+			"exp": {
+				"Edge": null,
+				"Children": {
+					"a": {
+						"Edge": [0, 1],
+						"Children": {
+							"a": {
+								"Edge": [3, 5],
+								"Children": {
+									"$": { "Edge": [13, 14], "Children": {} },
+									"a": {
+										"Edge": [5, 6],
+										"Children": {
+											"a": { "Edge": [11, 13], "Children": {} },
+											"b": { "Edge": [6, 13], "Children": {} }
+										}
+									}
+								}
+							},
+							"b": {
+								"Edge": [1, 2],
+								"Children": {
+									"$": { "Edge": [13, 14], "Children": {} },
+									"a": {
+										"Edge": [2, 3],
+										"Children": {
+											"a": {
+												"Edge": [3, 5],
+												"Children": {
+													"$": { "Edge": [13, 14], "Children": {} },
+													"a": {
+														"Edge": [5, 6],
+														"Children": {
+															"a": { "Edge": [11, 13], "Children": {} },
+															"b": { "Edge": [6, 13], "Children": {} }
+														}
+													}
+												}
+											},
+											"b": { "Edge": [6, 13], "Children": {} }
+										}
+									}
+								}
+							}
+						}
+					},
+					"b": {
+						"Edge": [1, 2],
+						"Children": {
+							"$": { "Edge": [13, 14], "Children": {} },
+							"a": {
+								"Edge": [2, 3],
+								"Children": {
+									"a": {
+										"Edge": [3, 5],
+										"Children": {
+											"$": { "Edge": [13, 14], "Children": {} },
+											"a": {
+												"Edge": [5, 6],
+												"Children": {
+													"a": { "Edge": [11, 13], "Children": {} },
+													"b": { "Edge": [6, 13], "Children": {} }
+												}
+											}
+										}
+									},
+									"b": { "Edge": [6, 13], "Children": {} }
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"Walk Down xyzxyaxyz": {
+			"word": "xyzxyaxyz",
+			"exp": {
+				"Edge": null,
+				"Children": {
+					"a": { "Edge": [5, 9], "Children": {} },
+					"x": {
+						"Edge": [0, 2],
+						"Children": {
+							"a": { "Edge": [5, 9], "Children": {} },
+							"z": {
+								"Edge": [2, 3],
+								"Children": {
+									"$": { "Edge": [9, 10], "Children": {} },
+									"x": { "Edge": [3, 9], "Children": {} }
+								}
+							}
+						}
+					},
+					"y": {
+						"Edge": [1, 2],
+						"Children": {
+							"a": { "Edge": [5, 9], "Children": {} },
+							"z": {
+								"Edge": [2, 3],
+								"Children": {
+									"$": { "Edge": [9, 10], "Children": {} },
+									"x": { "Edge": [3, 9], "Children": {} }
+								}
+							}
+						}
+					},
+					"z": {
+						"Edge": [2, 3],
+						"Children": {
+							"$": { "Edge": [9, 10], "Children": {} },
+							"x": { "Edge": [3, 9], "Children": {} }
+						}
+					}
+				}
+			}
+		},
+		"Suffix Link cdddcdc": {
+			"word": "cdddcdc",
+			"exp": {
+				"Edge": null,
+				"Children": {
+					"c": {
+						"Edge": [0, 1],
+						"Children": {
+							"$": { "Edge": [7, 8], "Children": {} },
+							"d": {
+								"Edge": [1, 2],
+								"Children": {
+									"c": { "Edge": [6, 7], "Children": {} },
+									"d": { "Edge": [2, 7], "Children": {} }
+								}
+							}
+						}
+					},
+					"d": {
+						"Edge": [1, 2],
+						"Children": {
+							"c": {
+								"Edge": [4, 5],
+								"Children": {
+									"$": { "Edge": [7, 8], "Children": {} },
+									"d": { "Edge": [5, 7], "Children": {} }
+								}
+							},
+							"d": {
+								"Edge": [2, 3],
+								"Children": {
+									"c": { "Edge": [4, 7], "Children": {} },
+									"d": { "Edge": [3, 7], "Children": {} }
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"Suffix Link dedododeeodo": {
+			"word": "dedododeeodo",
+			"exp": {
+				"Edge": null,
+				"Children": {
+					"d": {
+						"Edge": [0, 1],
+						"Children": {
+							"e": {
+								"Edge": [1, 2],
+								"Children": {
+									"d": { "Edge": [2, 12], "Children": {} },
+									"e": { "Edge": [8, 12], "Children": {} }
+								}
+							},
+							"o": {
+								"Edge": [3, 4],
+								"Children": {
+									"$": { "Edge": [12, 13], "Children": {} },
+									"d": {
+										"Edge": [4, 5],
+										"Children": {
+											"e": { "Edge": [7, 12], "Children": {} },
+											"o": { "Edge": [5, 12], "Children": {} }
+										}
+									}
+								}
+							}
+						}
+					},
+					"e": {
+						"Edge": [1, 2],
+						"Children": {
+							"d": { "Edge": [2, 12], "Children": {} },
+							"e": { "Edge": [8, 12], "Children": {} },
+							"o": { "Edge": [9, 12], "Children": {} }
+						}
+					},
+					"o": {
+						"Edge": [3, 4],
+						"Children": {
+							"$": { "Edge": [12, 13], "Children": {} },
+							"d": {
+								"Edge": [4, 5],
+								"Children": {
+									"e": { "Edge": [7, 12], "Children": {} },
+									"o": {
+										"Edge": [5, 6],
+										"Children": {
+											"$": { "Edge": [12, 13], "Children": {} },
+											"d": { "Edge": [6, 12], "Children": {} }
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"Walk Down abcdefabxybcdmnabcdex": {
+			"word": "abcdefabxybcdmnabcdex",
+			"exp": {
+				"Edge": null,
+				"Children": {
+					"a": {
+						"Edge": [0, 2],
+						"Children": {
+							"c": {
+								"Edge": [2, 5],
+								"Children": {
+									"f": { "Edge": [5, 21], "Children": {} },
+									"x": { "Edge": [20, 21], "Children": {} }
+								}
+							},
+							"x": { "Edge": [8, 21], "Children": {} }
+						}
+					},
+					"b": {
+						"Edge": [1, 2],
+						"Children": {
+							"c": {
+								"Edge": [2, 4],
+								"Children": {
+									"e": {
+										"Edge": [4, 5],
+										"Children": {
+											"f": { "Edge": [5, 21], "Children": {} },
+											"x": { "Edge": [20, 21], "Children": {} }
+										}
+									},
+									"m": { "Edge": [13, 21], "Children": {} }
+								}
+							},
+							"x": { "Edge": [8, 21], "Children": {} }
+						}
+					},
+					"c": {
+						"Edge": [2, 4],
+						"Children": {
+							"e": {
+								"Edge": [4, 5],
+								"Children": {
+									"f": { "Edge": [5, 21], "Children": {} },
+									"x": { "Edge": [20, 21], "Children": {} }
+								}
+							},
+							"m": { "Edge": [13, 21], "Children": {} }
+						}
+					},
+					"d": {
+						"Edge": [3, 4],
+						"Children": {
+							"e": {
+								"Edge": [4, 5],
+								"Children": {
+									"f": { "Edge": [5, 21], "Children": {} },
+									"x": { "Edge": [20, 21], "Children": {} }
+								}
+							},
+							"m": { "Edge": [13, 21], "Children": {} }
+						}
+					},
+					"e": {
+						"Edge": [4, 5],
+						"Children": {
+							"f": { "Edge": [5, 21], "Children": {} },
+							"x": { "Edge": [20, 21], "Children": {} }
+						}
+					},
+					"f": { "Edge": [5, 21], "Children": {} },
+					"m": { "Edge": [13, 21], "Children": {} },
+					"n": { "Edge": [14, 21], "Children": {} },
+					"x": {
+						"Edge": [8, 9],
+						"Children": {
+							"$": { "Edge": [21, 22], "Children": {} },
+							"y": { "Edge": [9, 21], "Children": {} }
+						}
+					},
+					"y": { "Edge": [9, 21], "Children": {} }
+				}
+			}
 		}
 	}
 }
