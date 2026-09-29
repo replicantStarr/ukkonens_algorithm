@@ -49,11 +49,15 @@ namespace Suffix_Tree {
 
 		// We only need to loop while there are suffixes to add.
 		while (*i <= word.size()) {
+
 			// EXTENSION RULE 2 -> word[a, b] exists such that word[b + 1] != word[*i], and therefore the edge must now be split 
 			// word[a, L], where L is the current active length, with 2 children of [*i, i] and b[L, *i].
 			
+			// First find a candidate edge with the same prefix
+			std::unordered_map<char, std::unique_ptr<Node>>::const_iterator find_edge = active_point.Root->Children.find(get_char(word, *i - active_point.Length));
+			
 			// When no edge exists, it's simply comparing word[i] to an empty string, which essentially is a garunteed split
-			if (active_point.Root->Children.find(get_char(word, *i - active_point.Length)) == active_point.Root->Children.end()) {
+			if (find_edge == active_point.Root->Children.End()) {
 				
 				// Indices are from current character to index
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
@@ -71,7 +75,9 @@ namespace Suffix_Tree {
 				--active_point.Length;
 				continue;
 			}
-			
+		
+			// The found edge is now traversed down 
+			active_point.Edge = find_edge->second.get();
 
 			// There is an edge which exists, we must traverse it and split at the unequal index
 			if (get_char(word, active_point.Edge->Edge->a + active_point.Length) != get_char(word, *i)) {
