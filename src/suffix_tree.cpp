@@ -52,13 +52,8 @@ namespace Suffix_Tree {
 			// EXTENSION RULE 1 -> If current word[a, b] is on a leaf edge, and i = b + 1 || b = -1, then add s[i] to the end of the edge.
 			std::cout << getchar(word, *i) << std::endl;
 			if (active_point.Root->Children[getchar(word, *i)] == nullptr) {
-				std::cout << "null 123" << std::endl;
-				// If the active node is the main root, no edge exists so just start from 0
-				// Otherwise actually use the end of the last node to continue the string
-				int start = active_point.Root->Edge ? active_point.Root->Edge->a : 0;
-
 				// Point to the current index, it will increase each loop;
-				std::unique_ptr<Ind> ind = std::make_unique<Ind>(start, i);
+				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
 
 				// Push the new node into the root to create an edge
 				active_point.Root->Children[getchar(word, *i)] = std::make_unique<Node>(std::move(ind));
@@ -76,7 +71,7 @@ namespace Suffix_Tree {
 			// word[a, L], where L is the current active length, and 2 children of [i, -1] and b[L, -1].
 			std::cout << getchar(word, active_point.Length) << std::endl; 
 			if (getchar(word, active_point.Length) != getchar(word, *i)) {	
-				std::cout << " o " << std::endl;
+				std::cout << "t" << std::endl;
 				// Assign the active edge to the edge outgoing from the root which is equal to first char of the suffix.
 				active_point.Edge = active_point.Root->Children[getchar(word, *i)].get();
 

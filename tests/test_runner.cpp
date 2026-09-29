@@ -56,15 +56,10 @@ namespace Test_Runner {
 			json exp_top = json_queue.front();
 			json_queue.pop();
 
-
 			assert_node(res_top, exp_top);
 			
-			for (const auto& [id, node]: res_top->Children) {
-				res_queue.push(node.get());
-			}
-
-			for (const auto& exp_node: exp_top["Children"]) {
-				std::cout << "Expected Node " << exp_node << std::endl;
+			for (const auto& [id, exp_node]: exp_top["Children"].items()) {
+				res_queue.push(res_top->Children[exp_node.get<std::string>()[0]].get());
 				json_queue.push(exp[std::to_string(exp_node.get<std::uint64_t>())]);
 			}
 		}
