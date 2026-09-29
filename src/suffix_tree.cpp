@@ -57,7 +57,7 @@ namespace Suffix_Tree {
 			std::unordered_map<char, std::unique_ptr<Node>>::const_iterator find_edge = active_point.Root->Children.find(get_char(word, *i - active_point.Length));
 			
 			// When no edge exists, it's simply comparing word[i] to an empty string, which essentially is a garunteed split
-			if (find_edge == active_point.Root->Children.End()) {
+			if (find_edge == active_point.Root->Children.end()) {
 				
 				// Indices are from current character to index
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
@@ -72,11 +72,13 @@ namespace Suffix_Tree {
 				// Starts from the top every time or else would be creating non-existant suffixes
 				active_point.Root = root_node.get();
 				active_point.Edge = nullptr;
-				--active_point.Length;
+
+				// New node has been added so remainder decreases, length cannot be greater than remainder
+				active_point.Length = remainder;
 				continue;
 			}
 		
-			// The found edge is now traversed down 
+			// The found edge is now traversed down because of equal prefixes
 			active_point.Edge = find_edge->second.get();
 
 			// There is an edge which exists, we must traverse it and split at the unequal index
@@ -102,13 +104,16 @@ namespace Suffix_Tree {
 				active_point.Edge->Children[get_char(word, *i)] = std::make_unique<Node>(std::move(ind));
 				active_point.Edge->Children[get_char(word, active_point.Edge->Edge->a + active_point.Length)] = std::move(bottom_edge);
 
+				if (remainder > 0) --remainder;
+				else ++*i;
+
 				// Reset to active root for remainder suffixes to be inserted (just a rerun with 1 less char)
 				active_point.Root = root_node.get();
 				active_point.Edge = nullptr;
-				if (active_point.Length) --active_point.Length;
 
-				if (remainder > 0) --remainder;
-				else ++*i;
+				// New node split, length cannot be greater than remainder
+				active_point.Length = remainder;
+
 				continue;
 			}
 			
