@@ -20,11 +20,10 @@ namespace Suffix_Tree {
 	//
 
 	// Simple function to take whatever the current word is and at the terminal $
-	// This is very important for processing
-	char get_char(std::string w, int i) {
-		if (i < w.size()) return w[i];
-		if (i == w.size()) return '$';
-		throw new std::runtime_error("Index has no character");
+	// Throws an error by default
+	char get_char(const std::string w, int i) {
+		if (i != w.size()) return w[i];
+		else return '$';
 	}
 
 	std::unique_ptr<Node> create(std::string word) {
