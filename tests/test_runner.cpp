@@ -62,7 +62,7 @@ namespace Test_Runner {
 			assert_node(res_top, exp_top);
 
 			for (const auto& id: exp_top["Children"]) {
-				json exp_node = exp[std::stoi(id)];
+				json exp_node = exp[std::stoi(id.get<std::string>())];
 				int index = exp_node["Edge"][0].get<std::uint64_t>();
 				res_queue.push(res_top->Children[Suffix_Tree::get_char(word, index)].get());
 				json_queue.push(exp_node);
