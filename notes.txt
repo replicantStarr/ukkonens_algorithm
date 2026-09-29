@@ -345,3 +345,6 @@ on each loop
 suffix addition made no sense, it's only added to when skipped and minused from when inserted.
 
 Another issue is that length is being decremented when it's 0. 
+
+==== TEST CASE ISSUE
+for empty string it didn't have the $ sign connected.  Checked with claude to only update the test cases so that its a node connected to root.

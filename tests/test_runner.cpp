@@ -59,6 +59,7 @@ namespace Test_Runner {
 			assert_node(top, exp_top);
 
 			for (const auto& [k, n]: top->Children) {
+				std::cout << "Node " << k << std::endl;
 				res_queue.push(n.get());
 			}
 			
