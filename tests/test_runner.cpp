@@ -62,15 +62,9 @@ namespace Test_Runner {
 			assert_node(res_top, exp_top);
 
 			for (const auto& id: exp_top["Children"]) {
-				std::cout << id << std::endl;
 				json exp_node = exp[std::to_string(id.get<std::uint64_t>())];
-				std::cout << "2" << std::endl;
 				int index = exp_node["Edge"][0].get<std::uint64_t>();
-
-				std::cout << "3" << std::endl;
 				res_queue.push(res_top->Children[Suffix_Tree::get_char(word, index)].get());
-
-				std::cout << "4" << std::endl;
 				json_queue.push(exp_node);
 			}
 		}
