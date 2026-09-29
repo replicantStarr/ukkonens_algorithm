@@ -329,3 +329,19 @@ There was a problem with conditional checking for the while loop, fixed it and n
 None of my output statements are appearing on the error, it's in one of the if statements.
 
 Found it, the active length isnt being initialised.
+
+Now getting a segmentation fault, this is most likely.
+
+The biggest unfixed problems are
+1. Remainder isn't looped until 0
+2. -1 isn't dealt with
+
+To fix the first, in the 2nd extension rule the loop must occur until remainder equals 0
+on each loop
+	active node becomes root
+	Then the edge is set (its garunteed to already be added)
+	decrement length
+
+suffix addition made no sense, it's only added to when skipped and minused from when inserted.
+
+Another issue is that length is being decremented when it's 0. 
