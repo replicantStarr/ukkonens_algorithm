@@ -53,16 +53,17 @@ namespace Suffix_Tree {
 			// word[a, L], where L is the current active length, with 2 children of [*i, i] and b[L, *i].
 			
 			// When no edge exists, it's simply comparing word[i] to an empty string, which essentially is a garunteed split
-			if (!active_point.Root->Children[word[*i - active_point.Length]]) {
+			if (active_point.Root->Children.find(get_char(word, *i - active_point.Length)) != active_point.Root->Children.end()) {
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
-				active_point.Edge->Children[word[*i - active_point.Length]] = std::make_unique<Node>(std::move(ind));
+				active_point.Root->Children[get_char(word, *i - active_point.Length)] = std::make_unique<Node>(std::move(ind));
 				if (remainder > 0) --remainder;
 				else ++*i;
 				continue;
 			}
+			
+
+			// There is an edge which exists, we must traverse it and split at the unequal index
 			if (get_char(word, active_point.Length) != get_char(word, *i)) {
-				std::cout << "i " << *i << std::endl;
-				std::cout << "t" << std::endl;
 
 				// This is the new suffix added
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
