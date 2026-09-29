@@ -383,3 +383,14 @@ I was wrong
 and many things too. The assesrtions were incorrect, and the rules I've written are too.
 
 This is fine, I suspected too which is why I double checked.  I've noticed in my code I got it completely wrong.  Removed the first rule because thats what my shared pointer is for.
+
+I think the best step moving forward is to just refresh the implementation.
+
+Im first going to resetablish what I need and why.
+
+I need to figure out
+	1. WHy do I need active point
+	2. Where am I going to use it
+	3. How do I use it?
+
+One main issue is I was assuming that edge is a nullptr by default, it's not.  That could be part of the segmentation fault.

@@ -34,8 +34,11 @@ namespace Suffix_Tree {
 		// Root node has no character and no incoming edge
 		std::unique_ptr<Node> root_node = std::make_unique<Node>(nullptr);
 
-		// Assign the root to being the current active node
+		// The algorithm begins by operating on the root node
 		active_point.Root = root_node.get();
+		
+		// No outgoing edges exist yet to process
+		active_point.Edge = nullptr;
 		active_point.Length = 0;
 
 		// The number of leftover suffixes skipped to be inserted later
@@ -46,12 +49,8 @@ namespace Suffix_Tree {
 
 		// We only need to loop while there are suffixes to add.
 		while (*i <= word.size()) {
-			// EXTENSION RULE 2 -> word[a, b] exists such that word[b + 1] != word[i], and therefore the edge must now be split into
-			if (!active_point.Edge->Children[word[*i]]) {
-				// Create Node
-			}
-
-			// word[a, L], where L is the current active length, and 2 children of [i, -1] and b[L, -1].
+			// EXTENSION RULE 2 -> word[a, b] exists such that word[b + 1] != word[*i], and therefore the edge must now be split 
+			// word[a, L], where L is the current active length, with 2 children of [*i, i] and b[L, *i].
 			if (get_char(word, active_point.Length) != get_char(word, *i)) {
 				std::cout << "i " << *i << std::endl;
 				std::cout << "t" << std::endl;
