@@ -56,12 +56,10 @@ namespace Test_Runner {
 			json exp_top = json_queue.front();
 			json_queue.pop();
 
-			std::cout << "exp " << exp_top << std::endl;
 
 			assert_node(res_top, exp_top);
 			
 			for (const auto& [id, node]: res_top->Children) {
-				std::cout << "Node " << id << std::endl;
 				res_queue.push(node.get());
 			}
 
