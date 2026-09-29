@@ -74,7 +74,7 @@ namespace Suffix_Tree {
 			
 
 			// There is an edge which exists, we must traverse it and split at the unequal index
-			if (get_char(word, active_point.Edge->a + active_point.Length) != get_char(word, *i)) {
+			if (get_char(word, active_point.Edge->Edge->a + active_point.Length) != get_char(word, *i)) {
 
 				// This is the new suffix added
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
@@ -86,11 +86,11 @@ namespace Suffix_Tree {
 				active_point.Edge->Edge->b = std::make_shared<int>(active_point.Edge->Edge->a + active_point.Length);
 
 				// Create split edge from original edge
-				std::make_unique<node> bottom_edge = std::make_unique<Node>(std::move(ind2));
+				std::make_unique<Node> bottom_edge = std::make_unique<Node>(std::move(ind2));
 
 				// Simply move the existing hashmap of children
-				bottom_edge->Children = std::move(active_point->Edge->Children);
-				active_point->Edge->Children.clear();
+				bottom_edge->Children = std::move(active_point.Edge->Children);
+				active_point.Edge->Children.clear();
 
 				// Add new nodes as child nodes to split edge
 				active_point.Edge->Children[get_char(word, *i)] = std::make_unique<Node>(std::move(ind));

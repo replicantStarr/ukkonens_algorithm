@@ -405,3 +405,5 @@ If I remember correctly, each operation should reset back to node, or else it wo
 Another issue caught, when I split I dont move the children which will garuntee to cause an error
 
 I get the feeling it would be way better to just have a pointer to the vectors, that way you could easily pass them between.
+
+Found a few errors to do with syuntax, such as pointer for active point.
