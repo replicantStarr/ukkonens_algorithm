@@ -57,6 +57,7 @@ namespace Suffix_Tree {
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
 				active_point.Edge->Children[word[*i - active_point.Length]] = std::make_unique<Node>(std::move(ind));
 				if (remainder > 0) --remainder;
+				else ++*i;
 				continue;
 			}
 			if (get_char(word, active_point.Length) != get_char(word, *i)) {
