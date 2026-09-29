@@ -376,3 +376,10 @@ Remainder logic exists that if its > 0 on extension 1 it continues.
 =====
 ALL TEST CASES PASS :):):):)
 Switching to the newer type of test cases where edges are chars just removes the conversion process.  Im so glad I can move onto the commentary :)
+
+=====
+I was wrong
+
+and many things too. The assesrtions were incorrect, and the rules I've written are too.
+
+This is fine, I suspected too which is why I double checked.  I've noticed in my code I got it completely wrong.  Removed the first rule because thats what my shared pointer is for.

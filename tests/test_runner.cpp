@@ -83,7 +83,6 @@ namespace Test_Runner {
 			if (result.get() == nullptr) {
 				throw std::runtime_error("Null pointer returned");
 			}
-			std::cout << test["exp"] << std::endl;
 			assert_result(result.get(), test["exp"], test["word"].get<std::string>());
 		}
 		catch (const std::exception& ex) {

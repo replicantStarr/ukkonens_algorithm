@@ -41,42 +41,30 @@ namespace Suffix_Tree {
 		// The number of leftover suffixes skipped to be inserted later
 		int remainder = 0;
 
-		// Our index of the current character being processed in word
+		// EXTENSION RULE 1 -> Automatically updates word[a, i] such that the leaf edge extends each iteration.
 		std::shared_ptr<int> i = std::make_shared<int>(0);
 
 		// We only need to loop while there are suffixes to add.
 		while (*i <= word.size()) {
-
-			if (!remainder) ++remainder;
-			// EXTENSION RULE 1 -> If current word[a, b] is on a leaf edge, and i = b + 1 || b = -1, then add s[i] to the end of the edge.
-			if (active_point.Root->Children[getchar(word, *i)] == nullptr) {
-				// Point to the current index, it will increase each loop;
-				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
-
-				// Push the new node into the root to create an edge
-				active_point.Root->Children[getchar(word, *i)] = std::make_unique<Node>(std::move(ind));
-
-				// Suffix is inserted
-				--remainder;
-
-				if (!remainder) {
-					++*i;
-					continue;
-				}
+			// Assign the active edge to the edge outgoing from the root which is equal to first char of the suffix.
+			if (!active_point.Edge) {
+				std::cout << "tres" << std::endl;
+				active_point.Edge = active_point.Root->Children[getchar(word, *i)].get();
 			}
 
 			// EXTENSION RULE 2 -> word[a, b] exists such that word[b + 1] != word[i], and therefore the edge must now be split into
 			// word[a, L], where L is the current active length, and 2 children of [i, -1] and b[L, -1].
-			if (getchar(word, active_point.Length) != getchar(word, *i)) {	
-				// Assign the active edge to the edge outgoing from the root which is equal to first char of the suffix.
-				active_point.Edge = active_point.Root->Children[getchar(word, *i)].get();
+			if (getchar(word, active_point.Length) != getchar(word, *i)) {
+				std::cout << "i " << *i << std::endl;
+				std::cout << "t" << std::endl;
 
 				// This is the new suffix added
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
-				
+				std::cout << active_point.Edge << std::endl;
 				// This is the existing suffix being split and linked
 				std::unique_ptr<Ind> ind2 = std::make_unique<Ind>(active_point.Edge->Edge->a + active_point.Length, i);
 
+				std::cout << "a1" << std::endl;	
 				// Add new nodes as child nodes to split edge
 				active_point.Edge->Children[getchar(word, *i)] = std::make_unique<Node>(std::move(ind));
 				active_point.Edge->Children[getchar(word, active_point.Length)] = std::make_unique<Node>(std::move(ind2));
@@ -84,26 +72,26 @@ namespace Suffix_Tree {
 				// Update the active node edge to only go from [a, L]
 				active_point.Edge->Edge->b = std::make_shared<int>(active_point.Edge->Edge->a + active_point.Length);
 
-				// Suffix was inserted
-				--remainder;
-
 				// Reset to active root for remainder suffixes to be inserted (just a rerun with 1 less char)
 				active_point.Root = root_node.get();
 				active_point.Edge = nullptr;
 				if (active_point.Length) --active_point.Length;
 
 				// Move the next char if there are no remainders
-				if (!remainder) ++*i;
+				if (!remainder) {
+					++*i;
+				}
+				else {
+					--remainder;
+				}
 				continue;
 			}
 			
 			// EXTENSION RULE 3 -> word[a, b] exists such that word[b + 1] = word[i].  This means the next char should be processed so length is bumped.
 			else {
+				++remainder;
 				// We know for next suffix all letters will equal, bump it so that they only check the newest one
 				active_point.Length++;
-				
-				// The current suffix was not inserted so it's now a remainder
-				++remainder;
 			}
 
 			++*i;
