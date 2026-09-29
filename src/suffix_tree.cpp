@@ -26,7 +26,7 @@ namespace Suffix_Tree {
 		if (i == w.size()) return '$';
 		throw new std::runtime_error("Index has no character");
 	}
-	
+
 	std::unique_ptr<Node> create(std::string word) {
 		// Keeps track of current edge root node, edge character and edge length -- all 3 crucial to Ukkonen's
 		Active_Point active_point;
@@ -58,6 +58,8 @@ namespace Suffix_Tree {
 				active_point.Root->Children[get_char(word, *i - active_point.Length)] = std::make_unique<Node>(std::move(ind));
 				if (remainder > 0) --remainder;
 				else ++*i;
+				active_point.Root = root_node;
+				active_point.Edge = nullptr;
 				continue;
 			}
 			

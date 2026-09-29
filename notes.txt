@@ -399,4 +399,4 @@ So what do I know about the 2nd extension?
 I know that if the character is new to the node I need to add it
 and I know that if it's not new then it splits the edge.
 
-I will focus one at a time here
+If I remember correctly, each operation should reset back to node, or else it won't be able to detect the correct edge
