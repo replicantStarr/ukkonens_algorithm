@@ -3,754 +3,378 @@
 		"Empty": {
 			"word": "",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"$": { "Edge": [0, 1], "Children": {} }
-				}
+				"0": { "Edge": null, "Children": ["$"] },
+				"$": { "Edge": [0, 1], "Children": [] }
 			}
 		},
 		"Single Char": {
 			"word": "a",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": { "Edge": [0, 1], "Children": {} }
-				}
+				"0": { "Edge": null, "Children": ["a"] },
+				"a": { "Edge": [0, 1], "Children": [] }
 			}
 		},
 		"Double Same Char": {
 			"word": "aa",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": {
-						"Edge": [0, 1],
-						"Children": {
-							"$": { "Edge": [2, 3], "Children": {} },
-							"a": { "Edge": [1, 2], "Children": {} }
-						}
-					}
-				}
+				"0":  { "Edge": null, "Children": ["a"] },
+				"a":  { "Edge": [0, 1], "Children": ["$", "a"] },
+				"a$": { "Edge": [2, 3], "Children": [] },
+				"aa": { "Edge": [1, 2], "Children": [] }
 			}
 		},
 		"Double Different Char": {
 			"word": "ab",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": { "Edge": [0, 2], "Children": {} },
-					"b": { "Edge": [1, 2], "Children": {} }
-				}
+				"0": { "Edge": null, "Children": ["a", "b"] },
+				"a": { "Edge": [0, 2], "Children": [] },
+				"b": { "Edge": [1, 2], "Children": [] }
 			}
 		},
 		"Triple Same Char": {
 			"word": "aaa",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": {
-						"Edge": [0, 1],
-						"Children": {
-							"$": { "Edge": [3, 4], "Children": {} },
-							"a": {
-								"Edge": [1, 2],
-								"Children": {
-									"$": { "Edge": [3, 4], "Children": {} },
-									"a": { "Edge": [2, 3], "Children": {} }
-								}
-							}
-						}
-					}
-				}
+				"0":   { "Edge": null, "Children": ["a"] },
+				"a":   { "Edge": [0, 1], "Children": ["$", "a"] },
+				"a$":  { "Edge": [3, 4], "Children": [] },
+				"aa":  { "Edge": [1, 2], "Children": ["$", "a"] },
+				"aa$": { "Edge": [3, 4], "Children": [] },
+				"aaa": { "Edge": [2, 3], "Children": [] }
 			}
 		},
 		"Triple Different Char": {
 			"word": "abc",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": { "Edge": [0, 3], "Children": {} },
-					"b": { "Edge": [1, 3], "Children": {} },
-					"c": { "Edge": [2, 3], "Children": {} }
-				}
+				"0": { "Edge": null, "Children": ["a", "b", "c"] },
+				"a": { "Edge": [0, 3], "Children": [] },
+				"b": { "Edge": [1, 3], "Children": [] },
+				"c": { "Edge": [2, 3], "Children": [] }
 			}
 		},
 		"Repeated First Char": {
 			"word": "aab",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": {
-						"Edge": [0, 1],
-						"Children": {
-							"a": { "Edge": [1, 3], "Children": {} },
-							"b": { "Edge": [2, 3], "Children": {} }
-						}
-					},
-					"b": { "Edge": [2, 3], "Children": {} }
-				}
+				"0":  { "Edge": null, "Children": ["a", "b"] },
+				"a":  { "Edge": [0, 1], "Children": ["a", "b"] },
+				"b":  { "Edge": [2, 3], "Children": [] },
+				"aa": { "Edge": [1, 3], "Children": [] },
+				"ab": { "Edge": [2, 3], "Children": [] }
 			}
 		},
 		"Short Palindrome": {
 			"word": "aba",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": {
-						"Edge": [0, 1],
-						"Children": {
-							"$": { "Edge": [3, 4], "Children": {} },
-							"b": { "Edge": [1, 3], "Children": {} }
-						}
-					},
-					"b": { "Edge": [1, 3], "Children": {} }
-				}
+				"0":  { "Edge": null, "Children": ["a", "b"] },
+				"a":  { "Edge": [0, 1], "Children": ["$", "b"] },
+				"b":  { "Edge": [1, 3], "Children": [] },
+				"a$": { "Edge": [3, 4], "Children": [] },
+				"ab": { "Edge": [1, 3], "Children": [] }
 			}
 		},
 		"Repeated Pair": {
 			"word": "abab",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": {
-						"Edge": [0, 2],
-						"Children": {
-							"$": { "Edge": [4, 5], "Children": {} },
-							"a": { "Edge": [2, 4], "Children": {} }
-						}
-					},
-					"b": {
-						"Edge": [1, 2],
-						"Children": {
-							"$": { "Edge": [4, 5], "Children": {} },
-							"a": { "Edge": [2, 4], "Children": {} }
-						}
-					}
-				}
+				"0":  { "Edge": null, "Children": ["a", "b"] },
+				"a":  { "Edge": [0, 2], "Children": ["$", "a"] },
+				"b":  { "Edge": [1, 2], "Children": ["$", "a"] },
+				"a$": { "Edge": [4, 5], "Children": [] },
+				"aa": { "Edge": [2, 4], "Children": [] },
+				"b$": { "Edge": [4, 5], "Children": [] },
+				"ba": { "Edge": [2, 4], "Children": [] }
 			}
 		},
 		"Banana": {
 			"word": "banana",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": {
-						"Edge": [1, 2],
-						"Children": {
-							"$": { "Edge": [6, 7], "Children": {} },
-							"n": {
-								"Edge": [2, 4],
-								"Children": {
-									"$": { "Edge": [6, 7], "Children": {} },
-									"n": { "Edge": [4, 6], "Children": {} }
-								}
-							}
-						}
-					},
-					"b": { "Edge": [0, 6], "Children": {} },
-					"n": {
-						"Edge": [2, 4],
-						"Children": {
-							"$": { "Edge": [6, 7], "Children": {} },
-							"n": { "Edge": [4, 6], "Children": {} }
-						}
-					}
-				}
+				"0":   { "Edge": null, "Children": ["a", "b", "n"] },
+				"a":   { "Edge": [1, 2], "Children": ["$", "n"] },
+				"b":   { "Edge": [0, 6], "Children": [] },
+				"n":   { "Edge": [2, 4], "Children": ["$", "n"] },
+				"a$":  { "Edge": [6, 7], "Children": [] },
+				"an":  { "Edge": [2, 4], "Children": ["$", "n"] },
+				"n$":  { "Edge": [6, 7], "Children": [] },
+				"nn":  { "Edge": [4, 6], "Children": [] },
+				"an$": { "Edge": [6, 7], "Children": [] },
+				"ann": { "Edge": [4, 6], "Children": [] }
 			}
 		},
 		"Gusfield xabxac": {
 			"word": "xabxac",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": {
-						"Edge": [1, 2],
-						"Children": {
-							"b": { "Edge": [2, 6], "Children": {} },
-							"c": { "Edge": [5, 6], "Children": {} }
-						}
-					},
-					"b": { "Edge": [2, 6], "Children": {} },
-					"c": { "Edge": [5, 6], "Children": {} },
-					"x": {
-						"Edge": [0, 2],
-						"Children": {
-							"b": { "Edge": [2, 6], "Children": {} },
-							"c": { "Edge": [5, 6], "Children": {} }
-						}
-					}
-				}
+				"0":  { "Edge": null, "Children": ["a", "b", "c", "x"] },
+				"a":  { "Edge": [1, 2], "Children": ["b", "c"] },
+				"b":  { "Edge": [2, 6], "Children": [] },
+				"c":  { "Edge": [5, 6], "Children": [] },
+				"x":  { "Edge": [0, 2], "Children": ["b", "c"] },
+				"ab": { "Edge": [2, 6], "Children": [] },
+				"ac": { "Edge": [5, 6], "Children": [] },
+				"xb": { "Edge": [2, 6], "Children": [] },
+				"xc": { "Edge": [5, 6], "Children": [] }
 			}
 		},
 		"Ukkonen abcabxabcd": {
 			"word": "abcabxabcd",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": {
-						"Edge": [0, 2],
-						"Children": {
-							"c": {
-								"Edge": [2, 3],
-								"Children": {
-									"a": { "Edge": [3, 10], "Children": {} },
-									"d": { "Edge": [9, 10], "Children": {} }
-								}
-							},
-							"x": { "Edge": [5, 10], "Children": {} }
-						}
-					},
-					"b": {
-						"Edge": [1, 2],
-						"Children": {
-							"c": {
-								"Edge": [2, 3],
-								"Children": {
-									"a": { "Edge": [3, 10], "Children": {} },
-									"d": { "Edge": [9, 10], "Children": {} }
-								}
-							},
-							"x": { "Edge": [5, 10], "Children": {} }
-						}
-					},
-					"c": {
-						"Edge": [2, 3],
-						"Children": {
-							"a": { "Edge": [3, 10], "Children": {} },
-							"d": { "Edge": [9, 10], "Children": {} }
-						}
-					},
-					"d": { "Edge": [9, 10], "Children": {} },
-					"x": { "Edge": [5, 10], "Children": {} }
-				}
+				"0":   { "Edge": null, "Children": ["a", "b", "c", "d", "x"] },
+				"a":   { "Edge": [0, 2], "Children": ["c", "x"] },
+				"b":   { "Edge": [1, 2], "Children": ["c", "x"] },
+				"c":   { "Edge": [2, 3], "Children": ["a", "d"] },
+				"d":   { "Edge": [9, 10], "Children": [] },
+				"x":   { "Edge": [5, 10], "Children": [] },
+				"ac":  { "Edge": [2, 3], "Children": ["a", "d"] },
+				"ax":  { "Edge": [5, 10], "Children": [] },
+				"bc":  { "Edge": [2, 3], "Children": ["a", "d"] },
+				"bx":  { "Edge": [5, 10], "Children": [] },
+				"ca":  { "Edge": [3, 10], "Children": [] },
+				"cd":  { "Edge": [9, 10], "Children": [] },
+				"aca": { "Edge": [3, 10], "Children": [] },
+				"acd": { "Edge": [9, 10], "Children": [] },
+				"bca": { "Edge": [3, 10], "Children": [] },
+				"bcd": { "Edge": [9, 10], "Children": [] }
 			}
 		},
 		"Mississippi": {
 			"word": "mississippi",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"i": {
-						"Edge": [1, 2],
-						"Children": {
-							"$": { "Edge": [11, 12], "Children": {} },
-							"p": { "Edge": [8, 11], "Children": {} },
-							"s": {
-								"Edge": [2, 5],
-								"Children": {
-									"p": { "Edge": [8, 11], "Children": {} },
-									"s": { "Edge": [5, 11], "Children": {} }
-								}
-							}
-						}
-					},
-					"m": { "Edge": [0, 11], "Children": {} },
-					"p": {
-						"Edge": [8, 9],
-						"Children": {
-							"i": { "Edge": [10, 11], "Children": {} },
-							"p": { "Edge": [9, 11], "Children": {} }
-						}
-					},
-					"s": {
-						"Edge": [2, 3],
-						"Children": {
-							"i": {
-								"Edge": [4, 5],
-								"Children": {
-									"p": { "Edge": [8, 11], "Children": {} },
-									"s": { "Edge": [5, 11], "Children": {} }
-								}
-							},
-							"s": {
-								"Edge": [3, 5],
-								"Children": {
-									"p": { "Edge": [8, 11], "Children": {} },
-									"s": { "Edge": [5, 11], "Children": {} }
-								}
-							}
-						}
-					}
-				}
+				"0":   { "Edge": null, "Children": ["i", "m", "p", "s"] },
+				"i":   { "Edge": [1, 2], "Children": ["$", "p", "s"] },
+				"m":   { "Edge": [0, 11], "Children": [] },
+				"p":   { "Edge": [8, 9], "Children": ["i", "p"] },
+				"s":   { "Edge": [2, 3], "Children": ["i", "s"] },
+				"i$":  { "Edge": [11, 12], "Children": [] },
+				"ip":  { "Edge": [8, 11], "Children": [] },
+				"is":  { "Edge": [2, 5], "Children": ["p", "s"] },
+				"pi":  { "Edge": [10, 11], "Children": [] },
+				"pp":  { "Edge": [9, 11], "Children": [] },
+				"si":  { "Edge": [4, 5], "Children": ["p", "s"] },
+				"ss":  { "Edge": [3, 5], "Children": ["p", "s"] },
+				"isp": { "Edge": [8, 11], "Children": [] },
+				"iss": { "Edge": [5, 11], "Children": [] },
+				"sip": { "Edge": [8, 11], "Children": [] },
+				"sis": { "Edge": [5, 11], "Children": [] },
+				"ssp": { "Edge": [8, 11], "Children": [] },
+				"sss": { "Edge": [5, 11], "Children": [] }
 			}
 		},
 		"Quad Same Char": {
 			"word": "aaaa",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": {
-						"Edge": [0, 1],
-						"Children": {
-							"$": { "Edge": [4, 5], "Children": {} },
-							"a": {
-								"Edge": [1, 2],
-								"Children": {
-									"$": { "Edge": [4, 5], "Children": {} },
-									"a": {
-										"Edge": [2, 3],
-										"Children": {
-											"$": { "Edge": [4, 5], "Children": {} },
-											"a": { "Edge": [3, 4], "Children": {} }
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+				"0":    { "Edge": null, "Children": ["a"] },
+				"a":    { "Edge": [0, 1], "Children": ["$", "a"] },
+				"a$":   { "Edge": [4, 5], "Children": [] },
+				"aa":   { "Edge": [1, 2], "Children": ["$", "a"] },
+				"aa$":  { "Edge": [4, 5], "Children": [] },
+				"aaa":  { "Edge": [2, 3], "Children": ["$", "a"] },
+				"aaa$": { "Edge": [4, 5], "Children": [] },
+				"aaaa": { "Edge": [3, 4], "Children": [] }
 			}
 		},
 		"Run Then Break": {
 			"word": "aaab",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": {
-						"Edge": [0, 1],
-						"Children": {
-							"a": {
-								"Edge": [1, 2],
-								"Children": {
-									"a": { "Edge": [2, 4], "Children": {} },
-									"b": { "Edge": [3, 4], "Children": {} }
-								}
-							},
-							"b": { "Edge": [3, 4], "Children": {} }
-						}
-					},
-					"b": { "Edge": [3, 4], "Children": {} }
-				}
+				"0":   { "Edge": null, "Children": ["a", "b"] },
+				"a":   { "Edge": [0, 1], "Children": ["a", "b"] },
+				"b":   { "Edge": [3, 4], "Children": [] },
+				"aa":  { "Edge": [1, 2], "Children": ["a", "b"] },
+				"ab":  { "Edge": [3, 4], "Children": [] },
+				"aaa": { "Edge": [2, 4], "Children": [] },
+				"aab": { "Edge": [3, 4], "Children": [] }
 			}
 		},
 		"Break Then Run": {
 			"word": "baaa",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": {
-						"Edge": [1, 2],
-						"Children": {
-							"$": { "Edge": [4, 5], "Children": {} },
-							"a": {
-								"Edge": [2, 3],
-								"Children": {
-									"$": { "Edge": [4, 5], "Children": {} },
-									"a": { "Edge": [3, 4], "Children": {} }
-								}
-							}
-						}
-					},
-					"b": { "Edge": [0, 4], "Children": {} }
-				}
+				"0":   { "Edge": null, "Children": ["a", "b"] },
+				"a":   { "Edge": [1, 2], "Children": ["$", "a"] },
+				"b":   { "Edge": [0, 4], "Children": [] },
+				"a$":  { "Edge": [4, 5], "Children": [] },
+				"aa":  { "Edge": [2, 3], "Children": ["$", "a"] },
+				"aa$": { "Edge": [4, 5], "Children": [] },
+				"aaa": { "Edge": [3, 4], "Children": [] }
 			}
 		},
 		"Full Repeat": {
 			"word": "abcabc",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": {
-						"Edge": [0, 3],
-						"Children": {
-							"$": { "Edge": [6, 7], "Children": {} },
-							"a": { "Edge": [3, 6], "Children": {} }
-						}
-					},
-					"b": {
-						"Edge": [1, 3],
-						"Children": {
-							"$": { "Edge": [6, 7], "Children": {} },
-							"a": { "Edge": [3, 6], "Children": {} }
-						}
-					},
-					"c": {
-						"Edge": [2, 3],
-						"Children": {
-							"$": { "Edge": [6, 7], "Children": {} },
-							"a": { "Edge": [3, 6], "Children": {} }
-						}
-					}
-				}
+				"0":  { "Edge": null, "Children": ["a", "b", "c"] },
+				"a":  { "Edge": [0, 3], "Children": ["$", "a"] },
+				"b":  { "Edge": [1, 3], "Children": ["$", "a"] },
+				"c":  { "Edge": [2, 3], "Children": ["$", "a"] },
+				"a$": { "Edge": [6, 7], "Children": [] },
+				"aa": { "Edge": [3, 6], "Children": [] },
+				"b$": { "Edge": [6, 7], "Children": [] },
+				"ba": { "Edge": [3, 6], "Children": [] },
+				"c$": { "Edge": [6, 7], "Children": [] },
+				"ca": { "Edge": [3, 6], "Children": [] }
 			}
 		},
 		"Triple Repeat": {
 			"word": "abcabcabc",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": {
-						"Edge": [0, 3],
-						"Children": {
-							"$": { "Edge": [9, 10], "Children": {} },
-							"a": {
-								"Edge": [3, 6],
-								"Children": {
-									"$": { "Edge": [9, 10], "Children": {} },
-									"a": { "Edge": [6, 9], "Children": {} }
-								}
-							}
-						}
-					},
-					"b": {
-						"Edge": [1, 3],
-						"Children": {
-							"$": { "Edge": [9, 10], "Children": {} },
-							"a": {
-								"Edge": [3, 6],
-								"Children": {
-									"$": { "Edge": [9, 10], "Children": {} },
-									"a": { "Edge": [6, 9], "Children": {} }
-								}
-							}
-						}
-					},
-					"c": {
-						"Edge": [2, 3],
-						"Children": {
-							"$": { "Edge": [9, 10], "Children": {} },
-							"a": {
-								"Edge": [3, 6],
-								"Children": {
-									"$": { "Edge": [9, 10], "Children": {} },
-									"a": { "Edge": [6, 9], "Children": {} }
-								}
-							}
-						}
-					}
-				}
+				"0":   { "Edge": null, "Children": ["a", "b", "c"] },
+				"a":   { "Edge": [0, 3], "Children": ["$", "a"] },
+				"b":   { "Edge": [1, 3], "Children": ["$", "a"] },
+				"c":   { "Edge": [2, 3], "Children": ["$", "a"] },
+				"a$":  { "Edge": [9, 10], "Children": [] },
+				"aa":  { "Edge": [3, 6], "Children": ["$", "a"] },
+				"b$":  { "Edge": [9, 10], "Children": [] },
+				"ba":  { "Edge": [3, 6], "Children": ["$", "a"] },
+				"c$":  { "Edge": [9, 10], "Children": [] },
+				"ca":  { "Edge": [3, 6], "Children": ["$", "a"] },
+				"aa$": { "Edge": [9, 10], "Children": [] },
+				"aaa": { "Edge": [6, 9], "Children": [] },
+				"ba$": { "Edge": [9, 10], "Children": [] },
+				"baa": { "Edge": [6, 9], "Children": [] },
+				"ca$": { "Edge": [9, 10], "Children": [] },
+				"caa": { "Edge": [6, 9], "Children": [] }
 			}
 		},
 		"Nested Palindrome": {
 			"word": "abacaba",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": {
-						"Edge": [0, 1],
-						"Children": {
-							"$": { "Edge": [7, 8], "Children": {} },
-							"b": {
-								"Edge": [1, 3],
-								"Children": {
-									"$": { "Edge": [7, 8], "Children": {} },
-									"c": { "Edge": [3, 7], "Children": {} }
-								}
-							},
-							"c": { "Edge": [3, 7], "Children": {} }
-						}
-					},
-					"b": {
-						"Edge": [1, 3],
-						"Children": {
-							"$": { "Edge": [7, 8], "Children": {} },
-							"c": { "Edge": [3, 7], "Children": {} }
-						}
-					},
-					"c": { "Edge": [3, 7], "Children": {} }
-				}
+				"0":   { "Edge": null, "Children": ["a", "b", "c"] },
+				"a":   { "Edge": [0, 1], "Children": ["$", "b", "c"] },
+				"b":   { "Edge": [1, 3], "Children": ["$", "c"] },
+				"c":   { "Edge": [3, 7], "Children": [] },
+				"a$":  { "Edge": [7, 8], "Children": [] },
+				"ab":  { "Edge": [1, 3], "Children": ["$", "c"] },
+				"ac":  { "Edge": [3, 7], "Children": [] },
+				"b$":  { "Edge": [7, 8], "Children": [] },
+				"bc":  { "Edge": [3, 7], "Children": [] },
+				"ab$": { "Edge": [7, 8], "Children": [] },
+				"abc": { "Edge": [3, 7], "Children": [] }
 			}
 		},
 		"Fibonacci": {
 			"word": "abaababaabaab",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": {
-						"Edge": [0, 1],
-						"Children": {
-							"a": {
-								"Edge": [3, 5],
-								"Children": {
-									"$": { "Edge": [13, 14], "Children": {} },
-									"a": {
-										"Edge": [5, 6],
-										"Children": {
-											"a": { "Edge": [11, 13], "Children": {} },
-											"b": { "Edge": [6, 13], "Children": {} }
-										}
-									}
-								}
-							},
-							"b": {
-								"Edge": [1, 2],
-								"Children": {
-									"$": { "Edge": [13, 14], "Children": {} },
-									"a": {
-										"Edge": [2, 3],
-										"Children": {
-											"a": {
-												"Edge": [3, 5],
-												"Children": {
-													"$": { "Edge": [13, 14], "Children": {} },
-													"a": {
-														"Edge": [5, 6],
-														"Children": {
-															"a": { "Edge": [11, 13], "Children": {} },
-															"b": { "Edge": [6, 13], "Children": {} }
-														}
-													}
-												}
-											},
-											"b": { "Edge": [6, 13], "Children": {} }
-										}
-									}
-								}
-							}
-						}
-					},
-					"b": {
-						"Edge": [1, 2],
-						"Children": {
-							"$": { "Edge": [13, 14], "Children": {} },
-							"a": {
-								"Edge": [2, 3],
-								"Children": {
-									"a": {
-										"Edge": [3, 5],
-										"Children": {
-											"$": { "Edge": [13, 14], "Children": {} },
-											"a": {
-												"Edge": [5, 6],
-												"Children": {
-													"a": { "Edge": [11, 13], "Children": {} },
-													"b": { "Edge": [6, 13], "Children": {} }
-												}
-											}
-										}
-									},
-									"b": { "Edge": [6, 13], "Children": {} }
-								}
-							}
-						}
-					}
-				}
+				"0":      { "Edge": null, "Children": ["a", "b"] },
+				"a":      { "Edge": [0, 1], "Children": ["a", "b"] },
+				"b":      { "Edge": [1, 2], "Children": ["$", "a"] },
+				"aa":     { "Edge": [3, 5], "Children": ["$", "a"] },
+				"ab":     { "Edge": [1, 2], "Children": ["$", "a"] },
+				"b$":     { "Edge": [13, 14], "Children": [] },
+				"ba":     { "Edge": [2, 3], "Children": ["a", "b"] },
+				"aa$":    { "Edge": [13, 14], "Children": [] },
+				"aaa":    { "Edge": [5, 6], "Children": ["a", "b"] },
+				"ab$":    { "Edge": [13, 14], "Children": [] },
+				"aba":    { "Edge": [2, 3], "Children": ["a", "b"] },
+				"baa":    { "Edge": [3, 5], "Children": ["$", "a"] },
+				"bab":    { "Edge": [6, 13], "Children": [] },
+				"aaaa":   { "Edge": [11, 13], "Children": [] },
+				"aaab":   { "Edge": [6, 13], "Children": [] },
+				"abaa":   { "Edge": [3, 5], "Children": ["$", "a"] },
+				"abab":   { "Edge": [6, 13], "Children": [] },
+				"baa$":   { "Edge": [13, 14], "Children": [] },
+				"baaa":   { "Edge": [5, 6], "Children": ["a", "b"] },
+				"abaa$":  { "Edge": [13, 14], "Children": [] },
+				"abaaa":  { "Edge": [5, 6], "Children": ["a", "b"] },
+				"baaaa":  { "Edge": [11, 13], "Children": [] },
+				"baaab":  { "Edge": [6, 13], "Children": [] },
+				"abaaaa": { "Edge": [11, 13], "Children": [] },
+				"abaaab": { "Edge": [6, 13], "Children": [] }
 			}
 		},
 		"Walk Down xyzxyaxyz": {
 			"word": "xyzxyaxyz",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": { "Edge": [5, 9], "Children": {} },
-					"x": {
-						"Edge": [0, 2],
-						"Children": {
-							"a": { "Edge": [5, 9], "Children": {} },
-							"z": {
-								"Edge": [2, 3],
-								"Children": {
-									"$": { "Edge": [9, 10], "Children": {} },
-									"x": { "Edge": [3, 9], "Children": {} }
-								}
-							}
-						}
-					},
-					"y": {
-						"Edge": [1, 2],
-						"Children": {
-							"a": { "Edge": [5, 9], "Children": {} },
-							"z": {
-								"Edge": [2, 3],
-								"Children": {
-									"$": { "Edge": [9, 10], "Children": {} },
-									"x": { "Edge": [3, 9], "Children": {} }
-								}
-							}
-						}
-					},
-					"z": {
-						"Edge": [2, 3],
-						"Children": {
-							"$": { "Edge": [9, 10], "Children": {} },
-							"x": { "Edge": [3, 9], "Children": {} }
-						}
-					}
-				}
+				"0":   { "Edge": null, "Children": ["a", "x", "y", "z"] },
+				"a":   { "Edge": [5, 9], "Children": [] },
+				"x":   { "Edge": [0, 2], "Children": ["a", "z"] },
+				"y":   { "Edge": [1, 2], "Children": ["a", "z"] },
+				"z":   { "Edge": [2, 3], "Children": ["$", "x"] },
+				"xa":  { "Edge": [5, 9], "Children": [] },
+				"xz":  { "Edge": [2, 3], "Children": ["$", "x"] },
+				"ya":  { "Edge": [5, 9], "Children": [] },
+				"yz":  { "Edge": [2, 3], "Children": ["$", "x"] },
+				"z$":  { "Edge": [9, 10], "Children": [] },
+				"zx":  { "Edge": [3, 9], "Children": [] },
+				"xz$": { "Edge": [9, 10], "Children": [] },
+				"xzx": { "Edge": [3, 9], "Children": [] },
+				"yz$": { "Edge": [9, 10], "Children": [] },
+				"yzx": { "Edge": [3, 9], "Children": [] }
 			}
 		},
 		"Suffix Link cdddcdc": {
 			"word": "cdddcdc",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"c": {
-						"Edge": [0, 1],
-						"Children": {
-							"$": { "Edge": [7, 8], "Children": {} },
-							"d": {
-								"Edge": [1, 2],
-								"Children": {
-									"c": { "Edge": [6, 7], "Children": {} },
-									"d": { "Edge": [2, 7], "Children": {} }
-								}
-							}
-						}
-					},
-					"d": {
-						"Edge": [1, 2],
-						"Children": {
-							"c": {
-								"Edge": [4, 5],
-								"Children": {
-									"$": { "Edge": [7, 8], "Children": {} },
-									"d": { "Edge": [5, 7], "Children": {} }
-								}
-							},
-							"d": {
-								"Edge": [2, 3],
-								"Children": {
-									"c": { "Edge": [4, 7], "Children": {} },
-									"d": { "Edge": [3, 7], "Children": {} }
-								}
-							}
-						}
-					}
-				}
+				"0":   { "Edge": null, "Children": ["c", "d"] },
+				"c":   { "Edge": [0, 1], "Children": ["$", "d"] },
+				"d":   { "Edge": [1, 2], "Children": ["c", "d"] },
+				"c$":  { "Edge": [7, 8], "Children": [] },
+				"cd":  { "Edge": [1, 2], "Children": ["c", "d"] },
+				"dc":  { "Edge": [4, 5], "Children": ["$", "d"] },
+				"dd":  { "Edge": [2, 3], "Children": ["c", "d"] },
+				"cdc": { "Edge": [6, 7], "Children": [] },
+				"cdd": { "Edge": [2, 7], "Children": [] },
+				"dc$": { "Edge": [7, 8], "Children": [] },
+				"dcd": { "Edge": [5, 7], "Children": [] },
+				"ddc": { "Edge": [4, 7], "Children": [] },
+				"ddd": { "Edge": [3, 7], "Children": [] }
 			}
 		},
 		"Suffix Link dedododeeodo": {
 			"word": "dedododeeodo",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"d": {
-						"Edge": [0, 1],
-						"Children": {
-							"e": {
-								"Edge": [1, 2],
-								"Children": {
-									"d": { "Edge": [2, 12], "Children": {} },
-									"e": { "Edge": [8, 12], "Children": {} }
-								}
-							},
-							"o": {
-								"Edge": [3, 4],
-								"Children": {
-									"$": { "Edge": [12, 13], "Children": {} },
-									"d": {
-										"Edge": [4, 5],
-										"Children": {
-											"e": { "Edge": [7, 12], "Children": {} },
-											"o": { "Edge": [5, 12], "Children": {} }
-										}
-									}
-								}
-							}
-						}
-					},
-					"e": {
-						"Edge": [1, 2],
-						"Children": {
-							"d": { "Edge": [2, 12], "Children": {} },
-							"e": { "Edge": [8, 12], "Children": {} },
-							"o": { "Edge": [9, 12], "Children": {} }
-						}
-					},
-					"o": {
-						"Edge": [3, 4],
-						"Children": {
-							"$": { "Edge": [12, 13], "Children": {} },
-							"d": {
-								"Edge": [4, 5],
-								"Children": {
-									"e": { "Edge": [7, 12], "Children": {} },
-									"o": {
-										"Edge": [5, 6],
-										"Children": {
-											"$": { "Edge": [12, 13], "Children": {} },
-											"d": { "Edge": [6, 12], "Children": {} }
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+				"0":    { "Edge": null, "Children": ["d", "e", "o"] },
+				"d":    { "Edge": [0, 1], "Children": ["e", "o"] },
+				"e":    { "Edge": [1, 2], "Children": ["d", "e", "o"] },
+				"o":    { "Edge": [3, 4], "Children": ["$", "d"] },
+				"de":   { "Edge": [1, 2], "Children": ["d", "e"] },
+				"do":   { "Edge": [3, 4], "Children": ["$", "d"] },
+				"ed":   { "Edge": [2, 12], "Children": [] },
+				"ee":   { "Edge": [8, 12], "Children": [] },
+				"eo":   { "Edge": [9, 12], "Children": [] },
+				"o$":   { "Edge": [12, 13], "Children": [] },
+				"od":   { "Edge": [4, 5], "Children": ["e", "o"] },
+				"ded":  { "Edge": [2, 12], "Children": [] },
+				"dee":  { "Edge": [8, 12], "Children": [] },
+				"do$":  { "Edge": [12, 13], "Children": [] },
+				"dod":  { "Edge": [4, 5], "Children": ["e", "o"] },
+				"ode":  { "Edge": [7, 12], "Children": [] },
+				"odo":  { "Edge": [5, 6], "Children": ["$", "d"] },
+				"dode": { "Edge": [7, 12], "Children": [] },
+				"dodo": { "Edge": [5, 12], "Children": [] },
+				"odo$": { "Edge": [12, 13], "Children": [] },
+				"odod": { "Edge": [6, 12], "Children": [] }
 			}
 		},
 		"Walk Down abcdefabxybcdmnabcdex": {
 			"word": "abcdefabxybcdmnabcdex",
 			"exp": {
-				"Edge": null,
-				"Children": {
-					"a": {
-						"Edge": [0, 2],
-						"Children": {
-							"c": {
-								"Edge": [2, 5],
-								"Children": {
-									"f": { "Edge": [5, 21], "Children": {} },
-									"x": { "Edge": [20, 21], "Children": {} }
-								}
-							},
-							"x": { "Edge": [8, 21], "Children": {} }
-						}
-					},
-					"b": {
-						"Edge": [1, 2],
-						"Children": {
-							"c": {
-								"Edge": [2, 4],
-								"Children": {
-									"e": {
-										"Edge": [4, 5],
-										"Children": {
-											"f": { "Edge": [5, 21], "Children": {} },
-											"x": { "Edge": [20, 21], "Children": {} }
-										}
-									},
-									"m": { "Edge": [13, 21], "Children": {} }
-								}
-							},
-							"x": { "Edge": [8, 21], "Children": {} }
-						}
-					},
-					"c": {
-						"Edge": [2, 4],
-						"Children": {
-							"e": {
-								"Edge": [4, 5],
-								"Children": {
-									"f": { "Edge": [5, 21], "Children": {} },
-									"x": { "Edge": [20, 21], "Children": {} }
-								}
-							},
-							"m": { "Edge": [13, 21], "Children": {} }
-						}
-					},
-					"d": {
-						"Edge": [3, 4],
-						"Children": {
-							"e": {
-								"Edge": [4, 5],
-								"Children": {
-									"f": { "Edge": [5, 21], "Children": {} },
-									"x": { "Edge": [20, 21], "Children": {} }
-								}
-							},
-							"m": { "Edge": [13, 21], "Children": {} }
-						}
-					},
-					"e": {
-						"Edge": [4, 5],
-						"Children": {
-							"f": { "Edge": [5, 21], "Children": {} },
-							"x": { "Edge": [20, 21], "Children": {} }
-						}
-					},
-					"f": { "Edge": [5, 21], "Children": {} },
-					"m": { "Edge": [13, 21], "Children": {} },
-					"n": { "Edge": [14, 21], "Children": {} },
-					"x": {
-						"Edge": [8, 9],
-						"Children": {
-							"$": { "Edge": [21, 22], "Children": {} },
-							"y": { "Edge": [9, 21], "Children": {} }
-						}
-					},
-					"y": { "Edge": [9, 21], "Children": {} }
-				}
+				"0":    { "Edge": null, "Children": ["a", "b", "c", "d", "e", "f", "m", "n", "x", "y"] },
+				"a":    { "Edge": [0, 2], "Children": ["c", "x"] },
+				"b":    { "Edge": [1, 2], "Children": ["c", "x"] },
+				"c":    { "Edge": [2, 4], "Children": ["e", "m"] },
+				"d":    { "Edge": [3, 4], "Children": ["e", "m"] },
+				"e":    { "Edge": [4, 5], "Children": ["f", "x"] },
+				"f":    { "Edge": [5, 21], "Children": [] },
+				"m":    { "Edge": [13, 21], "Children": [] },
+				"n":    { "Edge": [14, 21], "Children": [] },
+				"x":    { "Edge": [8, 9], "Children": ["$", "y"] },
+				"y":    { "Edge": [9, 21], "Children": [] },
+				"ac":   { "Edge": [2, 5], "Children": ["f", "x"] },
+				"ax":   { "Edge": [8, 21], "Children": [] },
+				"bc":   { "Edge": [2, 4], "Children": ["e", "m"] },
+				"bx":   { "Edge": [8, 21], "Children": [] },
+				"ce":   { "Edge": [4, 5], "Children": ["f", "x"] },
+				"cm":   { "Edge": [13, 21], "Children": [] },
+				"de":   { "Edge": [4, 5], "Children": ["f", "x"] },
+				"dm":   { "Edge": [13, 21], "Children": [] },
+				"ef":   { "Edge": [5, 21], "Children": [] },
+				"ex":   { "Edge": [20, 21], "Children": [] },
+				"x$":   { "Edge": [21, 22], "Children": [] },
+				"xy":   { "Edge": [9, 21], "Children": [] },
+				"acf":  { "Edge": [5, 21], "Children": [] },
+				"acx":  { "Edge": [20, 21], "Children": [] },
+				"bce":  { "Edge": [4, 5], "Children": ["f", "x"] },
+				"bcm":  { "Edge": [13, 21], "Children": [] },
+				"cef":  { "Edge": [5, 21], "Children": [] },
+				"cex":  { "Edge": [20, 21], "Children": [] },
+				"def":  { "Edge": [5, 21], "Children": [] },
+				"dex":  { "Edge": [20, 21], "Children": [] },
+				"bcef": { "Edge": [5, 21], "Children": [] },
+				"bcex": { "Edge": [20, 21], "Children": [] }
 			}
 		}
 	}

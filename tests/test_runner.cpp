@@ -40,6 +40,9 @@ namespace Test_Runner {
 			std::string em = std::format("Result children {} doesnt equal expected chilren {}", node->Children.size(), exp_node["Children"].size());
 			throw std::runtime_error(em);
 		}
+
+		std::cout << "Node is as expected" << std::endl;
+
 	}
 
 	void assert_result(Suffix_Tree::Node* res_node, json exp, std::string word) {
@@ -57,10 +60,10 @@ namespace Test_Runner {
 			json_queue.pop();
 
 			assert_node(res_top, exp_top);
-			
-			for (const auto& [id, exp_node]: exp_top["Children"].items()) {
+
+			for (const auto& exp_node: exp_top["Children"]) {
 				res_queue.push(res_top->Children[exp_node.get<std::string>()[0]].get());
-				json_queue.push(exp[std::to_string(exp_node.get<std::uint64_t>())]);
+				json_queue.push(exp[exp_node.get<std::string>()]);
 			}
 		}
 
@@ -80,6 +83,7 @@ namespace Test_Runner {
 			if (result.get() == nullptr) {
 				throw std::runtime_error("Null pointer returned");
 			}
+			std::cout << test["exp"] << std::endl;
 			assert_result(result.get(), test["exp"], test["word"].get<std::string>());
 		}
 		catch (const std::exception& ex) {

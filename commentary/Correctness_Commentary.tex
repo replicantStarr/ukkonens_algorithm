@@ -7,7 +7,20 @@
 
 \begin{document}
 	\maketitle
-	
 	\newpage
+	
+	\section{Introduction}
+	The following is a correctness commentary on my own implementation of Ukkonen's algorithm, to construct a suffix tree.  It's written in C++, and the full implementation can be found here, along with my own testing library.
+	I will also add the ability to create a tree, and possibly search.  For now to test add you own test cases to the tests.json.
+	
+	\section{On Suffix Trees}
+	A suffix tree is a structure which expands on the suffix trie, and also tries in general.  Almost all modern usages have now been replaced by the suffix array, however the suffix tree is still invaluable in terms of theory.
+	It's used in many different scenarios, most notable discovering the full human genome.  Generally, it's an optimisation on all string operations, such as searching, finding recurring substrings, etc.
+	
+	\section{Brief Introduction to Ukkonen's Algorithm}
+	Ukkonen's algorithm is was designed to efficiently construct a suffix tree with a worst case upper bound of O(n).  The algorithm leverages of extensions with explicit rules.
+	
+	\section{A Commentary on a Ukkonen's Implementation}
+	\textbf{test}
 	
 \end{document}

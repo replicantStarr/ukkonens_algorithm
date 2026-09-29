@@ -5,8 +5,9 @@
 #include <stdexcept>
 
 namespace Suffix_Tree {
+
 	/*
-	 * Some notes on Ukkonen's before implementation
+	 * Some notes on Ukkonen's before implementation with extension rules
 	 * 1. For each suffix, s[i, j], the suffixes s[i + n, j] are also processed until i + n = j.  E.g. abc = abc, bc, c
 	 * 2. There are a few different rules for processing:
 	 * 	i. If string s[i, j] end at a leaf edge, then s[j + 1] is just added
@@ -45,12 +46,9 @@ namespace Suffix_Tree {
 
 		// We only need to loop while there are suffixes to add.
 		while (*i <= word.size()) {
-			if (!remainder) ++remainder;
-			std::cout << "r " << remainder << std::endl;
-			std::cout << "LEngth " << active_point.Length << std::endl;
 
+			if (!remainder) ++remainder;
 			// EXTENSION RULE 1 -> If current word[a, b] is on a leaf edge, and i = b + 1 || b = -1, then add s[i] to the end of the edge.
-			std::cout << getchar(word, *i) << std::endl;
 			if (active_point.Root->Children[getchar(word, *i)] == nullptr) {
 				// Point to the current index, it will increase each loop;
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
@@ -69,9 +67,7 @@ namespace Suffix_Tree {
 
 			// EXTENSION RULE 2 -> word[a, b] exists such that word[b + 1] != word[i], and therefore the edge must now be split into
 			// word[a, L], where L is the current active length, and 2 children of [i, -1] and b[L, -1].
-			std::cout << getchar(word, active_point.Length) << std::endl; 
 			if (getchar(word, active_point.Length) != getchar(word, *i)) {	
-				std::cout << "t" << std::endl;
 				// Assign the active edge to the edge outgoing from the root which is equal to first char of the suffix.
 				active_point.Edge = active_point.Root->Children[getchar(word, *i)].get();
 
