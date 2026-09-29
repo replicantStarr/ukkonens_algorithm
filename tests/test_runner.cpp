@@ -31,8 +31,8 @@ namespace Test_Runner {
 			return;
 		}
 
-		if (node->Edge->a != exp_node["Edge"][0] || node->Edge->b != exp_node["Edge"][1]) {
-			std::string em = std::format("Result Edge {} {} does not equal expected edge {}", node->Edge->a, node->Edge->b, exp_node["Edge"]);
+		if (node->Edge->a != exp_node["Edge"][0] || *node->Edge->b != exp_node["Edge"][1]) {
+			std::string em = std::format("Result Edge {} {} does not equal expected edge {}", node->Edge->a, *node->Edge->b, exp_node["Edge"]);
 			throw std::runtime_error(em);
 		}
 

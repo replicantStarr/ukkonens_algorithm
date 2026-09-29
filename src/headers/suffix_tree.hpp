@@ -12,7 +12,10 @@ namespace Suffix_Tree {
 	// Simply contains the indices of a substring [a,b] of word.  This is far more efficient than an array.
 	struct Ind {
 		int a;
-		int b;
+
+		// Allows for really simple indexing, the algorithm can simply increase the value on the heap and all leaf nodes can point to the same int.
+		std::shared_ptr<int> b;
+
 	};
 
 	// A struct to contain all data of the nodes in a suffix tree.  A tree doesn't exist only its nodes.
