@@ -51,6 +51,10 @@ namespace Suffix_Tree {
 		while (*i <= word.size()) {
 			// EXTENSION RULE 2 -> word[a, b] exists such that word[b + 1] != word[*i], and therefore the edge must now be split 
 			// word[a, L], where L is the current active length, with 2 children of [*i, i] and b[L, *i].
+			
+			// When no edge exists, it's simply comparing word[i] to an empty string, which essentially is a garunteed split
+			if (!active_point.Root->Children[word[*i - active_point.Length]]) {
+			}
 			if (get_char(word, active_point.Length) != get_char(word, *i)) {
 				std::cout << "i " << *i << std::endl;
 				std::cout << "t" << std::endl;

@@ -394,3 +394,9 @@ I need to figure out
 	3. How do I use it?
 
 One main issue is I was assuming that edge is a nullptr by default, it's not.  That could be part of the segmentation fault.
+
+So what do I know about the 2nd extension?
+I know that if the character is new to the node I need to add it
+and I know that if it's not new then it splits the edge.
+
+I will focus one at a time here
