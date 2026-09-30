@@ -2,14 +2,14 @@
 
 namespace Suffix_Tree {
 	// Returns word[i] of index otherwise $ for terminal processing
-	char get_char(const std::string w, int i) {
+	char get_char(const std::string& w, int i) {
 		if (i != w.size()) return w[i];
 		else return '$';
 	}
 
 	// The implementation of Ukkonen's algorithm which constructs a suffix tree
 	// This is without suffix links, with a worst case upper bound of O(n^2)
-	std::unique_ptr<Node> create(std::string word) {
+	std::unique_ptr<Node> create(const std::string& word) {
 		// Root node has no character and no incoming edge
 		std::unique_ptr<Node> root_node = std::make_unique<Node>(nullptr);
 

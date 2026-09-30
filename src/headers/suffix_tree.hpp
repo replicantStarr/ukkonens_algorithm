@@ -38,10 +38,10 @@ namespace Suffix_Tree {
 	};
 
 	// Safely returns the character at an index and $ at size
-	char get_char(std::string w, int i);
+	char get_char(const std::string& w, int i);
 
 	// Returns a pointer to the root node of a suffix tree.  Using the root node traversal is possible.
-	std::unique_ptr<Node> create(std::string word);
+	std::unique_ptr<Node> create(const std::string& word);
 }
 
 #endif
