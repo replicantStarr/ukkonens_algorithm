@@ -30,6 +30,8 @@ cmake --build build
 ./build/Ukkonen
 ```
 
+Runs off my own custom testing library, entirely designed for suffix tree json tests.  Json deserialisation is entirely credited to [nlohmann/json](https://github.com/nlohmann/json) library. 
+
 The `Ukkonen` executable runs every case in `tests/tests.json` and prints a pass or fail result for each, followed by a summary.
 
 ### Data Structures 
