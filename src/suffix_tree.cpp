@@ -67,15 +67,13 @@ namespace Suffix_Tree {
 				active.Parent = active.Edge;
 				active.Length -= *active.Edge->Indices->b - active.Edge->Indices->a;
 				active.Edge = nullptr;
-
-				continue;
 			}
 
 			// EXTENSION RULE 2.ii -> word[a, b) exists such that word[b] != word[*i], and therefore the edge must now be split
 			// word[a, a + l), where l is the current active length, with 2 children of n1[*i, i) and n2[b, *i).
 
 			// There is an edge which exists, we must traverse it and split at the unequal index
-			if (get_char(word, active.Edge->Indices->a + active.Length) != get_char(word, *i)) {
+			else if (get_char(word, active.Edge->Indices->a + active.Length) != get_char(word, *i)) {
 
 				// This is the new suffix added
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
@@ -109,8 +107,6 @@ namespace Suffix_Tree {
 
 				// Current suffix has been inserted, must move onto the next such that length resets
 				active.Length = remainder;
-
-				continue;
 			}
 
 			// EXTENSION RULE 3 -> word[a, b) exists such that word[b + 1] = word[i].  This means the next char should be processed so length is bumped.
@@ -121,9 +117,9 @@ namespace Suffix_Tree {
 
 				// We know for next suffix all letters will equal, bump it so that they only check the newest one
 				++active.Length;
-			}
 
-			++*i;
+				++*i;
+			}
 		}
 
 		return root_node;
