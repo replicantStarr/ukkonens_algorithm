@@ -1,32 +1,20 @@
 #include "suffix_tree.hpp"
 
 namespace Suffix_Tree {
-
-	/*
-	 * Some notes on Ukkonen's before implementation with extension rules
-	 * 1. For each suffix, s[i, j], the suffixes s[i + n, j] are also processed until i + n = j.  E.g. abc = abc, bc, c
-	 * 2. There are a few different rules for processing:
-	 * 	i. If string s[i, j] end at a leaf edge, then s[j + 1] is just added
-	 * 	ii. If string s[i, j] ends at a non-leaf edge:
-	 * 		a. If s[j + 1] does not equal current character c, then create a node from [1, j], then [j, j + 1]
-	 * 		b. Otherwise, simply do nothing
-	 */
-	// Returns the root node of a constructed suffix tree based on any given word
-	// Construction is done using Ukkonen's algorithm
-	//
-
-	// Simple function to take whatever the current word is and at the terminal $
+	// Returns word[i] of index otherwise $ for terminal processing
 	char get_char(const std::string w, int i) {
 		if (i != w.size()) return w[i];
 		else return '$';
 	}
 
+	// The implementation of Ukkonen's algorithm which constructs a suffix tree
+	// This is without suffix links, with a worst case upper bound of O(n^2)
 	std::unique_ptr<Node> create(std::string word) {
-		// Keeps track of current edge parent node, edge character and edge length -- all 3 crucial to Ukkonen's
-		Active_Point active;
-
 		// Root node has no character and no incoming edge
 		std::unique_ptr<Node> root_node = std::make_unique<Node>(nullptr);
+
+		// Keeps track of current parent node, edge and index of comparison with length -- all 3 crucial to Ukkonen's
+		Active_Point active;
 
 		// The algorithm begins by operating on the root node
 		active.Parent = root_node.get();
@@ -44,13 +32,10 @@ namespace Suffix_Tree {
 		// We only need to loop while there are suffixes to add.
 		while (*i <= word.size()) {
 
-			// EXTENSION RULE 2 -> word[a, b] exists such that word[b + 1] != word[*i], and therefore the edge must now be split
-			// word[a, L], where L is the current active length, with 2 children of [*i, i] and b[L, *i].
-
 			// First find a candidate edge with the same prefix
 			std::unordered_map<char, std::unique_ptr<Node>>::const_iterator find_edge = active.Parent->Children.find(get_char(word, *i - active.Length));
 
-			// When no edge exists, it's simply comparing word[i] to an empty string, which essentially is a garunteed split
+			// EXTENSION RULE 2.i -> When there is no such child node of word[i] at active parent, then create a new node and add
 			if (find_edge == active.Parent->Children.end()) {
 
 				// Indices are from current character to index
@@ -59,7 +44,7 @@ namespace Suffix_Tree {
 				// Creating the new child node
 				active.Parent->Children[get_char(word, *i - active.Length)] = std::make_unique<Node>(std::move(ind));
 
-				// remainder can never be less than 0, if it is we have nothing else to loop so go to next index
+				// Suffix inserted so one less total suffixes remain, otherwise move to next index
 				if (remainder > 0) --remainder;
 				else ++*i;
 
@@ -67,7 +52,7 @@ namespace Suffix_Tree {
 				active.Parent = root_node.get();
 				active.Edge = nullptr;
 
-				// New node has been added so remainder decreases, length cannot be greater than remainder
+				// Current suffix has been inserted, move to next with reset length
 				active.Length = remainder;
 
 				continue;
@@ -76,8 +61,8 @@ namespace Suffix_Tree {
 			// The found edge is now traversed down because of equal prefixes
 			active.Edge = find_edge->second.get();
 
-			// If the current length is > edge length there will be no character to index
-			// Instead step down to view the next edges when next prefix is processed
+			// There must always be a character to process.
+			// If it's too large, step down to the next node and continue
 			if (active.Length >= *active.Edge->Indices->b - active.Edge->Indices->a) {
 				active.Parent = active.Edge;
 				active.Length -= *active.Edge->Indices->b - active.Edge->Indices->a;
@@ -86,16 +71,19 @@ namespace Suffix_Tree {
 				continue;
 			}
 
+			// EXTENSION RULE 2.ii -> word[a, b) exists such that word[b] != word[*i], and therefore the edge must now be split
+			// word[a, a + l), where l is the current active length, with 2 children of n1[*i, i) and n2[b, *i).
+
 			// There is an edge which exists, we must traverse it and split at the unequal index
 			if (get_char(word, active.Edge->Indices->a + active.Length) != get_char(word, *i)) {
 
 				// This is the new suffix added
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
 
-				// This is the existing suffix being split and linked, must end at previous b in case a leaf edge is a child
+				// This is the existing suffix bottom half being split
 				std::unique_ptr<Ind> ind2 = std::make_unique<Ind>(active.Edge->Indices->a + active.Length, active.Edge->Indices->b);
 
-				// Update the active node edge to only go from [a, L]
+				// Update the active node edge to only be the active length from a
 				active.Edge->Indices->b = std::make_shared<int>(active.Edge->Indices->a + active.Length);
 
 				// Create split edge from original edge
@@ -103,12 +91,15 @@ namespace Suffix_Tree {
 
 				// Simply move the existing hashmap of children
 				bottom_edge->Children = std::move(active.Edge->Children);
+
+				// Clears the children which are no longer linked to upper half of the old edge
 				active.Edge->Children.clear();
 
 				// Add new nodes as child nodes to split edge
 				active.Edge->Children[get_char(word, *i)] = std::make_unique<Node>(std::move(ind));
 				active.Edge->Children[get_char(word, active.Edge->Indices->a + active.Length)] = std::move(bottom_edge);
 
+				// Suffix inserted so one less total suffixes remain, otherwise move to next index
 				if (remainder > 0) --remainder;
 				else ++*i;
 
@@ -116,15 +107,18 @@ namespace Suffix_Tree {
 				active.Parent = root_node.get();
 				active.Edge = nullptr;
 
-				// New node split, length cannot be greater than remainder
+				// Current suffix has been inserted, must move onto the next such that length resets
 				active.Length = remainder;
 
 				continue;
 			}
 
-			// EXTENSION RULE 3 -> word[a, b] exists such that word[b + 1] = word[i].  This means the next char should be processed so length is bumped.
+			// EXTENSION RULE 3 -> word[a, b) exists such that word[b + 1] = word[i].  This means the next char should be processed so length is bumped.
 			else {
+
+			    // A suffix is skipped to be inserted later, so its a new remainder
 				++remainder;
+
 				// We know for next suffix all letters will equal, bump it so that they only check the newest one
 				++active.Length;
 			}

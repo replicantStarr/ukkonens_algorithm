@@ -17,7 +17,7 @@ namespace Suffix_Tree {
 
 	// A struct to contain all data of the nodes in a suffix tree.  A tree doesn't exist only its nodes.
 	struct Node {
-		// Each node contains a unique suffix except for the root
+		// Each node contains a unique suffix except for the root, these are represented as indices.
 		std::unique_ptr<Ind> Indices;
 
 		// Can check if a character is already exists and returns it's node in constant time.
