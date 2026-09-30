@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage{amsmath}
 
-\title{On the Correctness of Suffix Tree Construction with Ukkonen's Algorithm\\[0.5em] \large A Practical Commentary}
+\title{On the Correctness of Suffix Tree Construction Through Ukkonen's Algorithm Without Suffix Links\\[0.5em] \large A Practical Commentary}
 \author{My Name}
 \date{\today}
 
@@ -10,17 +10,53 @@
 	\newpage
 	
 	\section{Introduction}
-	The following is a correctness commentary on my own implementation of Ukkonen's algorithm, to construct a suffix tree.  It's written in C++, and the full implementation can be found here, along with my own testing library.
-	I will also add the ability to create a tree, and possibly search.  For now to test add you own test cases to the tests.json.
+	The following is a correctness commentary on my very own implementation of Ukkonen's algorithm on suffix tree construction.  Ukkonen's is uniquely known for it's online capabilities, formalised by Esko Ukkonen in On-line construction of suffix trees. \\
+	Suffix trees themselves were introduced in Linear Pattern Matching Algorithms, as a way to reduce basic string matching in reduced time. \\
+	Ukkonen's algorithm went on to become the first online construction of the suffix tree, which allows for usage whilst being created.
+	My implementation opts for a more naive approach than most implementation, where instead of being upper bound by linear time, it faces $O(n^2)$.  As with all tradeoffs, there is one such advantage that the loss of suffix arrays will reduce space overhead of the algorithm.  However, this is not noticeable enough to justify its usage.
 	
-	\section{On Suffix Trees}
-	A suffix tree is a structure which expands on the suffix trie, and also tries in general.  Almost all modern usages have now been replaced by the suffix array, however the suffix tree is still invaluable in terms of theory.
-	It's used in many different scenarios, most notable discovering the full human genome.  Generally, it's an optimisation on all string operations, such as searching, finding recurring substrings, etc.
+	\section{A Commentary On My Implementation of Ukkonen's Algorithm}
 	
-	\section{Brief Introduction to Ukkonen's Algorithm}
-	Ukkonen's algorithm is was designed to efficiently construct a suffix tree with a worst case upper bound of O(n).  The algorithm leverages of extensions with explicit rules.
+	\subsection{Pre-condition}
 	
-	\section{A Commentary on a Ukkonen's Implementation}
-	\textbf{test}
+	Let $\Sigma$ be the set of all characters in a language where $\$ \notin \Sigma$.  There must be some string s, such that $s \in \Sigma^*$, also represented as $s = \{s_0, s_1 \dots s_n\}$.
+
+	\subsection{Post-condition}
+	A suffix tree exists such that the root node $R$ contains child nodes all of unique suffixes.  
+	
+	\subsection{Initialisation}
+	Let $\alpha(n)$ return the starting index of the ingoing edge into node $n$, and $\beta(n)$ return the exclusive ending index of the ingoing index. \\
+	Let the root of our suffix tree be some node $R$\
+	
+	\textbf{Invariant 1} - Let root node $R$ exist such that  $\alpha(R) \cup \beta(R) = \emptyset$
+
+	
+	\noindent The root node is initialised without usage. \\
+	continuing
+	
+	\textbf{Invariant 1} - $Parent(A) \in nodes$ \\
+	\textbf{Invariant 2} - $Edge(A) \in nonrootnodes$ \\
+	\textbf{Invariant 3} - $Length(w) \ge Length(A) \ge 0 $ \\
+	
+	\vspace{0.5mm}
+	
+	The remainder exists such that
+	
+	\textbf{Invariant} - $Length(w) \ge rem \ge 0$ \\
+	
+	\subsection{Global Index Pointer and the Loop, Extension 1}
+	\textbf{Invariant} - $Length(w) \ge i \ge 0$
+	
+	\subsection{Creating a new Node, Extension 2.i}
+	\textbf{Invariant} - $There can never be 2 nodes of the same first character in parent$
+		
+	\subsection{Using Existing Node}
+		\textbf{Invariant} - $Length(w) \ge i \ge 0$
+	
+	\subsection{Splitting of the Current Edge, Extension 2.ii}
+	\textbf{Invariant} - $Length(w) \ge i \ge 0$
+	
+	\subsection{Extension Rule 3}
+	\textbf{Invariant} - Holds our loop invariant
 	
 \end{document}
