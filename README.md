@@ -1,6 +1,6 @@
 # Implementation of Ukkonen's Algorithm
 
-A C++23 implementation of suffix tree construction using Ukkonen's online algorithm.
+A C++23 implementation of suffix tree construction using Ukkonen's online algorithm without suffix trees.
 The tree is built left to right, one character at a time, with a `$` terminator appended so every suffix ends at a leaf.
 
 ## Features
@@ -56,7 +56,8 @@ Each case in `tests/tests.json` gives a word and the expected tree:
 }
 ```
 
-
+- `word` is the input to the suffix tree construction algorithm.
+- `exp` contains all expected nodes, order does not matter.
 - Node `"0"` is the root.
 - `Edge` is the node's `[a, b)` range, or `null` for the root.
 - `Children` lists node IDs, which are numbered level by level with children sorted by first character.
@@ -65,6 +66,7 @@ Each case in `tests/tests.json` gives a word and the expected tree:
 ## Limitations
 
 - `$` is reserved as the terminator, so input words must not contain it.
+- There is no searching functionality, it's simply running test cases only.
 
 ## Further reading
 
