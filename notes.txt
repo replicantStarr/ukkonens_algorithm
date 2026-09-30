@@ -418,3 +418,8 @@ The initial length is never set.  When it comes to length, this simply starts fr
 In the end there were many elements missing or easily skipped over but majority was good, now all test cases pass.
 
 Considering adding suffix links and a search functionality.
+
+====
+Forgot to add when all the test cases passed :).  Many of my commits were commented so there is additional thinking there too, the main part being the fact that I was splitting nodes and basing both off the global pointer not a + length.
+
+Everything passes fine now, stuck with non-suffix link implementation.
