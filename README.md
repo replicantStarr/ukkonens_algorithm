@@ -3,6 +3,9 @@
 A C++23 implementation of suffix tree construction using Ukkonen's online algorithm without suffix trees.
 The tree is built left to right, one character at a time, with a `$` terminator appended so every suffix ends at a leaf.
 
+## Credit
+This algorithm is entirely credited to [On-Line construction of suffix trees](https://www.cs.helsinki.fi/u/ukkonen/SuffixT1withFigs.pdf) by Esko Ukkonen
+
 ## Features
 
 - **Online construction** following Ukkonen's three extension rules.
