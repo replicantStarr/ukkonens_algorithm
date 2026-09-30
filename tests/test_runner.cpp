@@ -21,18 +21,18 @@ namespace Test_Runner {
 			throw std::runtime_error("Node is null when expected node is not");
 		}
 
-		if (!node->Edge && !exp_node["Edge"].is_null()){
+		if (!node->Indices && !exp_node["Edge"].is_null()){
 			throw std::runtime_error("Node edge should not be null");
 		}
-		else if (node->Edge && exp_node["Edge"].is_null()){
+		else if (node->Indices && exp_node["Edge"].is_null()){
 			throw std::runtime_error("Node edge should be null");
 		}
-		else if (!node->Edge && exp_node["Edge"].is_null()) {
+		else if (!node->Indices && exp_node["Edge"].is_null()) {
 			return;
 		}
 
-		if (node->Edge->a != exp_node["Edge"][0] || *node->Edge->b != exp_node["Edge"][1]) {
-			std::string em = std::format("Result Edge {} {} does not equal expected edge {}", node->Edge->a, *node->Edge->b, exp_node["Edge"]);
+		if (node->Indices->a != exp_node["Edge"][0] || *node->Indices->b != exp_node["Edge"][1]) {
+			std::string em = std::format("Result Edge {} {} does not equal expected edge {}", node->Indices->a, *node->Indices->b, exp_node["Edge"]);
 			throw std::runtime_error(em);
 		}
 

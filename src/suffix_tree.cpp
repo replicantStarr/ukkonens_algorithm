@@ -1,8 +1,4 @@
 #include "suffix_tree.hpp"
-#include <string>
-#include <memory>
-#include <iostream>
-#include <stdexcept>
 
 namespace Suffix_Tree {
 
@@ -20,25 +16,24 @@ namespace Suffix_Tree {
 	//
 
 	// Simple function to take whatever the current word is and at the terminal $
-	// Throws an error by default
 	char get_char(const std::string w, int i) {
 		if (i != w.size()) return w[i];
 		else return '$';
 	}
 
 	std::unique_ptr<Node> create(std::string word) {
-		// Keeps track of current edge root node, edge character and edge length -- all 3 crucial to Ukkonen's
-		Active_Point active_point;
+		// Keeps track of current edge parent node, edge character and edge length -- all 3 crucial to Ukkonen's
+		Active_Point active;
 
 		// Root node has no character and no incoming edge
 		std::unique_ptr<Node> root_node = std::make_unique<Node>(nullptr);
 
 		// The algorithm begins by operating on the root node
-		active_point.Root = root_node.get();
-		
+		active.Parent = root_node.get();
+
 		// No outgoing edges exist yet to process
-		active_point.Edge = nullptr;
-		active_point.Length = 0;
+		active.Edge = nullptr;
+		active.Length = 0;
 
 		// The number of leftover suffixes skipped to be inserted later
 		int remainder = 0;
@@ -49,88 +44,89 @@ namespace Suffix_Tree {
 		// We only need to loop while there are suffixes to add.
 		while (*i <= word.size()) {
 
-			// EXTENSION RULE 2 -> word[a, b] exists such that word[b + 1] != word[*i], and therefore the edge must now be split 
+			// EXTENSION RULE 2 -> word[a, b] exists such that word[b + 1] != word[*i], and therefore the edge must now be split
 			// word[a, L], where L is the current active length, with 2 children of [*i, i] and b[L, *i].
-			
+
 			// First find a candidate edge with the same prefix
-			std::unordered_map<char, std::unique_ptr<Node>>::const_iterator find_edge = active_point.Root->Children.find(get_char(word, *i - active_point.Length));
-			
+			std::unordered_map<char, std::unique_ptr<Node>>::const_iterator find_edge = active.Parent->Children.find(get_char(word, *i - active.Length));
+
 			// When no edge exists, it's simply comparing word[i] to an empty string, which essentially is a garunteed split
-			if (find_edge == active_point.Root->Children.end()) {
-				
+			if (find_edge == active.Parent->Children.end()) {
+
 				// Indices are from current character to index
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
 
 				// Creating the new child node
-				active_point.Root->Children[get_char(word, *i - active_point.Length)] = std::make_unique<Node>(std::move(ind));
+				active.Parent->Children[get_char(word, *i - active.Length)] = std::make_unique<Node>(std::move(ind));
 
 				// remainder can never be less than 0, if it is we have nothing else to loop so go to next index
 				if (remainder > 0) --remainder;
 				else ++*i;
 
 				// Starts from the top every time or else would be creating non-existant suffixes
-				active_point.Root = root_node.get();
-				active_point.Edge = nullptr;
+				active.Parent = root_node.get();
+				active.Edge = nullptr;
 
 				// New node has been added so remainder decreases, length cannot be greater than remainder
-				active_point.Length = remainder;
+				active.Length = remainder;
+
 				continue;
 			}
-		
+
 			// The found edge is now traversed down because of equal prefixes
-			active_point.Edge = find_edge->second.get();
+			active.Edge = find_edge->second.get();
 
 			// If the current length is > edge length there will be no character to index
 			// Instead step down to view the next edges when next prefix is processed
-			if (active_point.Length >= *active_point.Edge->Edge->b - active_point.Edge->Edge->a) {
-				active_point.Root = active_point.Edge;
-				active_point.Length -= *active_point.Edge->Edge->b - active_point.Edge->Edge->a;
-				active_point.Edge = nullptr;
+			if (active.Length >= *active.Edge->Indices->b - active.Edge->Indices->a) {
+				active.Parent = active.Edge;
+				active.Length -= *active.Edge->Indices->b - active.Edge->Indices->a;
+				active.Edge = nullptr;
 
 				continue;
 			}
 
 			// There is an edge which exists, we must traverse it and split at the unequal index
-			if (get_char(word, active_point.Edge->Edge->a + active_point.Length) != get_char(word, *i)) {
+			if (get_char(word, active.Edge->Indices->a + active.Length) != get_char(word, *i)) {
 
 				// This is the new suffix added
 				std::unique_ptr<Ind> ind = std::make_unique<Ind>(*i, i);
 
 				// This is the existing suffix being split and linked, must end at previous b in case a leaf edge is a child
-				std::unique_ptr<Ind> ind2 = std::make_unique<Ind>(active_point.Edge->Edge->a + active_point.Length, active_point.Edge->Edge->b);
+				std::unique_ptr<Ind> ind2 = std::make_unique<Ind>(active.Edge->Indices->a + active.Length, active.Edge->Indices->b);
 
 				// Update the active node edge to only go from [a, L]
-				active_point.Edge->Edge->b = std::make_shared<int>(active_point.Edge->Edge->a + active_point.Length);
+				active.Edge->Indices->b = std::make_shared<int>(active.Edge->Indices->a + active.Length);
 
 				// Create split edge from original edge
 				std::unique_ptr<Node> bottom_edge = std::make_unique<Node>(std::move(ind2));
 
 				// Simply move the existing hashmap of children
-				bottom_edge->Children = std::move(active_point.Edge->Children);
-				active_point.Edge->Children.clear();
+				bottom_edge->Children = std::move(active.Edge->Children);
+				active.Edge->Children.clear();
 
 				// Add new nodes as child nodes to split edge
-				active_point.Edge->Children[get_char(word, *i)] = std::make_unique<Node>(std::move(ind));
-				active_point.Edge->Children[get_char(word, active_point.Edge->Edge->a + active_point.Length)] = std::move(bottom_edge);
+				active.Edge->Children[get_char(word, *i)] = std::make_unique<Node>(std::move(ind));
+				active.Edge->Children[get_char(word, active.Edge->Indices->a + active.Length)] = std::move(bottom_edge);
 
 				if (remainder > 0) --remainder;
 				else ++*i;
 
-				// Reset to active root for remainder suffixes to be inserted (just a rerun with 1 less char)
-				active_point.Root = root_node.get();
-				active_point.Edge = nullptr;
+				// Reset to root for remainder suffixes to be inserted (just a rerun with 1 less char)
+				active.Parent = root_node.get();
+				active.Edge = nullptr;
 
 				// New node split, length cannot be greater than remainder
-				active_point.Length = remainder;
+				active.Length = remainder;
 
 				continue;
 			}
-			
+
 			// EXTENSION RULE 3 -> word[a, b] exists such that word[b + 1] = word[i].  This means the next char should be processed so length is bumped.
 			else {
 				++remainder;
 				// We know for next suffix all letters will equal, bump it so that they only check the newest one
-				++active_point.Length;
+				++active.Length;
 			}
 
 			++*i;
