@@ -71,3 +71,4 @@ Each case in `tests/tests.json` gives a word and the expected tree:
 ## Further reading
 
 `commentary/Correctness_Commentary.pdf` — *On the Correctness of Suffix Tree Construction with Ukkonen's Algorithm: A Practical Commentary*.
+`notes.txt` - Documenting of my thought process and ideas as I build the algorithm from scratch.
