@@ -20,6 +20,13 @@ This version does **not** use suffix links.
 After each insertion it returns to the root and walks back down, so construction is **O(n²)** in the worst case rather than Ukkonen's linear time.
 The resulting tree is the same either way.
 
+## Walkthrough
+
+Building the tree for `aabab`, one loop iteration per frame.
+This word reaches every branch: new leaf, rule 3, leaf split, internal split and walk-down.
+
+![Step-by-step construction of the suffix tree for aabab](images/aabab_walkthrough.gif)
+
 ## Requirements
 
 - A C++23 compiler 
