@@ -7,6 +7,7 @@
 #include <queue>
 #include <memory>
 #include <format>
+#include <chrono>
 
 using json = nlohmann::json;
 
@@ -14,6 +15,9 @@ namespace Test_Runner {
 	struct Result {
 		bool Passed;
 		std::string Message;
+
+		// Construction time of the suffix tree in milliseconds (end - start)
+		double Time = 0;
 	};
 
 	void assert_node(Suffix_Tree::Node* node, json exp_node) {
@@ -27,13 +31,12 @@ namespace Test_Runner {
 		else if (node->Indices && exp_node["Edge"].is_null()){
 			throw std::runtime_error("Node edge should be null");
 		}
-		else if (!node->Indices && exp_node["Edge"].is_null()) {
-			return;
-		}
-
-		if (node->Indices->a != exp_node["Edge"][0] || *node->Indices->b != exp_node["Edge"][1]) {
-			std::string em = std::format("Result Edge {} {} does not equal expected edge {}", node->Indices->a, *node->Indices->b, exp_node["Edge"]);
-			throw std::runtime_error(em);
+		// Only nodes with an incoming edge have indices to compare; the root has none, but its children are still counted below
+		else if (node->Indices) {
+			if (node->Indices->a != exp_node["Edge"][0] || *node->Indices->b != exp_node["Edge"][1]) {
+				std::string em = std::format("Result Edge {} {} does not equal expected edge {}", node->Indices->a, *node->Indices->b, exp_node["Edge"]);
+				throw std::runtime_error(em);
+			}
 		}
 
 		if (node->Children.size() != exp_node["Children"].size()) {
@@ -76,7 +79,14 @@ namespace Test_Runner {
 		Result test_result;
 		test_result.Passed = true;
 		try {
-			std::unique_ptr<Suffix_Tree::Node> result = Suffix_Tree::create(test["word"].get<std::string>());
+			std::string word = test["word"].get<std::string>();
+
+			// Only the construction is timed, not the assertion
+			auto start = std::chrono::steady_clock::now();
+			std::unique_ptr<Suffix_Tree::Node> result = Suffix_Tree::create(word);
+			auto end = std::chrono::steady_clock::now();
+			test_result.Time = std::chrono::duration<double, std::milli>(end - start).count();
+
 			if (result.get() == nullptr) {
 				throw std::runtime_error("Null pointer returned");
 			}
@@ -101,6 +111,7 @@ namespace Test_Runner {
 			std::cout << "=============================================" << std::endl;
 			std::cout << t_name << std::endl;
 			Result res = run_test(t_case);
+			std::cout << std::format("TIME: {:.4f} ms", res.Time) << std::endl;
 			if (!res.Passed) {
 				std::cout << "RESULT: FAILED" << std::endl;
 				std::cout << "REASON: " << res.Message << '\n' << std::endl;
