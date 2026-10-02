@@ -1,12 +1,127 @@
 \relax 
-\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2}A Commentary On My Implementation of Ukkonen's Algorithm}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Pre-condition}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Post-condition}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Initialisation}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Global Index Pointer and the Loop, Extension 1}{3}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Creating a new Node, Extension 2.i}{3}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Using Existing Node}{3}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.7}Splitting of the Current Edge, Extension 2.ii}{3}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.8}Extension Rule 3}{3}{}\protected@file@percent }
-\gdef \@abspage@last{3}
+\def\@LN@column{1}
+\def\@LN@column{1}
+\citation{ukkonen1995}
+\citation{weiner1973}
+\citation{gomez}
+\citation{gomez}
+\citation{gomez}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}The Three Rules of Ukkonen's}{3}{}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Code Implementation in C++}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Brief Explanation}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Header File}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Source File}{4}{}\protected@file@percent }
+\def\@LN@column{1}
+\def\@LN@column{1}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{\numberline {3}A Worked Example}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Algorithm Walk-through}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Active Point (A), \textit  {lines 29:38, header}.}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Remainder (R), \textit  {line 27, source}.}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Index (i), \textit  {line 30}, \textit  {source}.}{7}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The initial state, with only the root.}}{7}{}\protected@file@percent }
+\newlabel{fig:step00}{{1}{7}{}{figure.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{1. Initialisation, \textit  {lines 14:30}.}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{2. Create a New Node, \textit  {lines 36:59}.}{7}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces A new leaf for \texttt  {a} under the root.}}{7}{}\protected@file@percent }
+\newlabel{fig:step01}{{2}{7}{}{figure.2}{}}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {paragraph}{3. Skipping Operation, \textit  {lines 113:122}.}{8}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Rule 3 defers the suffix \texttt  {a}.}}{8}{}\protected@file@percent }
+\newlabel{fig:step02}{{3}{8}{}{figure.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{4. Split Current Edge and Create New Nodes, \textit  {lines 76:110}.}{8}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The leaf \texttt  {aa} is split after \texttt  {a}.}}{8}{}\protected@file@percent }
+\newlabel{fig:step03}{{4}{8}{}{figure.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{5. Add New Node.}{8}{}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces A new leaf for \texttt  {b} under the root.}}{9}{}\protected@file@percent }
+\newlabel{fig:step04}{{5}{9}{}{figure.5}{}}
+\@writefile{toc}{\contentsline {paragraph}{6. Search For Child Node.}{9}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Rule 3 defers the suffix \texttt  {a} again.}}{9}{}\protected@file@percent }
+\newlabel{fig:step05}{{6}{9}{}{figure.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{7. Edge Traversal.}{9}{}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces The active point walks down to the internal node \texttt  {a}.}}{10}{}\protected@file@percent }
+\newlabel{fig:step06}{{7}{10}{}{figure.7}{}}
+\@writefile{toc}{\contentsline {paragraph}{8. Skipping Operation.}{10}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Rule 3 below the internal node, with two suffixes pending.}}{10}{}\protected@file@percent }
+\newlabel{fig:step07}{{8}{10}{}{figure.8}{}}
+\@writefile{toc}{\contentsline {paragraph}{9. Split Current Edge.}{10}{}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces The leaf \texttt  {bab} below the internal node is split after \texttt  {b}.}}{11}{}\protected@file@percent }
+\newlabel{fig:step08}{{9}{11}{}{figure.9}{}}
+\@writefile{toc}{\contentsline {paragraph}{10. Split Current Edge.}{11}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces The root's leaf \texttt  {bab} is split after \texttt  {b}.}}{11}{}\protected@file@percent }
+\newlabel{fig:step09}{{10}{11}{}{figure.10}{}}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {paragraph}{11. Add New Node.}{12}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces The completed suffix tree of \texttt  {aabab\$}.}}{12}{}\protected@file@percent }
+\newlabel{fig:step10}{{11}{12}{}{figure.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Where Suffix Links Differ}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Between Rules 4 and 5.}{12}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces The new internal node \texttt  {a} is given a suffix link to the root.}}{12}{}\protected@file@percent }
+\newlabel{fig:links04}{{12}{12}{}{figure.12}{}}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {paragraph}{Between Rules 9 and 10.}{13}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces The active point follows the suffix link of \texttt  {a} to the root, instead of resetting.}}{13}{}\protected@file@percent }
+\newlabel{fig:links09}{{13}{13}{}{figure.13}{}}
+\@writefile{toc}{\contentsline {paragraph}{Between Rules 10 and 11.}{13}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces \texttt  {ab} now links to \texttt  {b}, and \texttt  {b} links to the root.}}{13}{}\protected@file@percent }
+\newlabel{fig:links10}{{14}{13}{}{figure.14}{}}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{\numberline {4}The Correctness of The Naive Ukkonen's Algorithm}{14}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Precondition:}{14}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Post-condition: (P0.)}{14}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Initialisation}{14}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Post-condition: (P1.)}{14}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}The Main Loop}{14}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Post-condition: (P2)}{14}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Loop Invariant: (I)}{14}{}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {paragraph}{Loop Variant:}{15}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Searching For a Node}{15}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Post-condition: (P3)}{15}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Case 1: no such child exists.}{15}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Post-condition (P3.a).}{15}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Case 2: Use an existing node.}{15}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Post-condition: (P3.b).}{15}{}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Equality of Characters}{16}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.1}Case 1: Length is outside the edge}{16}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Post-condition: (P5.a).}{16}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.2}Case 2: Splitting the Edge}{16}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Post-condition: (P5.b).}{16}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Creating New Nodes}{16}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Transferring of Child Nodes}{16}{}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subparagraph}{Post-condition: (P5.c).}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Adding the New Nodes}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.3}Case 3: Skipping Operation}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Post-condition: (P6)}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Conclusion}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Running the Algorithm}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}The Testing Algorithm}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Test Run Results}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Considerations: }{17}{}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subparagraph}{Observations: }{18}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Suffix tree construction results.}}{18}{}\protected@file@percent }
+\newlabel{tab:results}{{1}{18}{}{table.1}{}}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Use of Generative AI}{19}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Models Used:}{19}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Date of Usage:}{19}{}\protected@file@percent }
+\bibcite{ukkonen1995}{1}
+\bibcite{weiner1973}{2}
+\def\@LN@column{1}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Use of generative AI in this paper.}}{20}{}\protected@file@percent }
+\newlabel{tab:ai-use}{{2}{20}{}{table.2}{}}
+\@writefile{toc}{\contentsline {section}{References}{20}{}\protected@file@percent }
+\bibcite{gusfield1997}{3}
+\bibcite{gomez}{4}
+\def\@LN@column{1}
+\xdef \mintedoldcachechecksum{\detokenize{2931584C30CFDC65FF709F01F356BF9C:3}}
+\gdef \@abspage@last{21}
