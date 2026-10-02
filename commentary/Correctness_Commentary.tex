@@ -1,62 +1,437 @@
 \documentclass{article}
 \usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage[table]{xcolor}
+\usepackage{minted}
+\usepackage{enumitem}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{float}
 
-\title{On the Correctness of Suffix Tree Construction Through Ukkonen's Algorithm Without Suffix Links\\[0.5em] \large A Practical Commentary}
-\author{My Name}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proof}{\emph{Proof.} }
+
+\title{On the Correctness of Ukkonen's Algorithm Without Suffix Links\\[0.5em] \large A Practical Commentary on Suffix Tree Construction\\ \small Advanced Algorithms Assignment 1}
+\author{N}
 \date{\today}
+
 
 \begin{document}
 	\maketitle
+	\begin{abstract}
+		In this document, a naive implementation for Ukkonen's algorithm without suffix trees is demonstrated to run in quadratic time for suffix tree construction.  The algorithm follows three extension rules, and must traverse down edges individually to create a split.  It becomes evident, through a step-by-step visualised walk-through, that the suffix link implementation is far better optimised, running in linear time relative to the size of the input string.  Additionally, the implementation code is provided with an in-depth correctness commentary on how each step contributes to running each extension rule, necessary pre and post-conditions, affect on the loop invariant and the importance of each step.
+	\end{abstract}
+	\noindent\textbf{Keywords: } Ukkonen's algorithm, suffix trees, suffix links, correctness commentary, string, lemma, proof
+	
+	\newpage
+	\tableofcontents
 	\newpage
 	
 	\section{Introduction}
-	The following is a correctness commentary on my very own implementation of Ukkonen's algorithm on suffix tree construction.  Ukkonen's is uniquely known for it's online capabilities, formalised by Esko Ukkonen in On-line construction of suffix trees. \\
-	Suffix trees themselves were introduced in Linear Pattern Matching Algorithms, as a way to reduce basic string matching in reduced time. \\
-	Ukkonen's algorithm went on to become the first online construction of the suffix tree, which allows for usage whilst being created.
-	My implementation opts for a more naive approach than most implementation, where instead of being upper bound by linear time, it faces $O(n^2)$.  As with all tradeoffs, there is one such advantage that the loss of suffix arrays will reduce space overhead of the algorithm.  However, this is not noticeable enough to justify its usage.
+	Ukkonen's algorithm is uniquely known for constructing a suffix tree where the input string is read from left-to-right.  It was formalised by Esko Ukkonen in ``On-line construction of suffix trees'' \cite{ukkonen1995}, and at any step of the construction, there is a valid implicit suffix tree. The suffix trees was introduced in ``Linear Pattern Matching Algorithms'' \cite{weiner1973}, as a way to reduce basic string operations in reduced time from standard algorithms. \\
+	My own implementation of Ukkonen's is a naive approach, where each edge is traversed manually from the root on each iteration, whenever the edge is reset.  Whilst it still returns a valid and fully constructed suffix tree of any string which doesn't contain the character '\$', the worst case upper bound is $O(n^2)$ where n is the length of the string. The main advantage of my implementation, however, is that there is some form of reduced space consumption because there is no stored suffix link.
 	
-	\section{A Commentary On My Implementation of Ukkonen's Algorithm}
+	\subsection{The Three Rules of Ukkonen's}
+	To understand Ukkonen's algorithm, there are three essential rules to how it exactly works.  Let there exist string $s$ such that $s = s_0, s_1 \dots s_n$.  Then, assume we have already some online, partially constructed suffix tree of $s$, denoted as $T$.  Then, let us use $i$ and $j$ as indices such that $0 \le i \le j \le n + 1$, where $j + 1$ represents the current character being processed.
+	\begin{enumerate}[label=(Rule.\arabic*)]
+		\item  If the path from $s[i\dots j]$ ends on a leaf edge, then $s[j + 1]$ is inserted such that the path is now $s[i\dots j+ 1]$. [Duke, page 9 line 6].
+		\item  If the path from $s[i\dots j]$ ends on a non-leaf edge, where $0 \le k \le j$, then remain on the until some $j + k$, such that $s[i\dots j] != j + k]$.  At this point, split the existing edge from $(i\dots i + k)$, with two child children containing edges $(j + k, j + k)$, and $(i + k, j + k)$[Duke, page 9 line 7]
+		\item  Otherwise, $s[i + k]$ moves on without insertion. [Duke, page 9 line 8]
+	\end{enumerate}
 	
-	\subsection{Pre-condition}
-	
-	Let $\Sigma$ be the set of all characters in a language where $\$ \notin \Sigma$.  There must be some string s, such that $s \in \Sigma^*$, also represented as $s = \{s_0, s_1 \dots s_n\}$.
+	\clearpage
+	\section{Code Implementation in C++}
+	\subsection{Brief Explanation}
+	The following code was my own hand-written implementation of the naive Ukkonen's without suffix links.  The code contains a header file with the necessary structs to implement the algorithm.  This file is imported into the source file, which implements the \textit{create} function to return the root node of a constructed suffix tree based on the given word.  \\
+	There is no ability to search, the only example of it running is against JSON test cases with my own implementation of the test runner.
+	\\
+	It's quite clear that the code does not represent the initial pseudocode provided in 'online construction' page 12.  This was an intentional move to try derive the code through only a theoretical understanding.
 
-	\subsection{Post-condition}
-	A suffix tree exists such that the root node $R$ contains child nodes all of unique suffixes.  
+	\subsection{Header File}
+	\inputminted[linenos, frame=lines, fontsize=\scriptsize, tabsize=4, breaklines, label={src/headers/suffix\_tree.hpp}]{cpp}{../src/headers/suffix_tree.hpp}
+
+	\subsection{Source File}
+	\inputminted[linenos, frame=lines, fontsize=\scriptsize, tabsize=4, breaklines, label={src/suffix\_tree.cpp}]{cpp}{../src/suffix_tree.cpp}
+	
+	\clearpage
+	\section{A Worked Example}
+	
+	\subsection{Algorithm Walk-through}
+	The following is a visualised, step-by-step walk-through of how my implementation constructs 'aabab' into a suffix tree. 
+	\paragraph{Active Point (A), \textit{lines 29:38, header}.}  A struct which contains pointers to nodes \textit{parent} and \textit{edge}, and an integer \textit{length}.  The \textit{parent}, $\rho$, is a node which is being searched for an edge, this is used to confirm if a character already exists at this point in the tree.  The \textit{edge}, $e$ is a pointer to a node such that $(a, b)$ form the indices of an edge to $\rho$, $s[a\dots b]$.  The \textit{length}, $\gamma$, variable is used to label how far into $e$ is being processed.  For example, $ \gamma = 2$ means the comparison is with some $s[a + \gamma]$.
+	
+	\paragraph{Remainder (R), \textit{line 27, source}.}  An integer which denotes the number of suffixes which have been skipped.  This is  being applied, where the suffixes will eventually be implemented at a later time.
+	
+	\paragraph{Index (i), \textit{line 30}, \textit{source}.} A shared pointer which points to how far into the string 'aabab' the algorithm is up to.  For example, if \textbf{i} = 2, then up to 'aab' is being processed.  This is how extension rule one is applied in constant time.  Whenever some $e$ contains $(a, \textbf{i})$, then whenever \textbf{i} is altered, that same $e$ will instantly update to use the new value.  For example, if some node exists with $[0, i]$, then when $i = 0$, the node has indices $[0, 0]$.  When $i =1$, the indices will automatically become $[0, 1]$, that is how the shared pointer works.
+	
+	\paragraph{1. Initialisation, \textit{lines 14:30}.}\leavevmode
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.17]{media/Example/step00}
+		\caption{The initial state, with only the root.}
+		\label{fig:step00}
+	\end{figure}
+	The suffix tree root node \textbf{R} has been initialised, where the root has no incoming edge, and no children.  Also, $\rho =$ \textbf{R}.
+	
+	\paragraph{2. Create a New Node, \textit{lines 36:59}.}\leavevmode
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.17]{media/Example/step01}
+		\caption{A new leaf for \texttt{a} under the root.}
+		\label{fig:step01}
+	\end{figure}
+	The loop begins.  $i$ begins as $0$, such that the word being processed is $s[0]$ which is 'a'.  Then, $\rho$ is searched to see whether it contains a child node that begins with 'a'.  Here, this is false, and so the new node is created from $[0, i]$.  This is a case of (Rule.2), where $\epsilon \ne$ 'a', and so the node is created.  Lastly, $i$ is increased by one, to mark the end of (Rule.2) so move to the next character.
+
+	\paragraph{3. Skipping Operation, \textit{lines 113:122}.}\leavevmode
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.17]{media/Example/step02}
+		\caption{Rule 3 defers the suffix \texttt{a}.}
+		\label{fig:step02}
+	\end{figure}
+	At $i = 1$, $s[i] =$ 'a'.  Given $\rho$ contains a child node beginning with 'a', $e$ points to that node instead.  At this point, $\gamma = 0$, and so this becomes $s[0] = s[1]$, where now (Rule.3) is applied, and nothing is done.  Then, $\gamma = 1$ as the first characters have been compared, \textbf{R} = 1 to allow the current suffix to be inserted at a later time, and \textbf{i} = 2 .
+	
+	
+	\paragraph{4. Split Current Edge and Create New Nodes, \textit{lines 76:110}.}\leavevmode
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.17]{media/Example/step03}
+		\caption{The leaf \texttt{aa} is split after \texttt{a}.}
+		\label{fig:step03}
+	\end{figure}
+	The only leaf edge in the tree node contains indices from (0, 2) now.  The current character, $s[\textbf{i}]$ is 'b'.  Because from path $s[0 + 1] = s[1]$, there exists $s[2]$ after such that $s[\textbf{i}] \ne s[\alpha + \gamma]$, where $\alpha$ is the first index in $e$.  According to (Rule.2), the edge must now be split such that $e$ becomes (0, 1), then $e_0$ is created with (2, 2), and $e_1$ is created with (1, 2) as child nodes.  
+
+	\paragraph{5. Add New Node.}\leavevmode
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.17]{media/Example/step04}
+		\caption{A new leaf for \texttt{b} under the root.}
+		\label{fig:step04}
+	\end{figure}
+
+	\paragraph{6. Search For Child Node.}\leavevmode
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.17]{media/Example/step05}
+		\caption{Rule 3 defers the suffix \texttt{a} again.}
+		\label{fig:step05}
+	\end{figure}
+	
+	\paragraph{7. Edge Traversal.}\leavevmode
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.17]{media/Example/step06}
+		\caption{The active point walks down to the internal node \texttt{a}.}
+		\label{fig:step06}
+	\end{figure}
+
+	\paragraph{8. Skipping Operation.}\leavevmode
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.17]{media/Example/step07}
+		\caption{Rule 3 below the internal node, with two suffixes pending.}
+		\label{fig:step07}
+	\end{figure}
+
+	\paragraph{9. Split Current Edge.}\leavevmode
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.17]{media/Example/step08}
+		\caption{The leaf \texttt{bab} below the internal node is split after \texttt{b}.}
+		\label{fig:step08}
+	\end{figure}
+
+	\paragraph{10. Split Current Edge.}\leavevmode
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.17]{media/Example/step09}
+		\caption{The root's leaf \texttt{bab} is split after \texttt{b}.}
+		\label{fig:step09}
+	\end{figure}
+
+	\paragraph{11. Add New Node.}\leavevmode
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.17]{media/Example/step10}
+		\caption{The completed suffix tree of \texttt{aabab\$}.}
+		\label{fig:step10}
+	\end{figure}
+	
+	\subsection{Where Suffix Links Differ}
+
+	\paragraph{Between Rules 4 and 5.}\leavevmode
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.17]{media/SuffixLinks/step03}
+		\caption{The new internal node \texttt{a} is given a suffix link to the root.}
+		\label{fig:links04}
+	\end{figure}
+	
+	\paragraph{Between Rules 9 and 10.}\leavevmode
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.17]{media/SuffixLinks/step08}
+		\caption{The active point follows the suffix link of \texttt{a} to the root, instead of resetting.}
+		\label{fig:links09}
+	\end{figure}
+	
+	\paragraph{Between Rules 10 and 11.}\leavevmode
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.17]{media/SuffixLinks/step09}
+		\caption{\texttt{ab} now links to \texttt{b}, and \texttt{b} links to the root.}
+		\label{fig:links10}
+	\end{figure}
+	
+	\subsection{Complexity Analysis}
+	
+	
+		
+	\section{The Correctness of  The Naive Ukkonen's Algorithm}
+	
+	\paragraph{Precondition:}
+	Let $\Sigma$ exist as an alphabet such that $\$ \notin \Sigma$, and where $L$ exists that $L \subseteq \Sigma^*$ .  There must be some string s, such that $s \in L$, also represented as $s = s_0, s_1 \dots s_n$. 
+
+	\paragraph{Post-condition: (P0.)} 
+	Given string $s$, allow $\sigma(s)$ to be the fully constructed suffix tree without suffix links.  Allow $\alpha(\nu)$ to denote the beginning, and $\beta(\nu)$ to be the exclusive ending index, of the incoming edge to edge $\nu$.   It is, then, expected that:
+	
+	\begin{enumerate}[label=(P0.\arabic*), ref=(P0.\arabic*)]
+		\item The root node, $R$, of $\sigma(s)$ is returned.
+		\item Where $\alpha(\nu)$ denotes the starting index of the incoming edge to any such node $\nu$ of $\sigma(s)$.  Then $\nu$ can access any child node $\nu\prime$, where $s_{\alpha(\nu\prime)}$ is unique within all children of $\nu$.
+		\item Any possible sub-string $s[i, j]$ where $0 \le i \le j \le n + 1$, can be searched within $\sigma(s)$.
+	\end{enumerate}
 	
 	\subsection{Initialisation}
-	Let $\alpha(n)$ return the starting index of the ingoing edge into node $n$, and $\beta(n)$ return the exclusive ending index of the ingoing index. \\
-	Let the root of our suffix tree be some node $R$\
 	
-	\textbf{Invariant 1} - Let root node $R$ exist such that  $\alpha(R) \cup \beta(R) = \emptyset$
+	\paragraph{Post-condition: (P1.)}
+	Following initialisation, it is expected that:
+	\begin{enumerate}[label=(P1.\arabic*), ref=(P1.\arabic*)]
+		\item $R$ exists such that $\alpha(R) = \beta(R) = \bot$
+		\item the active point, $AP$, contains parent node $\rho$, such that $\rho = R$
+		\item there is some global index $i$, such that any node $\nu$ where $\beta(\nu) = i$, then on $i = i + 1$, $\beta(\nu) = i + 1$.
+	\end{enumerate}
+	
+	\subsection{The Main Loop}
+	\paragraph{Post-condition: (P2)} given the main loop is the entirety of the algorithm outside of initialisation, then holds the same post-conditions as (P0).
+	
+	\paragraph{Loop Invariant: (I)}
+	\begin{enumerate}[label=(I.\arabic*)]
+		\item That $0 \le i \le n + 2$
+		\item Where $\delta(s)$ denotes the set of existing nodes in the partially constructed suffix tree, $\rho \in \delta(s)$
+		\item Where $ch(\nu)$ is the set of all child nodes of $\nu$, it follows that $\forall \nu \in \sigma(s)$ can traverse to any child node $\nu\prime$ such that $s_{\alpha(\nu\prime)}$ is unique within $\nu$ COME BACK
+	\end{enumerate}
+	
+	\paragraph{Loop Variant:} $i > n + 2$
+	
+	\subsubsection{Searching For The Next Node}
+	\paragraph{Post-condition: (P3)} Either a node , $\nu$ is found such that $\nu \in ch(\rho)$, or the node simply doesn't exist at all. All of (I) holds.
+	
+	\begin{lemma}The only node, which has its child nodes search, is $\rho$\end{lemma}
+	
+	\begin{proof}There is only one occurrence of searching for a child node, on \textbf{line 36}, where $\rho$ is the only node called.\end{proof}
+	
+	\paragraph{Case 1: No such child exists.}
+	\subparagraph{Post-condition (P3.a).} .  
+	\begin{enumerate}[label=(P3.a.\arabic*), ref=(P3.a.\arabic*)]
+		\item A new node, $\nu$ is created such that $\alpha(\nu) = i\prime$, where $Length(AP) = \gamma$, and $i\prime = val(i) - \gamma$
+		\item Additionally, $\beta(v) = i$
+	\end{enumerate}
 
+	\begin{lemma} The creation of any node, $\nu$ at $i\prime$, where no edge has been split, can and must only become a child of $\rho$, $\nu \in \rho$ \end{lemma}
+	\begin{proof} On \textbf{line 42}, the node $\nu$ is created, where only \textbf{line45} $\nu$ becomes a child of $rho$.   The only other occurrence of insertion is on \textbf{lines 97, 98}, where the edge is split.\end{proof}
 	
-	\noindent The root node is initialised without usage. \\
-	continuing
+	\textit{Loop re-iterated.} A new node has been created, and extension rule two is satisfied.
 	
-	\textbf{Invariant 1} - $Parent(A) \in nodes$ \\
-	\textbf{Invariant 2} - $Edge(A) \in nonrootnodes$ \\
-	\textbf{Invariant 3} - $Length(w) \ge Length(A) \ge 0 $ \\
+	\textit{Importance.}  Creating a new node, $\nu$, at $i\prime$ allows for the addition of new suffixes, where initially $\forall v\prime \in ch(\rho), \alpha(v\prime) \ne i\prime$.  This applies the extension rule 2, and builds suffix, $s[\alpha(\rho), i\prime]$, contributing to (P0.3)
 	
-	\vspace{0.5mm}
+	\textit{Omission Effect.}  Then initially, when $\rho = R$, $s[i\prime]$ can never create a new node, thus breaking (P0.2).	
 	
-	The remainder exists such that
+	\subparagraph{Case 2: Use an existing node.}
+	\textit{Post-condition: (P3.b).} The edge of $AP$, $e = \forall \nu\prime \in ch(\rho), \exists \alpha(\nu\prime) = i\prime$
+
+	\begin{lemma}
+		There can be no duplicate node for any $\nu \in \sigma(s)$
+	\end{lemma}
 	
-	\textbf{Invariant} - $Length(w) \ge rem \ge 0$ \\
+	\begin{proof}
+		By \textbf{Lemma 4.1} and \textbf{Lemma 4.2}, a node can only be added if it's not found.  Because the node is found, it cannot be added, and therefore there can never be duplicate nodes.
+	\end{proof}
 	
-	\subsection{Global Index Pointer and the Loop, Extension 1}
-	\textbf{Invariant} - $Length(w) \ge i \ge 0$
+	\textit{Importance.} At $s[i\prime]$, an existing node must be used  to eventually split an edge.
+	\textit{Omission means} the edge can never be split, and thus any $s[i\prime]$ can only be added if no child exists already in $\rho.$
 	
-	\subsection{Creating a new Node, Extension 2.i}
-	\textbf{Invariant} - $There can never be 2 nodes of the same first character in parent$
+	\subsubsection{Edge Traversal}
+	\subparagraph{Post-condition: (P4).} $\gamma < \beta(\nu) - \alpha(\nu)$
+	\begin{lemma}
+		The current node at $i\prime$, $\nu$, can only split from $/rho$ when $\gamma < \beta(\nu) - \alpha(\nu)$
+	\end{lemma}
+	\begin{proof}
+		The only point where any split logic occurs is from \textbf{line 76}, which is after the edge traversal check from \textbf{lines 66 : 70}.  
+	\end{proof}
+	
+	\textit{Importance.}  
+	\textit{Omission means} The edges will not split correctly.
+	
+	\subsection{Equality of Edge Characters}
+	\subparagraph{Post-condition: (P5).}
+	
+	\subsubsection{Splitting the Edge}
+	\subparagraph{Post-condition: (P5).} 
+	\begin{enumerate}[label=(P5.\arabic*), ref=(P3.a.\arabic*)]
+		\item The current active edge node, $\nu$, exists such that $\beta(\nu) = i\prime$
+		\item The active edge node, $\nu$, only contains two child nodes, $ch(\nu) = 2$.
+		\item The first child node, $\nu_{s[i']}$, must exist such that $\beta(nu_{s[i']}) = i$
+		\item The second child, $\nu_{s[\beta(\nu)]}$, must exist such that $\beta(\nu_{s[\beta(\nu)]}) = i$
+	\end{enumerate}
+	
+	\paragraph{Creating New Nodes}
+	
+	\begin{lemma}
+		Addition of similar suffixes
+	\end{lemma}
+	
+	\textit{importance.}  Suffix must extend the current making it an implicit suffix tree.
+	\textit{Omission means} the tree would either become an implicit tree, or the suffix isnt added.
 		
-	\subsection{Using Existing Node}
-		\textbf{Invariant} - $Length(w) \ge i \ge 0$
+	\paragraph{Transferring of Child Nodes}
+	\emph{Post-condition: (P5.b)} Extension node b exists such that it contains all the child nodes of a.
 	
-	\subsection{Splitting of the Current Edge, Extension 2.ii}
-	\textbf{Invariant} - $Length(w) \ge i \ge 0$
+	\begin{lemma}
+		Suffixes are kept accurate
+	\end{lemma}
 	
-	\subsection{Extension Rule 3}
-	\textbf{Invariant} - Holds our loop invariant
+	\textit{importance.} The edge has been split, so the child nodes should be with the split bottom half.
+	\textit{Omission means} The current edge is split and new suffixes are generated.
 	
+	\paragraph{Adding New Nodes}
+	\emph{Post-condition: (P5.c)} nodes exist and there is length such that they are not equal
+	
+	\begin{lemma}
+the insertion of a suffix is an accurate and existing suffix up unto that index where the existing suffix and new suffix both exist on leaf edges
+	\end{lemma}
+	
+	\textit{Importance.}  The edge is split, so the nodes must be added.
+	\textit{Omission means} There is no way to add suffixes which share a common beginning unless its the largest suffix.
+	
+	\subsubsection{Skipping Operations}
+	\paragraph{Post-condition: (P6)} Same as P.  Loop invariant holds.
+	
+	\begin{lemma}
+		Suffix addition
+	\end{lemma}
+	
+	\textit{Importance.} When two indices are equal this does not mean it should split the edge.
+	\textit{Omission means}  New suffixes will be added which are not but of the string.
+	
+	\subsection{Conclusion}
+	The algorithm meets all the necessary lemmas such that the root node will return the root of a constructed suffix tree without suffix links.  As demonstrated, all of Ukkonen's extension rules are complete.
+		
+	\section{Running the Algorithm}
+	The algorithm itself exists solely and entirely as a raw implementation.  There is other piece of code which uses it, outside of the custom test runner, which was built to run JSON test cases against the algorithm.
+	
+	\subsection{The Testing Algorithm}
+	A simple BFS which operates as follows:
+	
+	\subsection{Test Run Results}
+	\subparagraph{Considerations: }
+	\begin{enumerate}
+		\item These were run locally on a PC once, all sequentially in the same process.
+		\item Running time is calculated using the \textit{<chrono>} library in \textit{C++}, with \textit{time before execution - time after execution}.
+		\item Whilst inflated, it proves in the very least that the running time is at least as fast as the provided values.
+	\end{enumerate}
+	
+	\subparagraph{Observations: }
+	\begin{enumerate}
+		\item The empty string, $e$ has the shortest running time.
+		\item The longest string 'abcdefabxybcdmnabcdex' has the longest running time.
+		\item There is some correlation such that the large the word size, the longer the running time.
+		\item There is a lack of correlation between running time and alphabet size.
+	\end{enumerate}
+	
+	\begin{table}[ht]
+	\centering
+	\caption{Suffix tree construction results.}
+	\label{tab:results}
+	\scriptsize
+	\setlength{\tabcolsep}{3.5pt}
+	\renewcommand{\arraystretch}{1.25}
+	\setlength{\aboverulesep}{0pt}
+	\setlength{\belowrulesep}{0pt}
+	\rowcolors{2}{gray!12}{white}
+	\begin{tabular}{l c r r r r c}
+		\toprule
+		\rowcolor{blue!15}
+		Word & Passed & Word Size & Alphabet Size & Total Nodes & Time (ms) & $<$ \qty{30}{\micro\second} \\
+		\midrule
+		$\varepsilon$                    & \textcolor{green!50!black}{Yes} &  0 & 0 &  2 & 0.0009 & \textcolor{green!50!black}{Yes} \\
+		\texttt{a}                       & \textcolor{green!50!black}{Yes} &  1 & 1 &  3 & 0.0014 & \textcolor{green!50!black}{Yes} \\
+		\texttt{ab}                      & \textcolor{green!50!black}{Yes} &  2 & 2 &  4 & 0.0021 & \textcolor{green!50!black}{Yes} \\
+		\texttt{aa}                      & \textcolor{green!50!black}{Yes} &  2 & 1 &  5 & 0.0032 & \textcolor{green!50!black}{Yes} \\
+		\texttt{abc}                     & \textcolor{green!50!black}{Yes} &  3 & 3 &  5 & 0.0030 & \textcolor{green!50!black}{Yes} \\
+		\texttt{aab}                     & \textcolor{green!50!black}{Yes} &  3 & 2 &  6 & 0.0040 & \textcolor{green!50!black}{Yes} \\
+		\texttt{aba}                     & \textcolor{green!50!black}{Yes} &  3 & 2 &  6 & 0.0041 & \textcolor{green!50!black}{Yes} \\
+		\texttt{aaa}                     & \textcolor{green!50!black}{Yes} &  3 & 1 &  7 & 0.0050 & \textcolor{green!50!black}{Yes} \\
+		\texttt{aaab}                    & \textcolor{green!50!black}{Yes} &  4 & 2 &  8 & 0.0056 & \textcolor{green!50!black}{Yes} \\
+		\texttt{abab}                    & \textcolor{green!50!black}{Yes} &  4 & 2 &  8 & 0.0055 & \textcolor{green!50!black}{Yes} \\
+		\texttt{baaa}                    & \textcolor{green!50!black}{Yes} &  4 & 2 &  8 & 0.0063 & \textcolor{green!50!black}{Yes} \\
+		\texttt{aaaa}                    & \textcolor{green!50!black}{Yes} &  4 & 1 &  9 & 0.0065 & \textcolor{green!50!black}{Yes} \\
+		\texttt{xabxac}                  & \textcolor{green!50!black}{Yes} &  6 & 4 & 10 & 0.0067 & \textcolor{green!50!black}{Yes} \\
+		\texttt{abcabc}                  & \textcolor{green!50!black}{Yes} &  6 & 3 & 11 & 0.0080 & \textcolor{green!50!black}{Yes} \\
+		\texttt{banana}                  & \textcolor{green!50!black}{Yes} &  6 & 3 & 11 & 0.0138 & \textcolor{green!50!black}{Yes} \\
+		\texttt{abacaba}                 & \textcolor{green!50!black}{Yes} &  7 & 3 & 12 & 0.0089 & \textcolor{green!50!black}{Yes} \\
+		\texttt{cdddcdc}                 & \textcolor{green!50!black}{Yes} &  7 & 2 & 14 & 0.0109 & \textcolor{green!50!black}{Yes} \\
+		\texttt{xyzxyaxyz}               & \textcolor{green!50!black}{Yes} &  9 & 4 & 16 & 0.0123 & \textcolor{green!50!black}{Yes} \\
+		\texttt{abcabcabc}               & \textcolor{green!50!black}{Yes} &  9 & 3 & 17 & 0.0130 & \textcolor{green!50!black}{Yes} \\
+		\texttt{abcabxabcd}              & \textcolor{green!50!black}{Yes} & 10 & 5 & 17 & 0.0125 & \textcolor{green!50!black}{Yes} \\
+		\texttt{mississippi}             & \textcolor{green!50!black}{Yes} & 11 & 4 & 19 & 0.0148 & \textcolor{green!50!black}{Yes} \\
+		\texttt{dedododeeodo}            & \textcolor{green!50!black}{Yes} & 12 & 3 & 22 & 0.0180 & \textcolor{green!50!black}{Yes} \\
+		\texttt{abaababaabaab}           & \textcolor{green!50!black}{Yes} & 13 & 2 & 26 & 0.0245 & \textcolor{green!50!black}{Yes} \\
+		\texttt{abcdefabxybcdmnabcdex}   & \textcolor{green!50!black}{Yes} & 21 & 10 & 34 & 0.0267 & \textcolor{green!50!black}{Yes} \\
+		\bottomrule
+	\end{tabular}
+	\end{table}
+	
+	\clearpage
+	\section{Conclusion}
+	
+	\section{Use of Generative AI}
+	\paragraph{Models Used:} Claude Opus 5.5, via Claude Code (Anthropic)
+	\paragraph{Date of Usage:} 20/09/26 to 01/10/26
+	
+	\begin{table}[H]
+		\centering
+		\caption{Use of generative AI in this paper.}
+		\label{tab:ai-use}
+		\footnotesize
+		\setlength{\tabcolsep}{3.5pt}
+		\renewcommand{\arraystretch}{1.25}
+		\setlength{\aboverulesep}{0pt}
+		\setlength{\belowrulesep}{0pt}
+		\rowcolors{2}{gray!12}{white}
+		\begin{tabular}{
+				>{\raggedright\arraybackslash}p{0.14\linewidth}
+				>{\raggedright\arraybackslash}p{0.26\linewidth}
+				>{\raggedright\arraybackslash}p{0.30\linewidth}
+				>{\raggedright\arraybackslash}p{0.22\linewidth}}
+			\toprule
+			\rowcolor{blue!15}
+			Area & What I Did & What AI Did & Purpose \\
+			\midrule
+			Formatting & Wrote the document structure and content. & Set up the code listings, figure placement and table styling. & The document compiles cleanly and reads well. \\
+			Diagrams & Chose \texttt{aabab} as the example and specified the layout. & Generated the step images and the suffix link images. & Each step of the walk-through is shown visually. \\
+			Captions and Headings & Wrote the step descriptions. & Wrote the figure captions and renamed some step headings. & Each figure matches its step. \\
+			Results Table & Built the test runner and its timing. & Filled the table from a test run and added the pass and timing columns. & The results are reported accurately. \\
+			Introduction & Wrote the introduction. & Reviewed it for errors and suggested citations. & The background is accurate. \\
+			Invariants & Worked out the invariants on paper. & Clarified the concepts with examples and checked my reasoning. & The correctness argument is sound. \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	\begin{thebibliography}{9}
+		\addcontentsline{toc}{section}{References}
+		\bibitem{ukkonen1995} E.~Ukkonen, ``On-line construction of suffix trees,'' \emph{Algorithmica}, vol.~14, no.~3, pp.~249--260, Sep.\ 1995, doi: 10.1007/BF01206331.
+		\bibitem{weiner1973} P.~Weiner, ``Linear pattern matching algorithms,'' in \emph{Proc. 14th Annu. Symp. Switching and Automata Theory (SWAT 1973)}, Oct.\ 1973, pp.~1--11, doi: 10.1109/SWAT.1973.13.
+		\bibitem{gusfield1997} D.~Gusfield, \emph{Algorithms on Strings, Trees and Sequences: Computer Science and Computational Biology}. Cambridge, U.K.: Cambridge Univ.\ Press, 1997, doi: 10.1017/CBO9780511574931.
+	\end{thebibliography}
 \end{document}
