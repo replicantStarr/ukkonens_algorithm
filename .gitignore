@@ -67,3 +67,8 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+# LaTeX build files (synctex stores absolute local paths)
+*.synctex.gz
+*.toc
+_minted/
